@@ -9,3 +9,5 @@ describe('Home', () => {
     expect(welcomeMessage).toBeTruthy();
   });
 });
+
+export default {};
