@@ -12,7 +12,7 @@ const CreateAccount = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View className="flex-1 justify-center items-center px-4">
+    <View className="flex-1 justify-center items-center px-4 bg-white">
       <FormControl>
         <VStack space="md">
           <VStack>
@@ -46,7 +46,7 @@ const CreateAccount = () => {
           <ButtonText>CREATE ACCOUNT</ButtonText>
         </Button>
         <Pressable onPress={() => router.push('/')} className="mt-4 items-center">
-          <Text>
+          <Text className="text-black">
             Already have an account? <Text className="underline">Log In</Text>
           </Text>
         </Pressable>
