@@ -10,66 +10,33 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          mode="outlined"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          placeholder="Email"
-          style={[styles.input, { height: 56 }]}
-          multiline={false}
-        />
-        <TextInput
-          mode="outlined"
-          value={password}
-          placeholder="Password"
-          onChangeText={setPassword}
-          secureTextEntry={!showPassword}
-          style={[styles.input, { height: 56 }]}
-          multiline={false}
-          right={
-            <TextInput.Icon
-              icon={showPassword ? 'eye-off' : 'eye'}
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          }
-        />
-      </View>
-      <Button
-        mode="contained"
-        onPress={() => router.push('/pages/LeagueOptions')}
-        style={styles.button}
-      >
+    <View style={{ margin: 45, gap: 16 }}>
+      <TextInput
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        placeholder="Email"
+        multiline={false}
+      />
+      <TextInput
+        value={password}
+        placeholder="Password"
+        onChangeText={setPassword}
+        secureTextEntry={!showPassword}
+        multiline={false}
+        right={
+          <TextInput.Icon
+            icon={showPassword ? 'eye-off' : 'eye'}
+            onPress={() => setShowPassword(!showPassword)}
+          />
+        }
+      />
+
+      <Button mode="contained" onPress={() => router.push('/pages/LeagueOptions')}>
         Sign In
       </Button>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#fff',
-  },
-  inputContainer: {
-    width: '100%',
-    maxWidth: 400,
-    gap: 16,
-  },
-  input: {
-    width: 275,
-    backgroundColor: '#fff',
-  },
-  button: {
-    marginTop: 24,
-    width: '100%',
-    maxWidth: 400,
-  },
-});
 
 export default Login;

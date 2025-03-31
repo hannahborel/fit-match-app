@@ -8,7 +8,7 @@ const CreateLeague = () => {
   return (
     <View style={styles.container}>
       <View style={{ margin: 45, gap: 24 }}>
-        <TextInput outlineStyle={{ borderRadius: 10 }} label="League Name" mode="outlined" />
+        <TextInput label="League Name" />
         <View style={{ marginLeft: 4 }}>
           <Text>League Size</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>

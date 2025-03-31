@@ -6,9 +6,8 @@ import {
   MD3LightTheme,
   PaperProvider,
 } from 'react-native-paper';
-import theme from './theme/index';
 import { useColorScheme } from 'react-native';
-import { themeColors } from './constants/Colors';
+import { themeColors } from '../src/constants/Colors';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

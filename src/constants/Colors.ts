@@ -84,3 +84,5 @@ export const themeColors = {
     backdrop: 'rgba(43, 50, 43, 0.4)',
   },
 };
+
+export default themeColors;
