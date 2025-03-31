@@ -1,32 +1,30 @@
 import { Stack } from 'expo-router';
-import '@/global.css';
-import { GluestackUIProvider } from '@/components/ui/gluestack-ui-provider';
-import { useColorScheme } from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { PaperProvider, MD3LightTheme } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+const theme = {
+  ...MD3LightTheme,
+  colors: {
+    ...MD3LightTheme.colors,
+    primary: '#000000',
+  },
+};
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   return (
-    <SafeAreaProvider>
-      <GluestackUIProvider mode="light">
-        <SafeAreaView style={{ flex: 1 }}>
-          <Stack
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: colorScheme === 'dark' ? '#000' : '#fff',
-              },
-              headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
-              headerTitleStyle: {
-                fontWeight: 'bold',
-              },
-            }}
-          >
-            <Stack.Screen name="index" />
-            <Stack.Screen name="pages/CreateAccount" />
-          </Stack>
-        </SafeAreaView>
-      </GluestackUIProvider>
-    </SafeAreaProvider>
+    <PaperProvider theme={theme}>
+      <SafeAreaProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="pages/CreateAccount" />
+          <Stack.Screen name="pages/LeagueOptions" />
+          <Stack.Screen name="pages/CreateLeague" />
+        </Stack>
+      </SafeAreaProvider>
+    </PaperProvider>
   );
 }
