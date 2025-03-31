@@ -14,7 +14,6 @@ module.exports = function (api) {
         },
       ],
       'react-native-paper/babel',
-      'nativewind/babel',
     ],
     env: {
       production: {
