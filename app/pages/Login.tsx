@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
-import { TextInput, Button, Text } from 'react-native-paper';
+import { Button, Text, TextInput } from 'react-native-paper';
 import { useState } from 'react';
+import StyledInput from '../../src/components/StyledInput';
 
 const Login = () => {
   const router = useRouter();
@@ -11,16 +12,16 @@ const Login = () => {
 
   return (
     <View style={{ marginLeft: 45, marginRight: 45, gap: 16 }}>
-      <TextInput
+      <StyledInput
         value={email}
+        label="Email"
         onChangeText={setEmail}
         autoCapitalize="none"
-        placeholder="Email"
         multiline={false}
       />
-      <TextInput
+      <StyledInput
         value={password}
-        placeholder="Password"
+        label="Password"
         onChangeText={setPassword}
         secureTextEntry={!showPassword}
         multiline={false}
