@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { TextInput, Button, Text, Avatar } from 'react-native-paper';
+import { Button, Text, Avatar } from 'react-native-paper';
+import StyledInput from '../../src/components/StyledInput';
 
 const CreateLeague = () => {
   const router = useRouter();
@@ -8,7 +9,7 @@ const CreateLeague = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ marginLeft: 50, marginRight: 50, gap: 24 }}>
-        <TextInput placeholder="League Name" />
+        <StyledInput label="League Name" />
         <View style={{ marginLeft: 4 }}>
           <Text>League Size</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
