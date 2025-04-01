@@ -1,14 +1,38 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { MD3LightTheme, PaperProvider } from 'react-native-paper';
+
+import {
+  MD3LightTheme as DefaultTheme,
+  MD3DarkTheme,
+  MD3LightTheme,
+  PaperProvider,
+  adaptNavigationTheme,
+} from 'react-native-paper';
+import {
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native';
+
 import { themeColors } from '../src/constants/Colors';
+import merge from 'deepmerge';
+import { useColorScheme } from 'react-native';
 
-const theme = { ...MD3LightTheme, colors: themeColors.light };
+const customDarkTheme = { ...MD3DarkTheme, colors: themeColors.dark };
+const customLightTheme = { ...MD3LightTheme, colors: themeColors.light };
 
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: NavigationDefaultTheme,
+  reactNavigationDark: NavigationDarkTheme,
+});
+
+const CombinedDefaultTheme = merge(LightTheme, customLightTheme);
+const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
 export default function RootLayout() {
+  const colorScheme = useColorScheme();
+  const paperTheme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
   return (
-    <PaperProvider theme={theme}>
+    <PaperProvider theme={paperTheme}>
       <SafeAreaProvider>
         <Stack
           screenOptions={{
