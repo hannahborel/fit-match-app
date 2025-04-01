@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 import { Button, Text, TextInput } from 'react-native-paper';
 import { useState } from 'react';
-import StyledInput from '../../src/components/StyledInput';
+import StyledInput from '../../components/StyledInput';
 
 const Login = () => {
   const router = useRouter();

@@ -1,8 +1,8 @@
+import NumberAvatar from '../../components/NumberAvatar';
+import StyledInput from '../../components/StyledInput';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
-import StyledInput from '../../src/components/StyledInput';
-import NumberAvatar from '../../src/components/NumberAvatar';
 
 const CreateLeague = () => {
   const router = useRouter();

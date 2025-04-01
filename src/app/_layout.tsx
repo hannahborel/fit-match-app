@@ -13,9 +13,10 @@ import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
-import { themeColors } from '../src/constants/Colors';
+
 import merge from 'deepmerge';
 import { useColorScheme, View } from 'react-native';
+import themeColors from '../constants/Colors';
 
 const customDarkTheme = { ...MD3DarkTheme, colors: themeColors.dark };
 const customLightTheme = { ...MD3LightTheme, colors: themeColors.light };
