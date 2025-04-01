@@ -15,6 +15,7 @@ const theme = {
         default: {
           style: {
             backgroundColor: 'transparent',
+            outlineColor: 'transparent',
           },
         },
       },

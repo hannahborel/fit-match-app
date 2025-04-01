@@ -1,13 +1,21 @@
 import * as React from 'react';
-import { TextInput, TextInputProps } from 'react-native-paper';
+import { TextInput, TextInputProps, useTheme } from 'react-native-paper';
 
-export default function StyledInput(props: TextInputProps) {
+const StyledInput: React.FC<TextInputProps> = props => {
+  const theme = useTheme();
   return (
     <TextInput
       mode="outlined"
       theme={{ roundness: 12 }}
-      style={{ borderRadius: 12, height: 60 }}
+      outlineColor="transparent"
+      style={{
+        borderRadius: 12,
+        height: 55,
+        backgroundColor: theme.colors.surface,
+      }}
       {...props}
     />
   );
-}
+};
+
+export default StyledInput;

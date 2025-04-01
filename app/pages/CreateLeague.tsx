@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { Button, Text, Avatar } from 'react-native-paper';
+import { View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import StyledInput from '../../src/components/StyledInput';
+import NumberAvatar from '../../src/components/NumberAvatar';
 
 const CreateLeague = () => {
   const router = useRouter();
@@ -9,46 +10,17 @@ const CreateLeague = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ marginLeft: 50, marginRight: 50, gap: 24 }}>
-        <StyledInput label="League Name" />
-        <View style={{ marginLeft: 4 }}>
-          <Text>League Size</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{ flexDirection: 'row', gap: 20, marginTop: 10 }}>
-              <Avatar.Text size={40} label="4" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="8" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="12" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="16" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="20" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="24" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="28" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="32" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="36" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="40" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="42" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={38} label="44" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={38} label="48" labelStyle={{ color: 'black' }} />
-            </View>
-          </ScrollView>
+        <View style={{ gap: 8 }}>
+          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE NAME</Text>
+          <StyledInput />
         </View>
-        <View style={{ marginLeft: 4, marginRight: 4 }}>
-          <Text>Number of Weeks</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{ flexDirection: 'row', gap: 20, marginTop: 10 }}>
-              <Avatar.Text size={40} label="4" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="8" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="12" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="16" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="20" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="24" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="28" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="32" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="36" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="40" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="42" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="44" labelStyle={{ color: 'black' }} />
-              <Avatar.Text size={40} label="48" labelStyle={{ color: 'black' }} />
-            </View>
-          </ScrollView>
+        <View style={{ gap: 8 }}>
+          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE SIZE</Text>
+          <NumberAvatar start={4} end={48} step={2} />
+        </View>
+        <View style={{ gap: 8 }}>
+          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>NUMBER OF WEEKS</Text>
+          <NumberAvatar start={4} end={48} step={2} />
         </View>
         <Button style={{ marginTop: 24 }} mode="contained">
           Create League
