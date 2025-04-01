@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import { useState } from 'react';
 
@@ -10,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   return (
-    <View style={{ margin: 45, gap: 16 }}>
+    <View style={{ marginLeft: 45, marginRight: 45, gap: 16 }}>
       <TextInput
         value={email}
         onChangeText={setEmail}

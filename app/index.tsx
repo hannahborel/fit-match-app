@@ -3,7 +3,7 @@ import Login from './pages/Login';
 
 export default function Home() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, justifyContent: 'center' }}>
       <Login />
     </View>
   );
