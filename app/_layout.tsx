@@ -9,6 +9,7 @@ import {
   adaptNavigationTheme,
 } from 'react-native-paper';
 import {
+  NavigationContainer,
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
@@ -40,12 +41,19 @@ export default function RootLayout() {
             contentStyle: {
               backgroundColor: paperTheme.colors.background,
             },
+            headerStyle: {
+              backgroundColor: paperTheme.colors.background,
+            },
+            headerTintColor: paperTheme.colors.onSurface,
           }}
         >
           <Stack.Screen name="index" />
           <Stack.Screen name="pages/CreateAccount" />
           <Stack.Screen name="pages/LeagueOptions" />
-          <Stack.Screen name="pages/CreateLeague" />
+          <Stack.Screen
+            name="pages/CreateLeague"
+            options={{ headerShown: true, title: 'Create League' }}
+          />
         </Stack>
         <StatusBar />
       </SafeAreaProvider>
