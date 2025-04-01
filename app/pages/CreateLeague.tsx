@@ -8,7 +8,7 @@ const CreateLeague = () => {
   const router = useRouter();
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
+    <View style={{ flex: 1, justifyContent: 'flex-start', marginTop: 50 }}>
       <View style={{ marginLeft: 50, marginRight: 50, gap: 24 }}>
         <View style={{ gap: 8 }}>
           <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE NAME</Text>
