@@ -69,13 +69,14 @@ const signUp = () => {
 
   return (
  
-      <View style={{ flex: 1, justifyContent:'center', alignItems:'center', gap: 16, paddingHorizontal: 20}}>
+      <View style={{ flex: 1, justifyContent:'center', alignItems:'center', gap: 16}}>
+        <View style={{width: 300,  justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{fontSize: 16, color: 'white', marginBottom: 24}}>CREATE ACCOUNT</Text>
         <Stack.Screen options={{ headerBackVisible: !pendingVerification }} />
         <Spinner visible={loading} />
         {!pendingVerification && (
           <>
-          <View style={{gap: 16, marginBottom: 24}}>
+          <View style={{gap: 16}}>
             <StyledInput
               autoCapitalize="none"
               placeholder="First Name"
@@ -108,8 +109,9 @@ const signUp = () => {
             />
  </View>
  <View>
+ <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 24}}>
             <ButtonPrimary  onPress={onSignUpPress} >CREATE ACCOUNT</ButtonPrimary>
-           
+           </View>
              <Pressable onPress={() => router.push('/login')} style={{ marginTop: 16, alignItems: 'center' }}>
              <View style={{ flexDirection: 'row' }}>
                <Text style={{ color: theme .colors.onBackground }}>Already have an account? </Text>
@@ -128,6 +130,7 @@ const signUp = () => {
             <Button onPress={onPressVerify} title="Verify Email"></Button>
           </>
         )}
+        </View>
       </View>
  
   );
