@@ -1,6 +1,6 @@
 export const themeColors = {
   light: {
-    primary: 'rgb(0, 110, 45)',
+    primary: 'rgb(134, 209, 234)',
     onPrimary: 'rgb(255, 255, 255)',
     primaryContainer: 'rgb(104, 255, 139)',
     onPrimaryContainer: 'rgb(0, 33, 9)',
@@ -42,7 +42,7 @@ export const themeColors = {
     backdrop: 'rgba(43, 50, 43, 0.4)',
   },
   dark: {
-    primary: 'rgb(56, 227, 110)',
+    primary: '#86D1EA',
     onPrimary: 'rgb(0, 57, 20)',
     primaryContainer: 'rgb(0, 83, 32)',
     onPrimaryContainer: 'rgb(104, 255, 139)',

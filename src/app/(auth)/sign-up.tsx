@@ -5,7 +5,7 @@ import { useSignUp } from '@clerk/clerk-expo';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useState } from 'react';
 import { Stack } from 'expo-router';
-import StyledInput from '../../components/StyledInput';
+import StyledInput from '../../components/library/InputPrimary';
 
 const signUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
