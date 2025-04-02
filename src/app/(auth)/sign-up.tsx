@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, TextInput, View, Alert } from 'react-native';
+import { Button, View, Alert } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import { useSignUp } from '@clerk/clerk-expo';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useState } from 'react';
@@ -8,8 +9,10 @@ import StyledInput from '../../components/StyledInput';
 
 const signUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
-
+  const [showPassword, setShowPassword] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState('');
@@ -55,6 +58,7 @@ const signUp = () => {
 
       await setActive({ session: completeSignUp.createdSessionId });
     } catch (err: any) {
+      console.log(err);
       Alert.alert(err.errors[0].message);
     } finally {
       setLoading(false);
@@ -70,6 +74,18 @@ const signUp = () => {
         <>
           <StyledInput
             autoCapitalize="none"
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={setFirstName}
+          />
+          <StyledInput
+            autoCapitalize="none"
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={setLastName}
+          />
+          <StyledInput
+            autoCapitalize="none"
             placeholder="simon@galaxies.dev"
             value={emailAddress}
             onChangeText={setEmailAddress}
@@ -79,6 +95,12 @@ const signUp = () => {
             value={password}
             onChangeText={setPassword}
             secureTextEntry
+            right={
+              <TextInput.Icon
+                icon={showPassword ? 'eye-off' : 'eye'}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            }
           />
 
           <Button onPress={onSignUpPress} title="Sign up"></Button>
