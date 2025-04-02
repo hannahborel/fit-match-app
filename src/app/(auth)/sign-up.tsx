@@ -109,7 +109,7 @@ const signUp = () => {
             />
  </View>
  <View>
- <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 24}}>
+ <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 36}}>
             <ButtonPrimary  onPress={onSignUpPress} >CREATE ACCOUNT</ButtonPrimary>
            </View>
              <Pressable onPress={() => router.push('/login')} style={{ marginTop: 16, alignItems: 'center' }}>
