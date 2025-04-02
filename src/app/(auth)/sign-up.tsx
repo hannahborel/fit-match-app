@@ -58,7 +58,6 @@ const signUp = () => {
 
       await setActive({ session: completeSignUp.createdSessionId });
     } catch (err: any) {
-      console.log(err);
       Alert.alert(err.errors[0].message);
     } finally {
       setLoading(false);
