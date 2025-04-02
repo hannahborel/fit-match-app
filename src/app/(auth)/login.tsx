@@ -24,6 +24,7 @@ export default function Login() {
 
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
+        router.replace('/');
       }
     } catch (err) {
       console.error('Error signing in:', err);
