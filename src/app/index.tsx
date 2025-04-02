@@ -1,10 +1,11 @@
-import { View } from 'react-native';
-import Login from './pages/Login';
+import { ActivityIndicator, View } from 'react-native';
 
-export default function Home() {
+const StartPage = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
-      <Login />
+      <ActivityIndicator size="large" color="#0000ff" />
     </View>
   );
-}
+};
+
+export default StartPage;
