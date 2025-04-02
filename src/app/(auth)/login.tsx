@@ -74,11 +74,12 @@ export default function Login() {
       <ButtonPrimary onPress={onSignIn} loading={loading} disabled={loading}>
         SIGN IN
       </ButtonPrimary>
+      
       </View>
       <Pressable onPress={() => router.push('/sign-up')} style={{ marginTop: 8, alignItems: 'center' }}>
         <View style={{ flexDirection: 'row' }}>
           <Text>Don't have an account? </Text>
-          <RNText style={{ color: theme.colors.onBackground, textDecorationLine: 'underline' }}>Sign Up</RNText>
+          <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>Sign Up</RNText>
         </View>
       </Pressable>
       </View>

@@ -1,14 +1,17 @@
 import React from 'react';
-import { Button, View, Alert } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { Button, View, Alert, Text, Pressable, Text as RNText } from 'react-native';
+import { TextInput, useTheme } from 'react-native-paper';
 import { useSignUp } from '@clerk/clerk-expo';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { useState } from 'react';
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import StyledInput from '../../components/library/InputPrimary';
+import ButtonPrimary from '../../components/library/ButtonPrimary';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const signUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
+  const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [emailAddress, setEmailAddress] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -65,56 +68,68 @@ const signUp = () => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 16, gap: 16 }}>
-      <Stack.Screen options={{ headerBackVisible: !pendingVerification }} />
-      <Spinner visible={loading} />
+ 
+      <View style={{ flex: 1, justifyContent:'center', alignItems:'center', gap: 16, paddingHorizontal: 20}}>
+        <Text style={{fontSize: 16, color: 'white', marginBottom: 24}}>CREATE ACCOUNT</Text>
+        <Stack.Screen options={{ headerBackVisible: !pendingVerification }} />
+        <Spinner visible={loading} />
+        {!pendingVerification && (
+          <>
+          <View style={{gap: 16, marginBottom: 24}}>
+            <StyledInput
+              autoCapitalize="none"
+              placeholder="First Name"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            <StyledInput
+              autoCapitalize="none"
+              placeholder="Last Name"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+            <StyledInput
+              autoCapitalize="none"
+              placeholder="simon@galaxies.dev"
+              value={emailAddress}
+              onChangeText={setEmailAddress}
+            />
+            <StyledInput
+              placeholder="password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry
+              right={
+                <TextInput.Icon
+                  icon={showPassword ? 'eye-off' : 'eye'}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              }
+            />
+ </View>
+ <View>
+            <ButtonPrimary  onPress={onSignUpPress} >CREATE ACCOUNT</ButtonPrimary>
+           
+             <Pressable onPress={() => router.push('/login')} style={{ marginTop: 16, alignItems: 'center' }}>
+             <View style={{ flexDirection: 'row' }}>
+               <Text style={{ color: theme .colors.onBackground }}>Already have an account? </Text>
+               <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>Log In</RNText>
+             </View>
+           </Pressable>
+           </View>
+           </>
+        )}
 
-      {!pendingVerification && (
-        <>
-          <StyledInput
-            autoCapitalize="none"
-            placeholder="First Name"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-          <StyledInput
-            autoCapitalize="none"
-            placeholder="Last Name"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-          <StyledInput
-            autoCapitalize="none"
-            placeholder="simon@galaxies.dev"
-            value={emailAddress}
-            onChangeText={setEmailAddress}
-          />
-          <StyledInput
-            placeholder="password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            right={
-              <TextInput.Icon
-                icon={showPassword ? 'eye-off' : 'eye'}
-                onPress={() => setShowPassword(!showPassword)}
-              />
-            }
-          />
-
-          <Button onPress={onSignUpPress} title="Sign up"></Button>
-        </>
-      )}
-
-      {pendingVerification && (
-        <>
-          <View>
-            <TextInput value={code} placeholder="Code..." onChangeText={setCode} />
-          </View>
-          <Button onPress={onPressVerify} title="Verify Email"></Button>
-        </>
-      )}
-    </View>
+        {pendingVerification && (
+          <>
+            <View>
+              <TextInput value={code} placeholder="Code..." onChangeText={setCode} />
+            </View>
+            <Button onPress={onPressVerify} title="Verify Email"></Button>
+          </>
+        )}
+      </View>
+ 
   );
 };
 

@@ -14,11 +14,12 @@ export default function AuthLayout() {
         headerStyle: {
           backgroundColor: theme.colors.background,
         },
-        headerTintColor: theme.colors.primary,
+        headerTintColor: 'white',
       }}
     >
-      <Stack.Screen name="login" options={{ title: 'Sign In' }} />
-      <Stack.Screen name="sign-up" options={{ title: 'Create an Account' }} />
+
+      <Stack.Screen name="login" options={{ title: 'Sign In'}} />
+      <Stack.Screen name="sign-up" options={{ title: 'CREATE ACCOUNT' }} />
     </Stack>
   );
 }
