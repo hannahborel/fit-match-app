@@ -36,7 +36,7 @@ const home = () => {
         }}
       />
       <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>
-        <Text style={{ fontSize: 20, color: 'white' }}>
+        <Text style={{ fontSize: 20 }}>
           Success you have signed in. This is going to be your dashboard
         </Text>
       </View>

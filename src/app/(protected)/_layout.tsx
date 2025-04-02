@@ -1,13 +1,16 @@
 import { Stack } from 'expo-router';
+import { useTheme } from '@react-navigation/native';
 
 export default function ProtectedLayout() {
+  const { colors } = useTheme();
+
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#000',
+          backgroundColor: colors.primary,
         },
-        headerTintColor: '#fff',
+        headerTintColor: colors.background,
         headerTitleStyle: {
           fontWeight: 'bold',
         },

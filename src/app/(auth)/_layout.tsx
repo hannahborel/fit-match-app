@@ -14,7 +14,7 @@ export default function AuthLayout() {
         headerStyle: {
           backgroundColor: theme.colors.background,
         },
-        headerTintColor: theme.colors.onSurface,
+        headerTintColor: theme.colors.primary,
       }}
     >
       <Stack.Screen name="login" options={{ title: 'Sign In' }} />
