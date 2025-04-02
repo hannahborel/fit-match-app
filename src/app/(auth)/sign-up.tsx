@@ -99,7 +99,7 @@ const signUp = () => {
               placeholder="password"
               value={password}
               onChangeText={setPassword}
-              secureTextEntry
+              secureTextEntry={!showPassword}
               right={
                 <TextInput.Icon
                   icon={showPassword ? 'eye-off' : 'eye'}
