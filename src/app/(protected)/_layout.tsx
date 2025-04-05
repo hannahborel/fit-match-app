@@ -1,23 +1,26 @@
 import { Stack } from 'expo-router';
-import { useTheme } from '@react-navigation/native';
+import { useTheme } from 'react-native-paper';
 
 export default function ProtectedLayout() {
-  const { colors } = useTheme();
+  const theme = useTheme();
 
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: colors.primary,
+          backgroundColor: theme.colors.primary,
         },
-        headerTintColor: colors.background,
+        headerTintColor: theme.colors.onPrimary,
         headerTitleStyle: {
           fontWeight: 'bold',
+        },
+        contentStyle: {
+          backgroundColor: theme.colors.background,
         },
       }}
     >
       <Stack.Screen name="home" options={{ title: 'Home' }} />
-      <Stack.Screen name="leagueEntry" options={{ title: 'League Entry' }} />
+      <Stack.Screen name="leagueEntry" options={{ headerShown: false }} />
     </Stack>
   );
 }
