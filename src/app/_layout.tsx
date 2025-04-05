@@ -14,6 +14,7 @@ import {
 } from '@react-navigation/native';
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
+import { UserProvider, useUser } from '@/context/UserContext';
 
 import merge from 'deepmerge';
 import { useColorScheme } from 'react-native';
@@ -21,8 +22,10 @@ import themeColors from '../constants/Colors';
 import { useEffect } from 'react';
 
 const CLERK_PUBLISHABLE_KEY = 'pk_test_dG91Y2hpbmctYmVkYnVnLTQ0LmNsZXJrLmFjY291bnRzLmRldiQ';
+
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
+  const { leagueStatus } = useUser();
   const segments = useSegments();
   const router = useRouter();
 
@@ -32,11 +35,15 @@ const InitialLayout = () => {
     const inTabsGroup = segments[0] === '(auth)';
 
     if (isSignedIn && !inTabsGroup) {
-      router.replace('/(protected)/home');
+      if (!leagueStatus) {
+        router.replace('/joinLeague');
+      } else {
+        router.replace('/(protected)/home');
+      }
     } else if (!isSignedIn) {
       router.replace('/login');
     }
-  }, [isSignedIn]);
+  }, [isSignedIn, leagueStatus]);
 
   return <Slot />;
 };
@@ -80,7 +87,9 @@ export default function RootLayout() {
     >
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
-          <InitialLayout />
+          <UserProvider>
+            <InitialLayout />
+          </UserProvider>
         </SafeAreaProvider>
       </PaperProvider>
     </ClerkProvider>

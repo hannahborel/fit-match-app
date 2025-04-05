@@ -15,6 +15,9 @@ export default function ProtectedLayout() {
           fontWeight: 'bold',
         },
       }}
-    />
+    >
+      <Stack.Screen name="home" options={{ title: 'Home' }} />
+      <Stack.Screen name="joinLeague" options={{ title: 'Join League' }} />
+    </Stack>
   );
 }
