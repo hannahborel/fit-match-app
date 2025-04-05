@@ -36,7 +36,7 @@ const InitialLayout = () => {
 
     if (isSignedIn && !inTabsGroup) {
       if (!leagueStatus) {
-        router.replace('/joinLeague');
+        router.replace('/leagueEntry');
       } else {
         router.replace('/(protected)/home');
       }

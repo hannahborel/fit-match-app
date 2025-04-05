@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-const joinLeague = () => {
+const leagueEntry = () => {
   return (
     <View>
       <Text>Join League</Text>
@@ -8,4 +8,4 @@ const joinLeague = () => {
   );
 };
 
-export default joinLeague;
+export default leagueEntry;

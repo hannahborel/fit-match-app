@@ -17,7 +17,7 @@ export default function ProtectedLayout() {
       }}
     >
       <Stack.Screen name="home" options={{ title: 'Home' }} />
-      <Stack.Screen name="joinLeague" options={{ title: 'Join League' }} />
+      <Stack.Screen name="leagueEntry" options={{ title: 'League Entry' }} />
     </Stack>
   );
 }
