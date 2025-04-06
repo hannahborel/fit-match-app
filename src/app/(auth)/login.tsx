@@ -10,7 +10,7 @@ import { useUser } from '@/context/UserContext';
 import { formatPhoneNumberInput } from '@/utils/formatPhoneNumberInput';
 
 export default function Login() {
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
   const { signIn, setActive } = useSignIn();
   const router = useRouter();
   const theme = useTheme();
@@ -19,16 +19,18 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isSignedIn) {
+    if (isLoaded && isSignedIn) {
       router.replace('/leagueEntry');
     }
-  }, [isSignedIn]);
+  }, [isLoaded, isSignedIn]);
 
   const handlePhoneNumberChange = (text: string) => {
     const formatted = formatPhoneNumberInput(text);
     setPhoneNumber(formatted);
+    setError(null); // Clear error when user types
   };
 
   const onSignIn = async () => {
@@ -36,6 +38,7 @@ export default function Login() {
 
     try {
       setLoading(true);
+      setError(null);
       // Remove hyphens before sending to Clerk
       const cleanPhoneNumber = phoneNumber.replace(/-/g, '');
       const result = await signIn.create({
@@ -45,10 +48,10 @@ export default function Login() {
 
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
-        // The middleware will handle the redirect based on leagueStatus
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error signing in:', err);
+      setError(err.errors?.[0]?.message || 'An error occurred during sign in');
     } finally {
       setLoading(false);
     }
@@ -60,6 +63,11 @@ export default function Login() {
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
           <Logo />
         </View>
+        {error && (
+          <Text style={{ color: theme.colors.error, textAlign: 'center', marginBottom: 16 }}>
+            {error}
+          </Text>
+        )}
         <View style={{ gap: 8 }}>
           <InputPrimary
             label="Phone Number"
@@ -68,12 +76,16 @@ export default function Login() {
             autoCapitalize="none"
             keyboardType="phone-pad"
             maxLength={12} // 10 digits + 2 hyphens
+            error={!!error}
           />
 
           <InputPrimary
             label="Password"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={text => {
+              setPassword(text);
+              setError(null);
+            }}
             secureTextEntry={!showPassword}
             right={
               <TextInput.Icon
@@ -81,6 +93,7 @@ export default function Login() {
                 onPress={() => setShowPassword(!showPassword)}
               />
             }
+            error={!!error}
           />
         </View>
         <Pressable
