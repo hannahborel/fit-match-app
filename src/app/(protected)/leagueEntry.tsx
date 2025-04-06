@@ -43,7 +43,9 @@ const leagueEntry = () => {
           You're all set! Now you can join an existing league or create your own.
         </Text>
         <ButtonPrimary>Join an Exiting League</ButtonPrimary>
-        <ButtonPrimary>Create a New League</ButtonPrimary>
+        <ButtonPrimary onPress={() => router.push('/(protected)/create-league')}>
+          Create a New League
+        </ButtonPrimary>
         <Button mode="contained" onPress={handleLogout}>
           Log Out
         </Button>
