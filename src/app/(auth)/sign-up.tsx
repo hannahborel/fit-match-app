@@ -9,6 +9,13 @@ import ButtonPrimary from '../../components/library/ButtonPrimary';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { formatPhoneNumberInput } from '../../utils/formatPhoneNumberInput';
 
+const capitalizeName = (name: string): string => {
+  return name
+    .split(' ')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+};
+
 const signUp = () => {
   const { isLoaded, isSignedIn } = useAuth();
   const { signUp, setActive } = useSignUp();
@@ -16,7 +23,7 @@ const signUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [pendingVerification, setPendingVerification] = useState(false);
@@ -48,12 +55,14 @@ const signUp = () => {
       console.log('Starting sign up process...');
       // Remove hyphens before sending to Clerk
       const cleanPhoneNumber = phoneNumber.replace(/-/g, '');
+      // Capitalize first and last names
+      const capitalizedFirstName = capitalizeName(firstName);
+      const capitalizedLastName = capitalizeName(lastName);
       // Create the user on Clerk
       const result = await signUp.create({
         password,
-        firstName,
-        lastName,
-        emailAddress: email,
+        firstName: capitalizedFirstName,
+        lastName: capitalizedLastName,
         phoneNumber: cleanPhoneNumber,
       });
       console.log('Sign up result:', result);
@@ -123,17 +132,7 @@ const signUp = () => {
                 }}
                 error={!!error}
               />
-              <StyledInput
-                autoCapitalize="none"
-                placeholder="Email"
-                value={email}
-                onChangeText={text => {
-                  setEmail(text);
-                  setError(null);
-                }}
-                keyboardType="email-address"
-                error={!!error}
-              />
+
               <StyledInput
                 autoCapitalize="none"
                 placeholder="Phone Number"
