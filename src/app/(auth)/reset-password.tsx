@@ -25,7 +25,7 @@ export default function ResetPassword() {
     setError(null);
     try {
       const result = await signIn.attemptFirstFactor({
-        strategy: 'reset_password_email_code',
+        strategy: 'reset_password_phone_code',
         code,
         password: newPassword,
       });
@@ -43,74 +43,80 @@ export default function ResetPassword() {
       console.error('Error resetting password:', JSON.stringify(err, null, 2));
 
       if (err.errors && err.errors[0]) {
-          const errorCode = err.errors[0].code;
-          if (errorCode === 'form_password_pwned') {
-              setError('This password is too common or has been exposed in a data breach. Please choose a stronger, unique password.');
-          } else if (errorCode === 'form_code_incorrect') {
-               setError('The reset code is incorrect. Please check your email and try again.');
-          } else if (errorCode === 'form_password_invalid') {
-                setError('Password does not meet the requirements. Please ensure it is strong enough.');
-          } else {
-              setError(err.errors[0].longMessage || 'An error occurred. Please try again.');
-          }
+        const errorCode = err.errors[0].code;
+        if (errorCode === 'form_password_pwned') {
+          setError(
+            'This password is too common or has been exposed in a data breach. Please choose a stronger, unique password.'
+          );
+        } else if (errorCode === 'form_code_incorrect') {
+          setError('The reset code is incorrect. Please check your SMS and try again.');
+        } else if (errorCode === 'form_password_invalid') {
+          setError('Password does not meet the requirements. Please ensure it is strong enough.');
+        } else {
+          setError(err.errors[0].longMessage || 'An error occurred. Please try again.');
+        }
       } else {
-         setError('An unexpected error occurred. Please try again.');
+        setError('An unexpected error occurred. Please try again.');
       }
     }
   };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
-      <View style={{width: 300, alignSelf: 'center'}}>
-      <View style={{ alignItems: 'center', marginBottom: 24 }}>
-        <Logo />
-      </View>
-      <Text style={{ textAlign: 'center', marginBottom: 16 }}>
-        Enter the code sent to your email and your new password.
-      </Text>
-      <View style={{gap: 16}}>
-        <InputPrimary
-          label="Reset Code"
-          value={code}
-          onChangeText={(text) => {
-            setCode(text);
-            setError(null);
-          }}
-          keyboardType="numeric"
-        />
-        <InputPrimary
-          label="New Password"
-          value={newPassword}
-          onChangeText={(text) => {
-             setNewPassword(text);
-             setError(null);
-          }}
-          secureTextEntry={!showPassword}
-          right={
-            <TextInput.Icon
-              icon={showPassword ? 'eye-off' : 'eye'}
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          }
-        />
-      </View>
-
-      {error && (
-        <Text style={{ color: theme.colors.error, textAlign: 'center', marginTop: 16, marginBottom: 0 }}>
-          {error}
-        </Text>
-      )}
-
-      <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 24 }}>
-        <ButtonPrimary onPress={onResetPassword} loading={loading} disabled={loading}>
-          SET NEW PASSWORD
-        </ButtonPrimary>
-      </View>
-
-      <Pressable onPress={() => router.back()} style={{ marginTop: 16, alignItems: 'center' }}>
-        <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>Back</RNText>
-      </Pressable>
+      <View style={{ width: 300, alignSelf: 'center' }}>
+        <View style={{ alignItems: 'center', marginBottom: 24 }}>
+          <Logo />
+        </View>
+        {error && (
+          <Text style={{ color: theme.colors.error, textAlign: 'center', marginBottom: 16 }}>
+            {error}
+          </Text>
+        )}
+        <View style={{ gap: 8 }}>
+          <InputPrimary
+            label="Verification Code"
+            value={code}
+            onChangeText={text => {
+              setCode(text);
+              setError(null);
+            }}
+            keyboardType="number-pad"
+            error={!!error}
+          />
+          <InputPrimary
+            label="New Password"
+            value={newPassword}
+            onChangeText={text => {
+              setNewPassword(text);
+              setError(null);
+            }}
+            secureTextEntry={!showPassword}
+            right={
+              <TextInput.Icon
+                icon={showPassword ? 'eye-off' : 'eye'}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            }
+            error={!!error}
+          />
+        </View>
+        <View style={{ marginTop: 24 }}>
+          <ButtonPrimary onPress={onResetPassword} loading={loading} disabled={loading}>
+            RESET PASSWORD
+          </ButtonPrimary>
+        </View>
+        <Pressable
+          onPress={() => router.push('/login')}
+          style={{ marginTop: 16, alignItems: 'center' }}
+        >
+          <View style={{ flexDirection: 'row' }}>
+            <Text>Remember your password? </Text>
+            <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
+              Sign In
+            </RNText>
+          </View>
+        </Pressable>
       </View>
     </View>
   );
-} 
+}
