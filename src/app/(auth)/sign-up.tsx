@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text as RNText } from 'react-native';
+import { View, Text as RNText, Pressable } from 'react-native';
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useSignUp, useAuth } from '@clerk/clerk-expo';
 import { useState, useEffect } from 'react';
@@ -165,6 +165,17 @@ const signUp = () => {
                 SIGN UP
               </ButtonPrimary>
             </View>
+            <Pressable
+              onPress={() => router.push('/login')}
+              style={{ marginTop: 16, alignItems: 'center' }}
+            >
+              <View style={{ flexDirection: 'row' }}>
+                <Text>Already have an account? </Text>
+                <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
+                  Sign In
+                </RNText>
+              </View>
+            </Pressable>
           </>
         ) : (
           <>
