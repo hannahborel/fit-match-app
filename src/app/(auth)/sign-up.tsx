@@ -8,20 +8,26 @@ import { router, Stack } from 'expo-router';
 import StyledInput from '../../components/library/InputPrimary';
 import ButtonPrimary from '../../components/library/ButtonPrimary';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { formatPhoneNumberInput } from '../../utils/formatPhoneNumberInput';
 
 const signUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  const [emailAddress, setEmailAddress] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Create the user and send the verification email
+  const handlePhoneNumberChange = (text: string) => {
+    const formatted = formatPhoneNumberInput(text);
+    setPhoneNumber(formatted);
+  };
+
+  // Create the user and send the verification
   const onSignUpPress = async () => {
     if (!isLoaded) {
       return;
@@ -29,25 +35,36 @@ const signUp = () => {
     setLoading(true);
 
     try {
+      console.log('Starting sign up process...');
+      // Remove hyphens before sending to Clerk
+      const cleanPhoneNumber = phoneNumber.replace(/-/g, '');
       // Create the user on Clerk
-      await signUp.create({
-        emailAddress,
+      const result = await signUp.create({
         password,
+        firstName,
+        lastName,
+        phoneNumber: cleanPhoneNumber,
       });
+      console.log('Sign up result:', result);
 
-      // Send verification Email
-      await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
+      // Send phone verification
+      await signUp.preparePhoneNumberVerification({ strategy: 'phone_code' });
+      console.log('Verification code sent');
 
-      // change the UI to verify the email address
+      // change the UI to verify the phone number
       setPendingVerification(true);
     } catch (err: any) {
-      Alert.alert(err.errors[0].message);
+      console.error('Sign up error:', err);
+      Alert.alert(
+        'Sign Up Error',
+        err.errors?.[0]?.message || 'An error occurred during sign up. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // Verify the email address
+  // Verify the phone number
   const onPressVerify = async () => {
     if (!isLoaded) {
       return;
@@ -55,84 +72,128 @@ const signUp = () => {
     setLoading(true);
 
     try {
-      const completeSignUp = await signUp.attemptEmailAddressVerification({
+      console.log('Starting verification process...');
+      const completeSignUp = await signUp.attemptPhoneNumberVerification({
         code,
       });
 
-      await setActive({ session: completeSignUp.createdSessionId });
+      console.log('Verification result:', completeSignUp);
+
+      if (completeSignUp.status === 'complete') {
+        console.log('Setting active session...');
+        await setActive({ session: completeSignUp.createdSessionId });
+        console.log('Redirecting to league entry...');
+        router.replace('/leagueEntry');
+      } else {
+        console.log('Verification not complete:', completeSignUp.status);
+        Alert.alert('Verification Error', 'Verification process did not complete successfully.');
+      }
     } catch (err: any) {
-      Alert.alert(err.errors[0].message);
+      console.error('Verification error:', err);
+      Alert.alert(
+        'Verification Error',
+        err.errors?.[0]?.message || 'An error occurred during verification. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
- 
-      <View style={{ flex: 1, justifyContent:'center', alignItems:'center', gap: 16}}>
-        <View style={{width: 300,  justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{fontSize: 16, color: 'white', marginBottom: 24}}>CREATE ACCOUNT</Text>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 16 }}>
+      <View style={{ width: 300, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ fontSize: 16, color: 'white', marginBottom: 24 }}>CREATE ACCOUNT</Text>
         <Stack.Screen options={{ headerBackVisible: !pendingVerification }} />
         <Spinner visible={loading} />
         {!pendingVerification && (
           <>
-          <View style={{gap: 16}}>
-            <StyledInput
-              autoCapitalize="none"
-              placeholder="First Name"
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-            <StyledInput
-              autoCapitalize="none"
-              placeholder="Last Name"
-              value={lastName}
-              onChangeText={setLastName}
-            />
-            <StyledInput
-              autoCapitalize="none"
-              placeholder="simon@galaxies.dev"
-              value={emailAddress}
-              onChangeText={setEmailAddress}
-            />
-            <StyledInput
-              placeholder="password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-              right={
-                <TextInput.Icon
-                  icon={showPassword ? 'eye-off' : 'eye'}
-                  onPress={() => setShowPassword(!showPassword)}
-                />
-              }
-            />
- </View>
- <View>
- <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 36}}>
-            <ButtonPrimary  onPress={onSignUpPress} >CREATE ACCOUNT</ButtonPrimary>
-           </View>
-             <Pressable onPress={() => router.push('/login')} style={{ marginTop: 16, alignItems: 'center' }}>
-             <View style={{ flexDirection: 'row' }}>
-               <Text style={{ color: theme .colors.onBackground }}>Already have an account? </Text>
-               <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>Log In</RNText>
-             </View>
-           </Pressable>
-           </View>
-           </>
+            <View style={{ gap: 16 }}>
+              <StyledInput
+                autoCapitalize="none"
+                placeholder="First Name"
+                value={firstName}
+                onChangeText={setFirstName}
+              />
+              <StyledInput
+                autoCapitalize="none"
+                placeholder="Last Name"
+                value={lastName}
+                onChangeText={setLastName}
+              />
+              <StyledInput
+                autoCapitalize="none"
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChangeText={handlePhoneNumberChange}
+                keyboardType="phone-pad"
+                maxLength={12} // 10 digits + 2 hyphens
+              />
+              <StyledInput
+                placeholder="password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                right={
+                  <TextInput.Icon
+                    icon={showPassword ? 'eye-off' : 'eye'}
+                    onPress={() => setShowPassword(!showPassword)}
+                  />
+                }
+              />
+            </View>
+            <View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 36,
+                }}
+              >
+                <ButtonPrimary onPress={onSignUpPress}>CREATE ACCOUNT</ButtonPrimary>
+              </View>
+              <Pressable
+                onPress={() => router.push('/login')}
+                style={{ marginTop: 16, alignItems: 'center' }}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <Text style={{ color: theme.colors.onBackground }}>
+                    Already have an account?{' '}
+                  </Text>
+                  <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
+                    Log In
+                  </RNText>
+                </View>
+              </Pressable>
+            </View>
+          </>
         )}
 
         {pendingVerification && (
           <>
-            <View>
-              <TextInput value={code} placeholder="Code..." onChangeText={setCode} />
+            <View style={{ gap: 16 }}>
+              <Text style={{ fontSize: 16, color: 'white', marginBottom: 24 }}>VERIFY PHONE</Text>
+              <StyledInput
+                value={code}
+                placeholder="Enter phone verification code"
+                onChangeText={setCode}
+                keyboardType="number-pad"
+              />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 36,
+                }}
+              >
+                <ButtonPrimary onPress={onPressVerify}>VERIFY</ButtonPrimary>
+              </View>
             </View>
-            <Button onPress={onPressVerify} title="Verify Email"></Button>
           </>
         )}
-        </View>
       </View>
- 
+    </View>
   );
 };
 

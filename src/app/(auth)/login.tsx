@@ -7,24 +7,32 @@ import InputPrimary from '@/components/library/InputPrimary';
 import ButtonPrimary from '@/components/library/ButtonPrimary';
 import Logo from '@/components/Logo';
 import { useUser } from '@/context/UserContext';
+import { formatPhoneNumberInput } from '@/utils/formatPhoneNumberInput';
 
 export default function Login() {
   const { signIn, setActive } = useSignIn();
   const router = useRouter();
   const theme = useTheme();
   const { leagueStatus } = useUser();
-  const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const handlePhoneNumberChange = (text: string) => {
+    const formatted = formatPhoneNumberInput(text);
+    setPhoneNumber(formatted);
+  };
 
   const onSignIn = async () => {
     if (!signIn) return;
 
     try {
       setLoading(true);
+      // Remove hyphens before sending to Clerk
+      const cleanPhoneNumber = phoneNumber.replace(/-/g, '');
       const result = await signIn.create({
-        identifier: email,
+        identifier: cleanPhoneNumber,
         password,
       });
 
@@ -47,11 +55,12 @@ export default function Login() {
         </View>
         <View style={{ gap: 8 }}>
           <InputPrimary
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
+            label="Phone Number"
+            value={phoneNumber}
+            onChangeText={handlePhoneNumberChange}
             autoCapitalize="none"
-            keyboardType="email-address"
+            keyboardType="phone-pad"
+            maxLength={12} // 10 digits + 2 hyphens
           />
 
           <InputPrimary
@@ -73,7 +82,7 @@ export default function Login() {
         >
           <RNText
             style={{
-              color: theme.colors.primary /* Or another suitable color */,
+              color: theme.colors.primary,
               textDecorationLine: 'underline',
             }}
           >
