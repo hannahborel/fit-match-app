@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Pressable, Text as RNText } from 'react-native';
-import { useSignIn } from '@clerk/clerk-expo';
+import { useSignIn, useAuth } from '@clerk/clerk-expo';
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/library/InputPrimary';
@@ -10,6 +10,7 @@ import { useUser } from '@/context/UserContext';
 import { formatPhoneNumberInput } from '@/utils/formatPhoneNumberInput';
 
 export default function Login() {
+  const { isSignedIn } = useAuth();
   const { signIn, setActive } = useSignIn();
   const router = useRouter();
   const theme = useTheme();
@@ -18,6 +19,12 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isSignedIn) {
+      router.replace('/leagueEntry');
+    }
+  }, [isSignedIn]);
 
   const handlePhoneNumberChange = (text: string) => {
     const formatted = formatPhoneNumberInput(text);
