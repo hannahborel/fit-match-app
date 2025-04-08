@@ -8,6 +8,9 @@ import StyledInput from '../../components/library/InputPrimary';
 import ButtonPrimary from '../../components/library/ButtonPrimary';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { formatPhoneNumberInput } from '../../utils/formatPhoneNumberInput';
+import { useLocalSearchParams } from 'expo-router';
+import PasswordVerification from '@/components/library/PasswordVerification';
+import { isPasswordValid } from '@/utils/validationHandlers';
 
 const capitalizeName = (name: string): string => {
   return name
@@ -20,28 +23,29 @@ const signUp = () => {
   const { isLoaded, isSignedIn } = useAuth();
   const { signUp, setActive } = useSignUp();
   const theme = useTheme();
-  const [showPassword, setShowPassword] = useState(false);
+  const { email } = useLocalSearchParams();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-
+  const [emailInput, setEmailInput] = useState(email as string);
   const [password, setPassword] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [pendingVerification, setPendingVerification] = useState(false);
-  const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const disableSignUp =
+    firstName === '' ||
+    lastName === '' ||
+    emailInput === '' ||
+    password === '' ||
+    !isPasswordValid(password);
+  console.log(disableSignUp);
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
       router.replace('/leagueEntry');
     }
   }, [isLoaded, isSignedIn]);
-
-  const handlePhoneNumberChange = (text: string) => {
-    const formatted = formatPhoneNumberInput(text);
-    setPhoneNumber(formatted);
-    setError(null);
-  };
 
   // Create the user and send the verification
   const onSignUpPress = async () => {
@@ -54,7 +58,7 @@ const signUp = () => {
     try {
       console.log('Starting sign up process...');
       // Remove hyphens before sending to Clerk
-      const cleanPhoneNumber = phoneNumber.replace(/-/g, '');
+
       // Capitalize first and last names
       const capitalizedFirstName = capitalizeName(firstName);
       const capitalizedLastName = capitalizeName(lastName);
@@ -63,7 +67,7 @@ const signUp = () => {
         password,
         firstName: capitalizedFirstName,
         lastName: capitalizedLastName,
-        phoneNumber: cleanPhoneNumber,
+        // emailAddress: email,
       });
       console.log('Sign up result:', result);
 
@@ -81,26 +85,6 @@ const signUp = () => {
     }
   };
 
-  const onPressVerify = async () => {
-    if (!isLoaded || !signUp) {
-      return;
-    }
-    setLoading(true);
-    setError(null);
-
-    try {
-      const completeSignUp = await signUp.attemptPhoneNumberVerification({
-        code,
-      });
-      await setActive({ session: completeSignUp.createdSessionId });
-    } catch (err: any) {
-      console.error('Verification error:', err);
-      setError(err.errors?.[0]?.message || 'An error occurred during verification');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ width: 300, alignSelf: 'center' }}>
@@ -111,35 +95,32 @@ const signUp = () => {
         )}
         {!pendingVerification ? (
           <>
-            <View style={{ gap: 16 }}>
+            <View style={{ gap: 12 }}>
+              <View style={{ flexDirection: 'row', gap: 12, width: '100%' }}>
+                <StyledInput
+                  autoCapitalize="none"
+                  placeholder="First"
+                  value={firstName}
+                  onChangeText={text => {
+                    setFirstName(text);
+                    setError(null);
+                  }}
+                />
+                <StyledInput
+                  autoCapitalize="none"
+                  placeholder="Last"
+                  value={lastName}
+                  onChangeText={text => {
+                    setLastName(text);
+                  }}
+                />
+              </View>
               <StyledInput
                 autoCapitalize="none"
-                placeholder="First Name"
-                value={firstName}
-                onChangeText={text => {
-                  setFirstName(text);
-                  setError(null);
-                }}
-                error={!!error}
-              />
-              <StyledInput
-                autoCapitalize="none"
-                placeholder="Last Name"
-                value={lastName}
-                onChangeText={text => {
-                  setLastName(text);
-                  setError(null);
-                }}
-                error={!!error}
-              />
-
-              <StyledInput
-                autoCapitalize="none"
-                placeholder="Phone Number"
-                value={phoneNumber}
-                onChangeText={handlePhoneNumberChange}
-                keyboardType="phone-pad"
-                maxLength={12} // 10 digits + 2 hyphens
+                placeholder="Email"
+                value={emailInput}
+                // onChangeText={handlePhoneNumberChange}
+                keyboardType="phone-pad" // 10 digits + 2 hyphens
                 error={!!error}
               />
               <StyledInput
@@ -157,16 +138,21 @@ const signUp = () => {
                     onPress={() => setShowPassword(!showPassword)}
                   />
                 }
-                error={!!error}
               />
+              <PasswordVerification password={password} />
             </View>
             <View style={{ marginTop: 24 }}>
-              <ButtonPrimary onPress={onSignUpPress} loading={loading} disabled={loading}>
+              <ButtonPrimary
+                onPress={onSignUpPress}
+                buttonColor={disableSignUp ? theme.colors.surfaceDisabled : theme.colors.primary}
+                loading={loading}
+                disabled={loading || disableSignUp}
+              >
                 SIGN UP
               </ButtonPrimary>
             </View>
             <Pressable
-              onPress={() => router.push('/login')}
+              onPress={() => router.push('/login-email')}
               style={{ marginTop: 16, alignItems: 'center' }}
             >
               <View style={{ flexDirection: 'row' }}>
@@ -179,23 +165,8 @@ const signUp = () => {
           </>
         ) : (
           <>
-            <View style={{ gap: 16 }}>
-              <StyledInput
-                autoCapitalize="none"
-                placeholder="Verification Code"
-                value={code}
-                onChangeText={text => {
-                  setCode(text);
-                  setError(null);
-                }}
-                keyboardType="number-pad"
-                error={!!error}
-              />
-            </View>
-            <View style={{ marginTop: 24 }}>
-              <ButtonPrimary onPress={onPressVerify} loading={loading} disabled={loading}>
-                VERIFY
-              </ButtonPrimary>
+            <View>
+              <Text>Pending Verification</Text>
             </View>
           </>
         )}

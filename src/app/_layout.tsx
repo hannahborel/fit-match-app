@@ -41,7 +41,7 @@ const InitialLayout = () => {
         router.replace('/(protected)/home');
       }
     } else if (!isSignedIn) {
-      router.replace('/login');
+      router.replace('/login-email');
     }
   }, [isSignedIn, leagueStatus]);
 

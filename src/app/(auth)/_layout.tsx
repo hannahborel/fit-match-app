@@ -17,8 +17,8 @@ export default function AuthLayout() {
         headerTintColor: 'white',
       }}
     >
-
-      <Stack.Screen name="login" options={{ title: 'Sign In'}} />
+      <Stack.Screen name="login-email" options={{ title: 'Sign In' }} />
+      <Stack.Screen name="login-password" options={{ title: 'Sign In' }} />
       <Stack.Screen name="sign-up" options={{ title: 'CREATE ACCOUNT' }} />
     </Stack>
   );

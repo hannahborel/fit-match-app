@@ -78,7 +78,7 @@ export default function ForgotPassword() {
           </ButtonPrimary>
         </View>
         <Pressable
-          onPress={() => router.push('/login')}
+          onPress={() => router.push('/login-email')}
           style={{ marginTop: 16, alignItems: 'center' }}
         >
           <View style={{ flexDirection: 'row' }}>

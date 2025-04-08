@@ -1,8 +1,66 @@
-import { Button, ButtonProps, useTheme } from "react-native-paper";
+import { Button, ButtonProps, useTheme } from 'react-native-paper';
+import { View, Text } from 'react-native';
 
-const ButtonPrimary:React.FC<ButtonProps> =props => {
+interface ValidationCondition {
+  isValid: boolean;
+  errorMessage?: string;
+}
+
+interface ButtonPrimaryProps extends ButtonProps {
+  conditions?: ValidationCondition[]; // Array of conditions with optional error messages
+  loading?: boolean;
+  showErrors?: boolean; // Whether to show error messages
+}
+
+const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
+  conditions = [],
+  loading = false,
+  style,
+  disabled,
+  showErrors = false,
+  ...otherProps
+}) => {
   const theme = useTheme();
-  return <Button {...props} style={{ backgroundColor: theme.colors.primary, paddingLeft:18, paddingRight:18, borderRadius:12, width: '100%'}} labelStyle={{ color: theme.colors.onPrimary}}>{props.children}</Button>;
+
+  const isDisabled = conditions.some(condition => !condition.isValid) || disabled || loading;
+  const failedConditions = conditions.filter(
+    condition => !condition.isValid && condition.errorMessage
+  );
+
+  return (
+    <View>
+      <Button
+        {...otherProps}
+        disabled={isDisabled}
+        loading={loading}
+        style={[
+          {
+            backgroundColor: isDisabled ? theme.colors.surfaceDisabled : theme.colors.primary,
+            paddingLeft: 18,
+            paddingRight: 18,
+            borderRadius: 12,
+            width: '100%',
+          },
+          style,
+        ]}
+        labelStyle={{
+          color: isDisabled ? theme.colors.onSurfaceDisabled : theme.colors.onPrimary,
+        }}
+      >
+        {otherProps.children}
+      </Button>
+
+      {showErrors && failedConditions.length > 0 && (
+        <View style={{ marginTop: 8 }}>
+          {failedConditions.map((condition, index) => (
+            <Text key={index} style={{ color: theme.colors.error, fontSize: 12 }}>
+              {condition.errorMessage}
+            </Text>
+          ))}
+        </View>
+      )}
+    </View>
+  );
 };
 
 export default ButtonPrimary;

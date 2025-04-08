@@ -14,7 +14,7 @@ const leagueEntry = () => {
 
   useEffect(() => {
     if (!isSignedIn) {
-      router.replace('/login');
+      router.replace('/login-email');
     }
   }, [isSignedIn]);
 

@@ -9,11 +9,13 @@ const InputPrimary: React.FC<TextInputProps> = props => {
       theme={{ roundness: 12 }}
       outlineColor="transparent"
       style={{
-        flexShrink: 2,
         borderRadius: 12,
         backgroundColor: theme.colors.surface,
         width: 297,
         height: 45,
+      }}
+      contentStyle={{
+        paddingRight: 0,
       }}
       {...props}
     />
