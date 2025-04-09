@@ -33,7 +33,7 @@ export default function Login() {
   const handleContinue = async () => {
     if (!isValidEmail || !signIn) return;
     try {
-      const { supportedFirstFactors } = await signIn.create({
+      await signIn.create({
         strategy: 'email_code',
         identifier: email,
       });

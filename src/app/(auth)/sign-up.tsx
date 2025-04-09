@@ -7,10 +7,10 @@ import { router } from 'expo-router';
 import StyledInput from '../../components/library/InputPrimary';
 import ButtonPrimary from '../../components/library/ButtonPrimary';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { formatPhoneNumberInput } from '../../utils/formatPhoneNumberInput';
+
 import { useLocalSearchParams } from 'expo-router';
 import PasswordVerification from '@/components/library/PasswordVerification';
-import { isPasswordValid } from '@/utils/validationHandlers';
+import { isPasswordValid, validateEmail } from '@/utils/validationHandlers';
 
 const capitalizeName = (name: string): string => {
   return name
@@ -32,14 +32,10 @@ const signUp = () => {
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isValidEmail, setIsValidEmail] = useState(true);
 
-  const disableSignUp =
-    firstName === '' ||
-    lastName === '' ||
-    emailInput === '' ||
-    password === '' ||
-    !isPasswordValid(password);
-  console.log(disableSignUp);
+  const disableSignUp = firstName === '' || lastName === '' || emailInput === '' || !isValidEmail;
+  password === '' || !isPasswordValid(password);
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
@@ -49,6 +45,7 @@ const signUp = () => {
 
   // Create the user and send the verification
   const onSignUpPress = async () => {
+    console.log('onSignUpPress hit');
     if (!isLoaded || !signUp) {
       return;
     }
@@ -56,33 +53,30 @@ const signUp = () => {
     setError(null);
 
     try {
-      console.log('Starting sign up process...');
-      // Remove hyphens before sending to Clerk
-
-      // Capitalize first and last names
-      const capitalizedFirstName = capitalizeName(firstName);
-      const capitalizedLastName = capitalizeName(lastName);
-      // Create the user on Clerk
       const result = await signUp.create({
         password,
-        firstName: capitalizedFirstName,
-        lastName: capitalizedLastName,
-        // emailAddress: email,
+        firstName,
+        lastName,
+        emailAddress: emailInput,
       });
-      console.log('Sign up result:', result);
-
-      // Send phone verification
-      await signUp.preparePhoneNumberVerification({ strategy: 'phone_code' });
-      console.log('Verification code sent');
-
-      // change the UI to verify the phone number
+      console.log(result);
+      console.log('--prepare verification---');
+      await signUp.prepareVerification({ strategy: 'email_link' });
       setPendingVerification(true);
     } catch (err: any) {
-      console.error('Sign up error:', err);
-      setError(err.errors?.[0]?.message || 'An error occurred during sign up');
+      console.log('--error--');
+      console.log(err.errors?.[0].message);
     } finally {
-      setLoading(false);
+      console.log('--Finally--');
+      //redirect to league entry if league status is false
+      //redir4ect to home page if league status is true
     }
+  };
+
+  const handleEmailChange = (text: string) => {
+    setEmailInput(text);
+    setError(null);
+    setIsValidEmail(validateEmail(text));
   };
 
   return (
@@ -98,7 +92,7 @@ const signUp = () => {
             <View style={{ gap: 12 }}>
               <View style={{ flexDirection: 'row', gap: 12, width: '100%' }}>
                 <StyledInput
-                  autoCapitalize="none"
+                  autoCapitalize="words"
                   placeholder="First"
                   value={firstName}
                   onChangeText={text => {
@@ -107,7 +101,7 @@ const signUp = () => {
                   }}
                 />
                 <StyledInput
-                  autoCapitalize="none"
+                  autoCapitalize="words"
                   placeholder="Last"
                   value={lastName}
                   onChangeText={text => {
@@ -119,7 +113,7 @@ const signUp = () => {
                 autoCapitalize="none"
                 placeholder="Email"
                 value={emailInput}
-                // onChangeText={handlePhoneNumberChange}
+                onChangeText={handleEmailChange}
                 keyboardType="phone-pad" // 10 digits + 2 hyphens
                 error={!!error}
               />
