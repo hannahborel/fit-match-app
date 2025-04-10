@@ -12,9 +12,9 @@ import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
-import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
+import { ClerkProvider, useAuth, useUser } from '@clerk/clerk-expo';
 import * as SecureStore from 'expo-secure-store';
-import { UserProvider, useUser } from '@/context/UserContext';
+import { LeagueStatusProvider, useLeagueStatus } from '@/context/LeagueStatus';
 
 import merge from 'deepmerge';
 import { useColorScheme } from 'react-native';
@@ -25,7 +25,7 @@ const CLERK_PUBLISHABLE_KEY = 'pk_test_dG91Y2hpbmctYmVkYnVnLTQ0LmNsZXJrLmFjY291b
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
-  const { leagueStatus } = useUser();
+  const { leagueStatus } = useLeagueStatus();
   const segments = useSegments();
   const router = useRouter();
 
@@ -87,9 +87,9 @@ export default function RootLayout() {
     >
       <PaperProvider theme={paperTheme}>
         <SafeAreaProvider>
-          <UserProvider>
+          <LeagueStatusProvider>
             <InitialLayout />
-          </UserProvider>
+          </LeagueStatusProvider>
         </SafeAreaProvider>
       </PaperProvider>
     </ClerkProvider>

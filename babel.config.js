@@ -12,7 +12,7 @@ module.exports = function (api) {
           alias: {
             '@': './src',
           },
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
         },
       ],
       'react-native-paper/babel',
