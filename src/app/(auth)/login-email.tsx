@@ -17,11 +17,23 @@ export default function Login() {
 
   const handleContinue = async () => {
     if (signIn) {
-      if (signIn.status === 'needs_identifier') {
-        console.log('user does not have an account');
-        router.push({ pathname: '/sign-up', params: { emailParam: email } });
+      try {
+        const emailCheck = await signIn.create({
+          identifier: email,
+        });
+        if (emailCheck.status === 'needs_first_factor') {
+          //has account, needs to enter password
+          router.push({ pathname: '/login-password', params: { emailParam: email } });
+        }
+        if (signIn.status === 'needs_identifier') {
+          //does not have account, needs to sign up
+          console.log('user does not have an account');
+          router.push({ pathname: '/sign-up', params: { emailParam: email } });
+        }
+      } catch (err: any) {
+        console.log(err);
       }
-    } else return;
+    }
   };
 
   return (
@@ -46,37 +58,7 @@ export default function Login() {
               />
             }
           />
-
-          {/* <InputPrimary
-            label="Password"
-            value={password}
-            onChangeText={text => {
-              setPassword(text);
-              setError(null);
-            }}
-            secureTextEntry={!showPassword}
-            right={
-              <TextInput.Icon
-                icon={showPassword ? 'eye-off' : 'eye'}
-                onPress={() => setShowPassword(!showPassword)}
-              />
-            }
-            error={!!error}
-          /> */}
         </View>
-        {/* <Pressable
-          onPress={() => router.push('/forgot-password')}
-          style={{ alignSelf: 'flex-end', marginTop: 8 }}
-        >
-          <RNText
-            style={{
-              color: theme.colors.primary,
-              textDecorationLine: 'underline',
-            }}
-          >
-            Forgot Password?
-          </RNText>
-        </Pressable> */}
       </View>
     </View>
   );
