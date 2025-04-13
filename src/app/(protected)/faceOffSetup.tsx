@@ -16,7 +16,7 @@ const FaceOffSetup = () => {
         <View style={{ gap: 24, width: '100%' }}>
           <View style={{ gap: 8 }}>
             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>FACEOFF NAME</Text>
-            <InputPrimary />
+            <InputPrimary mode="outlined" />
           </View>
           <View style={{ gap: 8 }}>
             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>LEAGUE SIZE</Text>
