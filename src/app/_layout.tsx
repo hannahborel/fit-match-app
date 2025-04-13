@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Slot, useRouter, useSegments } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
@@ -9,14 +9,61 @@ import {
   adaptNavigationTheme,
 } from 'react-native-paper';
 import {
-  NavigationContainer,
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
+import { ClerkProvider, useAuth, useUser } from '@clerk/clerk-expo';
+import * as SecureStore from 'expo-secure-store';
+import { LeagueStatusProvider, useLeagueStatus } from '@/context/LeagueStatus';
 
 import merge from 'deepmerge';
-import { useColorScheme, View } from 'react-native';
+import { useColorScheme } from 'react-native';
 import themeColors from '../constants/Colors';
+import { useEffect } from 'react';
+
+const CLERK_PUBLISHABLE_KEY = 'pk_test_dG91Y2hpbmctYmVkYnVnLTQ0LmNsZXJrLmFjY291bnRzLmRldiQ';
+
+const InitialLayout = () => {
+  const { isLoaded, isSignedIn } = useAuth();
+  const { leagueStatus } = useLeagueStatus();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const inTabsGroup = segments[0] === '(auth)';
+
+    if (isSignedIn && !inTabsGroup) {
+      if (!leagueStatus) {
+        router.replace('/leagueEntry');
+      } else {
+        router.replace('/(protected)/home');
+      }
+    } else if (!isSignedIn) {
+      router.replace('/login-email');
+    }
+  }, [isSignedIn, leagueStatus]);
+
+  return <Slot />;
+};
+
+const tokenCache = {
+  async getToken(key: string) {
+    try {
+      return await SecureStore.getItemAsync(key);
+    } catch (err) {
+      return null;
+    }
+  },
+  async saveToken(key: string, value: string) {
+    try {
+      await SecureStore.setItemAsync(key, value);
+    } catch (err) {
+      return;
+    }
+  },
+};
 
 const customDarkTheme = { ...MD3DarkTheme, colors: themeColors.dark };
 const customLightTheme = { ...MD3LightTheme, colors: themeColors.light };
@@ -34,30 +81,17 @@ export default function RootLayout() {
   const paperTheme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
 
   return (
-    <PaperProvider theme={paperTheme}>
-      <SafeAreaProvider>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: paperTheme.colors.background,
-            },
-            headerStyle: {
-              backgroundColor: paperTheme.colors.background,
-            },
-            headerTintColor: paperTheme.colors.onSurface,
-          }}
-        >
-          <Stack.Screen name="index" />
-          <Stack.Screen name="pages/CreateAccount" />
-          <Stack.Screen name="pages/LeagueOptions" />
-          <Stack.Screen
-            name="pages/CreateLeague"
-            options={{ headerShown: true, title: 'Create League' }}
-          />
-        </Stack>
-        <StatusBar />
-      </SafeAreaProvider>
-    </PaperProvider>
+    <ClerkProvider
+      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+      tokenCache={tokenCache}
+    >
+      <PaperProvider theme={paperTheme}>
+        <SafeAreaProvider>
+          <LeagueStatusProvider>
+            <InitialLayout />
+          </LeagueStatusProvider>
+        </SafeAreaProvider>
+      </PaperProvider>
+    </ClerkProvider>
   );
 }

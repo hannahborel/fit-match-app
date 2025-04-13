@@ -10,9 +10,9 @@ module.exports = function (api) {
         {
           root: ['.'],
           alias: {
-            '@': './app',
+            '@': './src',
           },
-          extensions: ['.js', '.jsx', '.ts', '.tsx'],
+          extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
         },
       ],
       'react-native-paper/babel',

@@ -2,6 +2,7 @@
   "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
     "strict": true,
+    "baseUrl": ".",
     "jsx": "react-native",
     "noEmit": true,
     "isolatedModules": true,
@@ -12,7 +13,7 @@
     "moduleResolution": "node",
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ],
       "tailwind.config": [
         "./tailwind.config.js"

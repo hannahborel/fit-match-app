@@ -1,6 +1,6 @@
 export const themeColors = {
   light: {
-    primary: 'rgb(0, 110, 45)',
+    primary: 'rgba(47, 112, 250, 1)',
     onPrimary: 'rgb(255, 255, 255)',
     primaryContainer: 'rgb(104, 255, 139)',
     onPrimaryContainer: 'rgb(0, 33, 9)',
@@ -42,8 +42,8 @@ export const themeColors = {
     backdrop: 'rgba(43, 50, 43, 0.4)',
   },
   dark: {
-    primary: 'rgb(56, 227, 110)',
-    onPrimary: 'rgb(0, 57, 20)',
+    primary: 'rgba(47, 112, 250, 1)',
+    onPrimary: 'rgba(255, 255, 255, 1)',
     primaryContainer: 'rgb(0, 83, 32)',
     onPrimaryContainer: 'rgb(104, 255, 139)',
     secondary: 'rgb(150, 204, 255)',
@@ -58,10 +58,10 @@ export const themeColors = {
     onError: 'rgb(105, 0, 5)',
     errorContainer: 'rgb(147, 0, 10)',
     onErrorContainer: 'rgb(255, 180, 171)',
-    background: 'rgb(16, 21, 26)',
-    onBackground: 'rgb(226, 227, 221)',
-    surface: 'rgb(50, 53, 57)',
-    onSurface: 'rgb(226, 227, 221)',
+    background: 'rgba(24, 28, 40, 1)',
+    onBackground: 'rgba(232,232,237,1)',
+    surface: 'rgba(41, 49, 66, 1)',
+    onSurface: 'rgba(255, 255, 255, 1)',
     surfaceVariant: 'rgb(66, 73, 64)',
     onSurfaceVariant: 'rgb(193, 201, 190)',
     outline: 'rgb(139, 147, 137)',
@@ -70,7 +70,7 @@ export const themeColors = {
     scrim: 'rgb(0, 0, 0)',
     inverseSurface: 'rgb(226, 227, 221)',
     inverseOnSurface: 'rgb(46, 49, 45)',
-    inversePrimary: 'rgb(0, 110, 45)',
+    inversePrimary: 'red',
     elevation: {
       level0: 'transparent',
       level1: 'rgb(28, 38, 29)',
