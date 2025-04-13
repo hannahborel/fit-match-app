@@ -5,7 +5,7 @@ import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/library/InputPrimary';
 import ButtonPrimary from '@/components/library/ButtonPrimary';
-import Logo from '@/components/Logo';
+import Logo from '@/assets/Logo';
 
 export default function ResetPassword() {
   const { isLoaded, signIn, setActive } = useSignIn();

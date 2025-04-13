@@ -5,7 +5,7 @@ import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/library/InputPrimary';
 import { isEmailValid } from '@/utils/validationHandlers';
-import Logo from '@/components/Logo';
+import Logo from '@/assets/Logo';
 
 export default function Login() {
   const { signIn, isLoaded: isSignInLoaded } = useSignIn();
@@ -21,17 +21,19 @@ export default function Login() {
         const emailCheck = await signIn.create({
           identifier: email,
         });
+        console.log('After create call - emailCheck status:', emailCheck.status);
+
         if (emailCheck.status === 'needs_first_factor') {
           //has account, needs to enter password
           router.push({ pathname: '/login-password', params: { emailParam: email } });
         }
-        if (signIn.status === 'needs_identifier') {
-          //does not have account, needs to sign up
+      } catch (err: any) {
+        console.log(err);
+        // Check for the specific error message for non-existent account
+        if (err.message === "Couldn't find your account.") {
           console.log('user does not have an account');
           router.push({ pathname: '/sign-up', params: { emailParam: email } });
         }
-      } catch (err: any) {
-        console.log(err);
       }
     }
   };

@@ -28,7 +28,7 @@ const leagueEntry = () => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ width: 300, gap: 16 }}>
+      <View style={{ padding: 16, gap: 16 }}>
         <Text
           style={{
             fontSize: 24,
@@ -42,8 +42,35 @@ const leagueEntry = () => {
         <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 20, color: '#666' }}>
           You're all set! Now you can join an existing league or create your own.
         </Text>
-        <ButtonPrimary>Join an Exiting League</ButtonPrimary>
-        <ButtonPrimary>Create a New League</ButtonPrimary>
+        <Button
+          mode="contained"
+          textColor={theme.colors.onSurface}
+          style={{
+            backgroundColor: theme.colors.surface,
+            height: 65,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Join an Exiting Challenge
+        </Button>
+        <Button
+          onPress={() => router.push('/selectChallengeType')}
+          mode="contained"
+          textColor={theme.colors.onSurface}
+          style={{
+            backgroundColor: theme.colors.surface,
+            height: 65,
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          Create a New Challenge
+        </Button>
+      </View>
+      <View style={{ position: 'absolute', bottom: 25 }}>
         <Button mode="contained" onPress={handleLogout}>
           Log Out
         </Button>

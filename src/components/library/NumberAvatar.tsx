@@ -14,7 +14,7 @@ const NumberAvatar: React.FC<NumberAvatarProps> = ({
   start,
   end,
   step = 2,
-  size = 40,
+  size = 45,
   onSelect,
 }) => {
   const theme = useTheme();

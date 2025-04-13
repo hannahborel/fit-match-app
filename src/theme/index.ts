@@ -12,11 +12,11 @@ const theme = {
         mode: 'outlined',
       },
       variants: {
-        default: {
-          style: {
-            backgroundColor: 'transparent',
-            outlineColor: 'transparent',
+        outlined: {
+          colors: {
+            background: 'transparent',
           },
+          outlineColor: 'rgba(58, 70, 91, 1)',
         },
       },
     },
