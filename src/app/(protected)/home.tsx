@@ -4,6 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { Settings } from 'lucide-react-native';
 import { Modal, Portal, Button } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
+import { handleLogout } from '@/utils/helpers';
 
 const home = () => {
   const [visible, setVisible] = useState(false);
@@ -12,15 +13,6 @@ const home = () => {
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-
-  const handleLogout = async () => {
-    try {
-      await signOut();
-      router.replace('/login-email');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
 
   return (
     <>
@@ -48,7 +40,11 @@ const home = () => {
           contentContainerStyle={styles.modalContainer}
         >
           <View style={styles.modalContent}>
-            <Button mode="contained" onPress={handleLogout} style={styles.logoutButton}>
+            <Button
+              mode="contained"
+              onPress={() => handleLogout(router, signOut)}
+              style={styles.logoutButton}
+            >
               Log Out
             </Button>
           </View>

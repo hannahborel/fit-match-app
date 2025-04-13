@@ -60,7 +60,9 @@ const LoginPassword = () => {
         />
         <View style={{ alignSelf: 'flex-end' }}>
           <Pressable
-            onPress={() => router.push('/forgot-password')}
+            onPress={() =>
+              router.push({ pathname: '/forgot-password', params: { email: emailParam as string } })
+            }
             style={{ alignSelf: 'flex-end', marginTop: 8 }}
           >
             <Text
