@@ -1,4 +1,3 @@
-import ButtonPrimary from '@/components/library/ButtonPrimary';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';

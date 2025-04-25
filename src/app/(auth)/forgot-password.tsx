@@ -11,6 +11,7 @@ import PasswordVerification from '@/components/library/PasswordVerification';
 import { handleLogout } from '@/utils/helpers';
 export default function ForgotPassword() {
   const { email } = useLocalSearchParams();
+  //trim code before sending
 
   const [emailInput, setEmailInput] = useState(email as string);
   const [password, setPassword] = useState('');
@@ -85,7 +86,7 @@ export default function ForgotPassword() {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center' }}>
         {!successfulCreation && (
           <View style={{ gap: 16 }}>
             <InputPrimary
