@@ -5,7 +5,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, Pressable, Alert } from 'react-native';
 import { TextInput } from 'react-native-paper';
-import { isPasswordValid } from '@/utils/validationHandlers';
+import { isPasswordValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
 
 import { useLeagueStatus } from '@/context/LeagueStatus';

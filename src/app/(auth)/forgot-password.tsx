@@ -6,9 +6,9 @@ import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/library/InputPrimary';
 import ButtonPrimary from '@/components/library/ButtonPrimary';
 import { useLocalSearchParams } from 'expo-router';
-import { isEmailValid, isPasswordValid } from '@/utils/validationHandlers';
+import { isEmailValid, isPasswordValid } from '@/helpers/validationHandlers';
 import PasswordVerification from '@/components/library/PasswordVerification';
-import { handleLogout } from '@/utils/helpers';
+import { handleLogout } from '@/helpers/helpers';
 export default function ForgotPassword() {
   const { email } = useLocalSearchParams();
   //trim code before sending

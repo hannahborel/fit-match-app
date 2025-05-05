@@ -4,7 +4,7 @@ import { useSignIn, useAuth } from '@clerk/clerk-expo';
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/library/InputPrimary';
-import { isEmailValid } from '@/utils/validationHandlers';
+import { isEmailValid } from '@/helpers/validationHandlers';
 import Logo from '@/assets/Logo';
 
 export default function Login() {

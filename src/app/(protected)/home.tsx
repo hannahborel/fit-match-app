@@ -4,7 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { Settings } from 'lucide-react-native';
 import { Modal, Portal, Button } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
-import { handleLogout } from '@/utils/helpers';
+import { handleLogout } from '@/helpers/helpers';
 
 const home = () => {
   const [visible, setVisible] = useState(false);
