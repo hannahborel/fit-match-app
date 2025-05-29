@@ -11,7 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import PasswordVerification from '@/components/library/PasswordVerification';
 import { isPasswordValid, isEmailValid } from '@/helpers/validationHandlers';
-import LoadingSpinner from '@/components/LoadingSpinner';
+
 
 const signUp = () => {
   const theme = useTheme();
@@ -53,7 +53,7 @@ const signUp = () => {
   };
 
   if (loading) {
-    return <LoadingSpinner />;
+    return console.log
   }
 
   return (
