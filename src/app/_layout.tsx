@@ -21,8 +21,6 @@ import { useColorScheme } from 'react-native';
 import themeColors from '../constants/Colors';
 import { useEffect } from 'react';
 
-const CLERK_PUBLISHABLE_KEY = 'pk_test_dG91Y2hpbmctYmVkYnVnLTQ0LmNsZXJrLmFjY291bnRzLmRldiQ';
-
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
   const { leagueStatus } = useLeagueStatus();
