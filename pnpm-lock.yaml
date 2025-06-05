@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@babel/runtime':
+        specifier: ^7.27.6
+        version: 7.27.6
       '@clerk/clerk-expo':
         specifier: ^2.10.0
         version: 2.13.0(e808c3891084a46d21c531d9ebba359c)
