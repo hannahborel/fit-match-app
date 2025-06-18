@@ -9,11 +9,12 @@ import { isPasswordValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
 
 import { useLeagueStatus } from '@/context/LeagueStatus';
+
 const LoginPassword = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const { isLoaded, signIn, setActive } = useSignIn();
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const { leagueStatus } = useLeagueStatus();
 
   const disableSignIn = !isPasswordValid(password);
@@ -29,11 +30,8 @@ const LoginPassword = () => {
       });
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
-        if (leagueStatus) {
-          router.replace('/');
-        } else if (!leagueStatus) {
-          router.replace('/leaugeEntry');
-        }
+        // Redirect to loading page to check league data
+        router.replace('/loading');
       }
     } catch (err: any) {
       console.log(err);

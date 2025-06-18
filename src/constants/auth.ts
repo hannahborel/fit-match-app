@@ -1,21 +1,24 @@
+import Constants from 'expo-constants';
 import * as SecureStore from 'expo-secure-store';
 
+export const apiUrl = Constants.expoConfig?.extra?.API_BASE_URL;
+
 export const tokenCache = {
-  async getToken(key) {
+  async getToken(key: string) {
     try {
       return SecureStore.getItemAsync(key);
     } catch (err) {
       return null;
     }
   },
-  async saveToken(key, value) {
+  async saveToken(key: string, value: string) {
     try {
       return SecureStore.setItemAsync(key, value);
     } catch (err) {
       return;
     }
   },
-  async deleteToken(key) {
+  async deleteToken(key: string) {
     try {
       await SecureStore.deleteItemAsync(key);
     } catch (err) {

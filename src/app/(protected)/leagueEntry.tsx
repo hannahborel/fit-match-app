@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useTheme } from 'react-native-paper';
+import Constants from 'expo-constants';
 
 const leagueEntry = () => {
   const theme = useTheme();

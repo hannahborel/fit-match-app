@@ -20,6 +20,8 @@ import merge from 'deepmerge';
 import { useColorScheme } from 'react-native';
 import themeColors from '../constants/Colors';
 import { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { tokenCache } from '@/utils/tokenCache';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
@@ -46,23 +48,6 @@ const InitialLayout = () => {
   return <Slot />;
 };
 
-const tokenCache = {
-  async getToken(key: string) {
-    try {
-      return await SecureStore.getItemAsync(key);
-    } catch (err) {
-      return null;
-    }
-  },
-  async saveToken(key: string, value: string) {
-    try {
-      await SecureStore.setItemAsync(key, value);
-    } catch (err) {
-      return;
-    }
-  },
-};
-
 const customDarkTheme = { ...MD3DarkTheme, colors: themeColors.dark };
 const customLightTheme = { ...MD3LightTheme, colors: themeColors.light };
 
@@ -78,18 +63,22 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const paperTheme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
 
+  const queryClient = new QueryClient();
+
   return (
-    <ClerkProvider
-      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
-      tokenCache={tokenCache}
-    >
-      <PaperProvider theme={paperTheme}>
-        <SafeAreaProvider>
-          <LeagueStatusProvider>
-            <InitialLayout />
-          </LeagueStatusProvider>
-        </SafeAreaProvider>
-      </PaperProvider>
-    </ClerkProvider>
+    <QueryClientProvider client={queryClient}>
+      <ClerkProvider
+        publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+        tokenCache={tokenCache}
+      >
+        <PaperProvider theme={paperTheme}>
+          <SafeAreaProvider>
+            <LeagueStatusProvider>
+              <InitialLayout />
+            </LeagueStatusProvider>
+          </SafeAreaProvider>
+        </PaperProvider>
+      </ClerkProvider>
+    </QueryClientProvider>
   );
 }
