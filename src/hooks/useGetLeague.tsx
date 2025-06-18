@@ -1,0 +1,19 @@
+import { useQuery } from '@tanstack/react-query';
+import { useAuth } from '@clerk/clerk-expo';
+
+import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
+
+export const useGetLeagueById = () => {
+  console.log('useGetLeagueById hook called');
+  const { getToken, isSignedIn } = useAuth();
+
+  return useQuery({
+    queryKey: ['league'],
+    queryFn: async () => {
+      const token = await getToken();
+
+      return fetchLeagueByUserId(token);
+    },
+    enabled: isSignedIn, // Only run when user is signed in
+  });
+};

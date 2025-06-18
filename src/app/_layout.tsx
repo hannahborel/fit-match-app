@@ -1,0 +1,84 @@
+import { Slot, useRouter, useSegments } from 'expo-router';
+
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {
+  MD3LightTheme as DefaultTheme,
+  MD3DarkTheme,
+  MD3LightTheme,
+  PaperProvider,
+  adaptNavigationTheme,
+} from 'react-native-paper';
+import {
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native';
+import { ClerkProvider, useAuth, useUser } from '@clerk/clerk-expo';
+
+import { LeagueStatusProvider, useLeagueStatus } from '@/context/LeagueStatus';
+
+import merge from 'deepmerge';
+import { useColorScheme } from 'react-native';
+import themeColors from '../constants/Colors';
+import { useEffect } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { tokenCache } from '@/constants/auth';
+
+const InitialLayout = () => {
+  const { isLoaded, isSignedIn } = useAuth();
+  const { leagueStatus } = useLeagueStatus();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const inTabsGroup = segments[0] === '(auth)';
+
+    if (isSignedIn && !inTabsGroup) {
+      if (!leagueStatus) {
+        router.replace('/leagueEntry');
+      } else {
+        router.replace('/(protected)/home');
+      }
+    } else if (!isSignedIn) {
+      router.replace('/login-email');
+    }
+  }, [isSignedIn, leagueStatus]);
+
+  return <Slot />;
+};
+
+const customDarkTheme = { ...MD3DarkTheme, colors: themeColors.dark };
+const customLightTheme = { ...MD3LightTheme, colors: themeColors.light };
+
+const { LightTheme, DarkTheme } = adaptNavigationTheme({
+  reactNavigationLight: NavigationDefaultTheme,
+  reactNavigationDark: NavigationDarkTheme,
+});
+
+const CombinedDefaultTheme = merge(LightTheme, customLightTheme);
+const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
+
+export default function RootLayout() {
+  const colorScheme = useColorScheme();
+  const paperTheme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
+
+  const queryClient = new QueryClient();
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ClerkProvider
+        publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+        tokenCache={tokenCache}
+      >
+        <PaperProvider theme={paperTheme}>
+          <SafeAreaProvider>
+            <LeagueStatusProvider>
+              <InitialLayout />
+            </LeagueStatusProvider>
+          </SafeAreaProvider>
+        </PaperProvider>
+      </ClerkProvider>
+    </QueryClientProvider>
+  );
+}
