@@ -12,9 +12,7 @@ import {
   DarkTheme as NavigationDarkTheme,
   DefaultTheme as NavigationDefaultTheme,
 } from '@react-navigation/native';
-import { ClerkProvider, useAuth, useUser } from '@clerk/clerk-expo';
-
-import { LeagueStatusProvider, useLeagueStatus } from '@/context/LeagueStatus';
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 
 import merge from 'deepmerge';
 import { useColorScheme } from 'react-native';
@@ -22,10 +20,12 @@ import themeColors from '../constants/Colors';
 import { useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { tokenCache } from '@/constants/auth';
+import { useGetLeague } from '@/hooks/useGetLeague';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
-  const { leagueStatus } = useLeagueStatus();
+  const { data } = useGetLeague();
+
   const segments = useSegments();
   const router = useRouter();
 
@@ -35,7 +35,7 @@ const InitialLayout = () => {
     const inTabsGroup = segments[0] === '(auth)';
 
     if (isSignedIn && !inTabsGroup) {
-      if (!leagueStatus) {
+      if (!data.league) {
         router.replace('/leagueEntry');
       } else {
         router.replace('/(protected)/home');
@@ -43,7 +43,7 @@ const InitialLayout = () => {
     } else if (!isSignedIn) {
       router.replace('/login-email');
     }
-  }, [isSignedIn, leagueStatus]);
+  }, [isSignedIn]);
 
   return <Slot />;
 };
@@ -73,9 +73,7 @@ export default function RootLayout() {
       >
         <PaperProvider theme={paperTheme}>
           <SafeAreaProvider>
-            <LeagueStatusProvider>
-              <InitialLayout />
-            </LeagueStatusProvider>
+            <InitialLayout />
           </SafeAreaProvider>
         </PaperProvider>
       </ClerkProvider>

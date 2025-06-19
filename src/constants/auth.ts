@@ -8,6 +8,7 @@ export const tokenCache = {
     try {
       return SecureStore.getItemAsync(key);
     } catch (err) {
+      console.log(err);
       return null;
     }
   },
@@ -15,14 +16,14 @@ export const tokenCache = {
     try {
       return SecureStore.setItemAsync(key, value);
     } catch (err) {
-      return;
+      console.log(err);
     }
   },
   async deleteToken(key: string) {
     try {
       await SecureStore.deleteItemAsync(key);
     } catch (err) {
-      return;
+      console.log(err);
     }
   },
 };
