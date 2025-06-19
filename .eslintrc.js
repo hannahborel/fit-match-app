@@ -23,6 +23,7 @@ module.exports = {
     'react-native/no-color-literals': 'off',
     'react-native/sort-styles': 'off',
     'prettier/prettier': 'error',
+    'react/prop-types': 'off',
   },
   settings: {
     react: {
