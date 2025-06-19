@@ -19,7 +19,7 @@ module.exports = {
   },
   rules: {
     'react/react-in-jsx-scope': 'off',
-    'react-native/no-inline-styles': 'warn',
+    'react-native/no-inline-styles': 'off',
     'react-native/no-color-literals': 'off',
     'react-native/sort-styles': 'off',
     'prettier/prettier': 'error',
