@@ -1,5 +1,4 @@
 import { Stack } from 'expo-router';
-import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 

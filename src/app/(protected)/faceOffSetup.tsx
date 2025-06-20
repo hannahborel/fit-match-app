@@ -1,30 +1,50 @@
 import NumberAvatar from '../../components/library/NumberAvatar';
-import { useRouter, useNavigation } from 'expo-router';
-import { View, Alert, ActivityIndicator } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
-import InputPrimary from '../../components/library/InputPrimary';
-import CustomHeader from '../../components/library/CustomHeader';
-import ButtonPrimary from '../../components/library/ButtonPrimary';
-import React, { useState } from 'react';
+
+import { useCreateLeague } from '@/hooks/useCrateLeague';
+import { CreateLeagueInput } from '@/types/types';
 import { useUser } from '@clerk/clerk-expo';
-import { useAuth } from '@clerk/clerk-expo';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { Text } from 'react-native-paper';
+import ButtonPrimary from '../../components/library/ButtonPrimary';
+import CustomHeader from '../../components/library/CustomHeader';
+import InputPrimary from '../../components/library/InputPrimary';
 
 const FaceOffSetup = () => {
-  const router = useRouter();
-  const theme = useTheme();
   const { user } = useUser();
-  const { isSignedIn } = useAuth();
-
+  const { mutate: createLeague } = useCreateLeague();
   const [leagueName, setLeagueName] = useState('');
-  const [leagueSize, setLeagueSize] = useState(4);
-  const [regularWeeks, setRegularWeeks] = useState(4);
+  const [leagueSize, setLeagueSize] = useState<number>(0);
+  const [regularWeeks, setRegularWeeks] = useState<number>(0);
+  console.log(leagueSize);
+  console.log(regularWeeks);
 
   const disableCreateLeague = !leagueName.trim() || leagueSize <= 0 || regularWeeks <= 0 || !user;
 
+  const handleCreateLeague = () => {
+    const newLeague: CreateLeagueInput = {
+      name: leagueName,
+      size: leagueSize,
+      weeks: regularWeeks,
+      description: '',
+      ownerId: user!.id,
+      startDate: new Date().toISOString(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    createLeague(newLeague);
+  };
   return (
     <View style={{ flex: 1 }}>
       <CustomHeader title="FaceOff Setup" />
-      <View style={{ flex: 1, justifyContent: 'flex-start', paddingHorizontal: 28, marginTop: 36 }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'flex-start',
+          paddingHorizontal: 28,
+          marginTop: 36,
+        }}
+      >
         <View style={{ gap: 24, width: '100%' }}>
           <View style={{ gap: 8 }}>
             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>FACEOFF NAME</Text>
@@ -38,8 +58,12 @@ const FaceOffSetup = () => {
             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>REGULAR SEASON WEEKS</Text>
             <NumberAvatar start={4} end={16} step={4} setValue={setRegularWeeks} />
           </View>
-          <ButtonPrimary style={{ marginTop: 24 }} disabled={disableCreateLeague}>
-            Create League
+          <ButtonPrimary
+            style={{ marginTop: 24 }}
+            disabled={disableCreateLeague}
+            onPress={handleCreateLeague}
+          >
+            <Text>Create League</Text>
           </ButtonPrimary>
         </View>
       </View>

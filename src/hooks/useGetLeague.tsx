@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@clerk/clerk-expo';
-import { fetchLeagueByUserId } from '@/app/queries/fetchLeagueByUserId';
+import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 
 export const useGetLeague = () => {
   console.log('useGetLeagueById hook called');
