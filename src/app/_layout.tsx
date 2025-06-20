@@ -1,31 +1,28 @@
 import { Slot, useRouter, useSegments } from 'expo-router';
 
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import {
-  MD3LightTheme as DefaultTheme,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from '@react-navigation/native';
+import {
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
   adaptNavigationTheme,
 } from 'react-native-paper';
-import {
-  DarkTheme as NavigationDarkTheme,
-  DefaultTheme as NavigationDefaultTheme,
-} from '@react-navigation/native';
-import { ClerkProvider, useAuth, useUser } from '@clerk/clerk-expo';
-import * as SecureStore from 'expo-secure-store';
-import { LeagueStatusProvider, useLeagueStatus } from '@/context/LeagueStatus';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { tokenCache } from '@/utils/tokenCache';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import merge from 'deepmerge';
+import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import themeColors from '../constants/Colors';
-import { useEffect } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { tokenCache } from '@/utils/tokenCache';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
-  const { leagueStatus } = useLeagueStatus();
+
   const segments = useSegments();
   const router = useRouter();
 
@@ -35,15 +32,11 @@ const InitialLayout = () => {
     const inTabsGroup = segments[0] === '(auth)';
 
     if (isSignedIn && !inTabsGroup) {
-      if (!leagueStatus) {
-        router.replace('/leagueEntry');
-      } else {
-        router.replace('/(protected)/home');
-      }
+      router.replace('/loading');
     } else if (!isSignedIn) {
       router.replace('/login-email');
     }
-  }, [isSignedIn, leagueStatus]);
+  }, [isSignedIn]);
 
   return <Slot />;
 };
@@ -73,9 +66,7 @@ export default function RootLayout() {
       >
         <PaperProvider theme={paperTheme}>
           <SafeAreaProvider>
-            <LeagueStatusProvider>
-              <InitialLayout />
-            </LeagueStatusProvider>
+            <InitialLayout />
           </SafeAreaProvider>
         </PaperProvider>
       </ClerkProvider>
