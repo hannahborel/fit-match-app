@@ -13,7 +13,7 @@ import {
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { tokenCache } from '@/utils/tokenCache';
+import { tokenCache } from '@/constants/auth';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import merge from 'deepmerge';
 import { useEffect } from 'react';
