@@ -1,23 +1,20 @@
 import ButtonPrimary from '@/components/library/ButtonPrimary';
 import InputPrimary from '@/components/library/InputPrimary';
-import theme from '@/theme';
+
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, Pressable, Alert } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import { isPasswordValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
-
-import { useLeagueStatus } from '@/context/LeagueStatus';
+import theme from '@/theme';
 
 const LoginPassword = () => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const { isLoaded, signIn, setActive } = useSignIn();
   const [, setLoading] = useState(false);
-  const { leagueStatus } = useLeagueStatus();
 
-  const disableSignIn = !isPasswordValid(password);
   const { emailParam } = useLocalSearchParams();
 
   const handleSignIn = async () => {
@@ -33,9 +30,9 @@ const LoginPassword = () => {
         // Redirect to loading page to check league data
         router.replace('/loading');
       }
-    } catch (err: any) {
-      console.log(err);
-      if (err.message.includes('Password is incorrect')) {
+    } catch (err) {
+      if (err instanceof ReferenceError) {
+        console.log(err);
         Alert.alert('Password is incorrect');
       }
     }
@@ -74,8 +71,8 @@ const LoginPassword = () => {
           </Pressable>
         </View>
         <View style={{ marginTop: 24 }}>
-          <ButtonPrimary onPress={handleSignIn} disabled={disableSignIn}>
-            SIGN IN
+          <ButtonPrimary onPress={handleSignIn} disabled={isPasswordValid(password)}>
+            <Text>SIGN IN</Text>
           </ButtonPrimary>
         </View>
       </View>

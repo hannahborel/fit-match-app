@@ -1,23 +1,21 @@
-import React from 'react';
-import { View, Text as RNText, Pressable, Alert } from 'react-native';
-import { Text, TextInput, useTheme } from 'react-native-paper';
-import { useSignUp, useAuth } from '@clerk/clerk-expo';
-import { useState, useEffect } from 'react';
+import { useSignUp } from '@clerk/clerk-expo';
 import { router } from 'expo-router';
-import StyledInput from '../../components/library/InputPrimary';
-import ButtonPrimary from '../../components/library/ButtonPrimary';
+import React, { useState } from 'react';
+import { Pressable, Text as RNText, View } from 'react-native';
+import { Text, TextInput, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ButtonPrimary from '../../components/library/ButtonPrimary';
+import StyledInput from '../../components/library/InputPrimary';
 
-import { useLocalSearchParams } from 'expo-router';
 import PasswordVerification from '@/components/library/PasswordVerification';
-import { isPasswordValid, isEmailValid } from '@/helpers/validationHandlers';
-
+import { isEmailValid, isPasswordValid } from '@/helpers/validationHandlers';
+import { useLocalSearchParams } from 'expo-router';
 
 const signUp = () => {
   const theme = useTheme();
   const { emailParam } = useLocalSearchParams();
 
-  const { isLoaded, signUp, setActive } = useSignUp();
+  const { isLoaded, signUp } = useSignUp();
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -46,14 +44,15 @@ const signUp = () => {
 
       await signUp.prepareVerification({ strategy: 'email_code' });
       router.push('/verify-email');
-    } catch (err: any) {
-      console.log(err);
-      console.log(err.errors[0].message);
+    } catch (err) {
+      if (err instanceof ReferenceError) {
+        console.log('ERROR: ', err);
+      }
     }
   };
 
   if (loading) {
-    return console.log
+    return console.log;
   }
 
   return (
@@ -104,7 +103,7 @@ const signUp = () => {
         </View>
         <View style={{ marginTop: 24 }}>
           <ButtonPrimary onPress={onSignUpPress} disabled={disableSignUp} loading={loading}>
-            SIGN UP
+            <Text>SIGN UP</Text>
           </ButtonPrimary>
         </View>
         <Pressable
@@ -114,7 +113,7 @@ const signUp = () => {
           <View style={{ flexDirection: 'row' }}>
             <Text>Already have an account? </Text>
             <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
-              Sign In
+              <Text>Sign In</Text>
             </RNText>
           </View>
         </Pressable>

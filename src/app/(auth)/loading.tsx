@@ -3,12 +3,12 @@ import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@clerk/clerk-expo';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { useGetLeagueById } from '@/hooks/useGetLeagueById';
+import { useGetLeague } from '@/hooks/useGetLeague';
 
 const LoadingPage = () => {
   const router = useRouter();
   const { isSignedIn } = useAuth();
-  const { data, isLoading, error } = useGetLeagueById();
+  const { data, isLoading } = useGetLeague();
 
   useEffect(() => {
     // Only proceed if user is signed in and query is not loading

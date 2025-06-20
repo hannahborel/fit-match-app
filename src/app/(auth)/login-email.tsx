@@ -1,15 +1,16 @@
-import { useState, useEffect } from 'react';
-import { View, Pressable, Text as RNText } from 'react-native';
-import { useSignIn, useAuth } from '@clerk/clerk-expo';
-import { Text, TextInput, useTheme } from 'react-native-paper';
-import { useRouter } from 'expo-router';
+import Logo from '@/assets/Logo';
 import InputPrimary from '@/components/library/InputPrimary';
 import { isEmailValid } from '@/helpers/validationHandlers';
-import Logo from '@/assets/Logo';
+import { useSignIn } from '@clerk/clerk-expo';
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { View } from 'react-native';
+import { TextInput, useTheme } from 'react-native-paper';
 
 export default function Login() {
-  const { signIn, isLoaded: isSignInLoaded } = useSignIn();
+  const { signIn } = useSignIn();
   const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
   const [email, setEmail] = useState('');
 
@@ -27,13 +28,15 @@ export default function Login() {
           //has account, needs to enter password
           router.push({ pathname: '/login-password', params: { emailParam: email } });
         }
-      } catch (err: any) {
-        console.log(err);
-        // Check for the specific error message for non-existent account
-        if (err.message === "Couldn't find your account.") {
-          console.log('user does not have an account');
-          router.push({ pathname: '/sign-up', params: { emailParam: email } });
+      } catch (err) {
+        if (err instanceof ReferenceError) {
+          console.log(err);
+          setError('Clerk Could not Find the user by email');
+          // Clerk could not find the user by email.
+          return false;
         }
+        console.error('Unexpected error:', error);
+        return false;
       }
     }
   };

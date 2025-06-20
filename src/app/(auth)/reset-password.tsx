@@ -38,26 +38,28 @@ export default function ResetPassword() {
         setError('An unexpected issue occurred. Please try again.');
       }
       setLoading(false);
-    } catch (err: any) {
-      setLoading(false);
-      console.error('Error resetting password:', JSON.stringify(err, null, 2));
-
-      if (err.errors && err.errors[0]) {
-        const errorCode = err.errors[0].code;
-        if (errorCode === 'form_password_pwned') {
-          setError(
-            'This password is too common or has been exposed in a data breach. Please choose a stronger, unique password.'
-          );
-        } else if (errorCode === 'form_code_incorrect') {
-          setError('The reset code is incorrect. Please check your SMS and try again.');
-        } else if (errorCode === 'form_password_invalid') {
-          setError('Password does not meet the requirements. Please ensure it is strong enough.');
-        } else {
-          setError(err.errors[0].longMessage || 'An error occurred. Please try again.');
-        }
-      } else {
-        setError('An unexpected error occurred. Please try again.');
+    } catch (err) {
+      if (err instanceof ReferenceError) {
+        setLoading(false);
+        console.error('Error resetting password:', JSON.stringify(err, null, 2));
       }
+
+      // if (err.errors && err.errors[0]) {
+      //   const errorCode = err.errors[0].code;
+      //   if (errorCode === 'form_password_pwned') {
+      //     setError(
+      //       'This password is too common or has been exposed in a data breach. Please choose a stronger, unique password.'
+      //     );
+      //   } else if (errorCode === 'form_code_incorrect') {
+      //     setError('The reset code is incorrect. Please check your SMS and try again.');
+      //   } else if (errorCode === 'form_password_invalid') {
+      //     setError('Password does not meet the requirements. Please ensure it is strong enough.');
+      //   } else {
+      //     setError(err.errors[0].longMessage || 'An error occurred. Please try again.');
+      //   }
+      // } else {
+      //   setError('An unexpected error occurred. Please try again.');
+      // }
     }
   };
 
@@ -102,17 +104,17 @@ export default function ResetPassword() {
         </View>
         <View style={{ marginTop: 24 }}>
           <ButtonPrimary onPress={onResetPassword} loading={loading} disabled={loading}>
-            RESET PASSWORD
+            <Text>RESET PASSWORD</Text>
           </ButtonPrimary>
         </View>
         <Pressable
-          onPress={() => router.push('/login-email')}
+          onPress={() => router.push('/login')}
           style={{ marginTop: 16, alignItems: 'center' }}
         >
           <View style={{ flexDirection: 'row' }}>
             <Text>Remember your password? </Text>
             <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
-              Sign In
+              <Text>Sign In</Text>
             </RNText>
           </View>
         </Pressable>
