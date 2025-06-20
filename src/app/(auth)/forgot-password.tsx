@@ -1,128 +1,95 @@
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { useAuth, useSignIn } from '@clerk/clerk-expo';
-import { Text, TextInput, useTheme } from 'react-native-paper';
+import { useState } from 'react';
+import { View, Pressable, Text as RNText } from 'react-native';
+import { useSignIn } from '@clerk/clerk-expo';
+import { Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/library/InputPrimary';
 import ButtonPrimary from '@/components/library/ButtonPrimary';
-import { useLocalSearchParams } from 'expo-router';
-import { isEmailValid, isPasswordValid } from '@/helpers/validationHandlers';
-import PasswordVerification from '@/components/library/PasswordVerification';
-import { handleLogout } from '@/helpers/helpers';
+import Logo from '@/assets/Logo';
+import { formatPhoneNumberInput } from '@/helpers/formatPhoneNumberInput';
+
 export default function ForgotPassword() {
-  const { email } = useLocalSearchParams();
-  //trim code before sending
-
-  const [emailInput, setEmailInput] = useState(email as string);
-  const [password, setPassword] = useState('');
-  const [code, setCode] = useState('');
-  const [successfulCreation, setSuccessfulCreation] = useState(false);
-  const [secondFactor, setSecondFactor] = useState(false);
-  const [error, setError] = useState('');
-  const { signOut } = useAuth();
+  const { isLoaded, signIn } = useSignIn();
   const router = useRouter();
-  const { isSignedIn } = useAuth();
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const theme = useTheme();
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (isSignedIn) {
-      router.push('/');
-    }
-  }, [isSignedIn, router]);
+  const handlePhoneNumberChange = (text: string) => {
+    const formatted = formatPhoneNumberInput(text);
+    setPhoneNumber(formatted);
+    setError(null);
+  };
 
-  if (!isLoaded) {
-    return null;
-  }
-
-  // Send the password reset code to the user's email
-  async function create(e: any) {
-    e.preventDefault();
-    if (signIn?.status === 'needs_identifier') {
-      console.log('it looks like this email does not have an account');
+  const onRequestReset = async () => {
+    if (!isLoaded || !signIn) {
       return;
     }
-    await signIn
-      ?.create({
-        strategy: 'reset_password_email_code',
-        identifier: emailInput,
-      })
-      .then(_ => {
-        setSuccessfulCreation(true);
-        setError('');
-      })
-      .catch(err => {
-        console.error('error', err.errors[0].longMessage);
-        setError(err.errors[0].longMessage);
+    setLoading(true);
+    setError(null);
+    try {
+      // Remove hyphens before sending to Clerk
+      const cleanPhoneNumber = phoneNumber.replace(/-/g, '');
+      const result = await signIn.create({
+        strategy: 'reset_password_phone_code',
+        identifier: cleanPhoneNumber,
       });
-  }
 
-  // Reset the user's password.
-  // Upon successful reset, the user will be
-  // signed in and redirected to the home page
-  async function reset(e: any) {
-    e.preventDefault();
-    await signIn
-      ?.attemptFirstFactor({
-        strategy: 'reset_password_email_code',
-        code,
-        password,
-      })
-      .then(result => {
-        // Check if 2FA is required
-        if (result.status === 'complete') {
-          //need a page here to be like 'your password has been reset, lets login
-          handleLogout(router, signOut);
-          setError('');
-          router.push('/login-email');
-        } else {
-          console.log(result);
-        }
-      })
-      .catch(err => {
-        console.error('error', err.errors[0].longMessage);
-        setError(err.errors[0].longMessage);
-      });
-  }
+      // If successful, navigate to the reset password screen
+      if (result.status === 'needs_first_factor') {
+        router.push('/reset-password');
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+    } catch (err) {
+      if (err instanceof ReferenceError) {
+        console.error('Error requesting password reset:', JSON.stringify(err, null, 2));
+        setError('An error occurred while sending the reset code');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
-      <View style={{ flex: 1, alignItems: 'center' }}>
-        {!successfulCreation && (
-          <View style={{ gap: 16 }}>
-            <InputPrimary
-              label="Email"
-              keyboardType="email-address"
-              value={emailInput}
-              placeholder="e.g +1234567890"
-              onChangeText={text => setEmailInput(text)}
-            />
-
-            <ButtonPrimary disabled={!isEmailValid(emailInput)} onPress={create}>
-              Send password reset code
-            </ButtonPrimary>
-            {error && <p>{error}</p>}
-          </View>
+      <View style={{ width: 300, alignSelf: 'center' }}>
+        <View style={{ alignItems: 'center', marginBottom: 24 }}>
+          <Logo />
+        </View>
+        {error && (
+          <Text style={{ color: theme.colors.error, textAlign: 'center', marginBottom: 16 }}>
+            {error}
+          </Text>
         )}
-
-        {successfulCreation && (
-          <View style={{ gap: 16, width: 300 }}>
-            <Text>Enter the password reset code that was sent to your phone number</Text>
-            <InputPrimary label="Email Code" value={code} onChangeText={text => setCode(text)} />
-            <InputPrimary
-              label="New Password"
-              value={password}
-              onChangeText={text => setPassword(text)}
-            />
-            <PasswordVerification password={password} />
-
-            <ButtonPrimary disabled={!isPasswordValid(password)} onPress={reset}>
-              Reset
-            </ButtonPrimary>
-            {error && <Text>{error}</Text>}
+        <View style={{ gap: 8 }}>
+          <InputPrimary
+            label="Phone Number"
+            value={phoneNumber}
+            onChangeText={handlePhoneNumberChange}
+            autoCapitalize="none"
+            keyboardType="phone-pad"
+            maxLength={12} // 10 digits + 2 hyphens
+            error={!!error}
+          />
+        </View>
+        <View style={{ marginTop: 24 }}>
+          <ButtonPrimary onPress={onRequestReset} loading={loading} disabled={loading}>
+            <Text>SEND RESET CODE</Text>
+          </ButtonPrimary>
+        </View>
+        <Pressable
+          onPress={() => router.push('/login')}
+          style={{ marginTop: 16, alignItems: 'center' }}
+        >
+          <View style={{ flexDirection: 'row' }}>
+            <Text>Remember your password? </Text>
+            <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
+              <Text> Sign In</Text>
+            </RNText>
           </View>
-        )}
-
-        {secondFactor && <Text>2FA is required, but this UI does not handle that</Text>}
+        </Pressable>
       </View>
     </View>
   );

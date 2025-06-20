@@ -4,7 +4,6 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useTheme } from 'react-native-paper';
-import Constants from 'expo-constants';
 
 const leagueEntry = () => {
   const theme = useTheme();
@@ -40,7 +39,7 @@ const leagueEntry = () => {
           Hey, {firstName}!
         </Text>
         <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 20, color: '#666' }}>
-          You're all set! Now you can join an existing league or create your own.
+          You&#39;re all set;rere all set! Now you can join an existing league or create your own.
         </Text>
         <Button
           mode="contained"
@@ -53,7 +52,7 @@ const leagueEntry = () => {
             alignItems: 'center',
           }}
         >
-          Join an Exiting Challenge
+          <Text>Join an Exiting Challenge</Text>
         </Button>
         <Button
           onPress={() => router.push('/selectChallengeType')}
@@ -67,12 +66,12 @@ const leagueEntry = () => {
             alignItems: 'center',
           }}
         >
-          Create a New Challenge
+          <Text>Create a New Challenge</Text>
         </Button>
       </View>
       <View style={{ position: 'absolute', bottom: 25 }}>
         <Button mode="contained" onPress={handleLogout}>
-          Log Out
+          <Text>Log Out</Text>
         </Button>
       </View>
     </View>

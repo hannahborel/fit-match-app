@@ -45,7 +45,7 @@ const home = () => {
               onPress={() => handleLogout(router, signOut)}
               style={styles.logoutButton}
             >
-              Log Out
+              <Text>Log Out</Text>
             </Button>
           </View>
         </Modal>

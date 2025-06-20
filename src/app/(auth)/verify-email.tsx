@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import ButtonPrimary from '@/components/library/ButtonPrimary';
-import { useLeagueStatus } from '@/context/LeagueStatus';
+
 import InputPrimary from '@/components/library/InputPrimary';
 import { useSignUp } from '@clerk/clerk-expo';
-import { router } from 'expo-router';
 
 export default function VerifyEmail() {
   const theme = useTheme();
-  const { leagueStatus } = useLeagueStatus();
+
   const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const { isLoaded, signUp, setActive } = useSignUp();
   const onPressVerify = async () => {
     console.log('onPressVerify', code);
@@ -20,14 +19,17 @@ export default function VerifyEmail() {
     try {
       const completeSignUp = await signUp.attemptEmailAddressVerification({ code });
       await setActive({ session: completeSignUp.createdSessionId });
-      if (leagueStatus) {
-        router.replace('/(protected)/home');
-      } else {
-        router.replace('/leagueEntry');
+      // if (leagueStatus) {
+      //   router.replace('/(protected)/home');
+      // } else {
+      //   router.replace('/leagueEntry');
+      // }
+    } catch (err) {
+      if (err instanceof ReferenceError) {
+        console.log('ERROR: ', err);
       }
-    } catch (err: any) {
-      console.log(err);
-      console.log(err.errors[0].message);
+      // console.log(err);
+      // console.log(err.errors[0].message);
     }
   };
 
@@ -47,7 +49,9 @@ export default function VerifyEmail() {
 
         <InputPrimary value={code} onChangeText={text => setCode(text)} maxLength={6} />
         <View style={{ marginTop: 24 }}>
-          <ButtonPrimary onPress={onPressVerify}>Verify Email</ButtonPrimary>
+          <ButtonPrimary onPress={onPressVerify}>
+            <Text>Verify Email</Text>
+          </ButtonPrimary>
         </View>
       </View>
     </View>
