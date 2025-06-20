@@ -108,6 +108,9 @@ importers:
       '@babel/plugin-transform-runtime':
         specifier: ^7.26.10
         version: 7.27.4(@babel/core@7.27.4)
+      '@expo/config':
+        specifier: ^11.0.10
+        version: 11.0.10
       '@testing-library/jest-native':
         specifier: ^5.4.3
         version: 5.4.3(react-native@0.76.8(@babel/core@7.27.4)(@babel/preset-env@7.27.2(@babel/core@7.27.4))(@types/react@18.3.23)(react@18.3.1))(react-test-renderer@18.3.1(react@18.3.1))(react@18.3.1)

@@ -51,6 +51,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/plugin-transform-runtime": "^7.26.10",
+    "@expo/config": "^11.0.10",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.9.0",
     "@tsconfig/react-native": "^3.0.5",
