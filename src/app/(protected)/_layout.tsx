@@ -9,16 +9,15 @@ export default function ProtectedLayout() {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: theme.colors.background,
       }}
     >
       <Stack
         screenOptions={{
-          headerShown: false,
+          headerShown: true,
           contentStyle: {
             backgroundColor: theme.colors.background,
             width: '100%',
-            paddingHorizontal: 16,
+            paddingTop: 16,
           },
         }}
       >

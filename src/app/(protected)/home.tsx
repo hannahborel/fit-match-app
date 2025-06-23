@@ -1,36 +1,49 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
-import { Settings } from 'lucide-react-native';
-import { Modal, Portal, Button } from 'react-native-paper';
+import { MenuIcon } from 'lucide-react-native';
+import { Modal, Portal, Button, useTheme } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
 import { handleLogout } from '@/helpers/helpers';
+import { useGetLeague } from '@/hooks/useGetLeague';
+import CardElement from '@/components/elements/CardElement';
 
 const home = () => {
   const [visible, setVisible] = useState(false);
   const { signOut } = useAuth();
   const router = useRouter();
-
+  const { data: LeagueData } = useGetLeague();
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+  const theme = useTheme();
 
+  console.log(JSON.stringify(LeagueData, null, 2));
   return (
     <>
       <Stack.Screen
         options={{
           title: 'Face-Off Home',
+          headerStyle: {
+            backgroundColor: theme.colors.background,
+          },
+          headerTitleStyle: {
+            color: theme.colors.onBackground,
+          },
+
           headerLeft: () => (
             <TouchableOpacity style={{ marginLeft: 16 }} onPress={showModal}>
-              <Settings size={24} color="white" />
+              <MenuIcon color={theme.colors.onBackground} size={24} />
             </TouchableOpacity>
           ),
           headerShown: true,
         }}
       />
-      <View style={{ flex: 1, justifyContent: 'center', padding: 16 }}>
-        <Text style={{ fontSize: 20 }}>
-          Success you have signed in. This is going to be your dashboard
-        </Text>
+      <View style={{ flex: 1 }}>
+        <CardElement title={'YOUR LEAGUE STARTS IN'}>
+          <View>
+            <Text>card content</Text>
+          </View>
+        </CardElement>
       </View>
 
       <Portal>
