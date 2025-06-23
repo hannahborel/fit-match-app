@@ -16,8 +16,6 @@ const FaceOffSetup = () => {
   const [leagueName, setLeagueName] = useState('');
   const [leagueSize, setLeagueSize] = useState<number>(0);
   const [regularWeeks, setRegularWeeks] = useState<number>(0);
-  console.log(leagueSize);
-  console.log(regularWeeks);
 
   const disableCreateLeague = !leagueName.trim() || leagueSize <= 0 || regularWeeks <= 0 || !user;
 
@@ -26,11 +24,8 @@ const FaceOffSetup = () => {
       name: leagueName,
       size: leagueSize,
       weeks: regularWeeks,
-      description: '',
-      ownerId: user!.id,
-      startDate: new Date().toISOString(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      description: 'Test Face off 1',
+      startDate: new Date(),
     };
     createLeague(newLeague);
   };

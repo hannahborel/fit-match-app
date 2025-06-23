@@ -4,8 +4,7 @@ import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 
 export const useGetLeague = () => {
   console.log('useGetLeagueById hook called');
-  const { getToken, isSignedIn } = useAuth();
-
+  const { getToken } = useAuth();
   return useQuery({
     queryKey: ['league'],
     queryFn: async () => {
@@ -13,6 +12,6 @@ export const useGetLeague = () => {
 
       return fetchLeagueByUserId(token);
     },
-    enabled: isSignedIn, // Only run when user is signed in
+    enabled: true, // Only run when user is signed in
   });
 };

@@ -16,14 +16,14 @@ const LoadingPage = () => {
       router.replace('/login-email');
       return;
     }
-
+    console.log('data: ', data);
     if (!isLoading) {
       if (data.league) {
         // User has league data, go to home
         router.replace('/(protected)/home');
       } else {
         // User has no league data, go to league entry
-        router.replace('/leagueEntry');
+        router.push('/leagueEntry');
       }
     }
   }, [isSignedIn, data, isLoading, router]);

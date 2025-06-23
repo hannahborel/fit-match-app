@@ -1,20 +1,21 @@
 import { apiUrl } from '@/constants/auth';
 import { CreateLeagueInput } from '@/types/types';
-import { useAuth } from '@clerk/clerk-expo';
 
-export const createLeague = async (data: CreateLeagueInput) => {
+export const createLeague = async (data: CreateLeagueInput, token: string | null) => {
+  console.log('data param: ', data);
   console.log('createLeague query fn hit');
-  const getToken = useAuth();
-  const token = getToken;
-  const res = await fetch(`${apiUrl}/create-league`, {
+
+  const res = await fetch(`${apiUrl}/api/create-league`, {
     method: 'POST',
+
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   });
   const response = await res.json();
+  console.log(response);
 
   if (!res.ok) {
     throw new Error('Failed to create league');
