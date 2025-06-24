@@ -1,27 +1,29 @@
 import { Stack } from 'expo-router';
 import { useTheme } from 'react-native-paper';
 
-
 export default function ProtectedLayout() {
   const theme = useTheme();
 
   return (
-
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: {
-            backgroundColor: theme.colors.background,
-            width: '100%',
-           
-          },
+    <Stack
+      screenOptions={{
+        headerShown: false,
+        contentStyle: {
+          backgroundColor: theme.colors.background,
+          width: '100%',
+        },
+      }}
+    >
+      <Stack.Screen
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_bottom',
         }}
-      >
-       <Stack.Screen options={{presentation: 'modal', animation: 'slide_from_bottom'}} name="userProfile" />
-        <Stack.Screen name="leagueEntry" />
-        <Stack.Screen name="selectChallengeType" />
-        <Stack.Screen name="faceOffSetup" />
-      </Stack>
-
+        name="userProfile"
+      />
+      <Stack.Screen name="leagueEntry" />
+      <Stack.Screen name="selectChallengeType" />
+      <Stack.Screen name="faceOffSetup" />
+    </Stack>
   );
 }
