@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router';
 import { X } from 'lucide-react-native';
-
 import { TouchableOpacity, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
