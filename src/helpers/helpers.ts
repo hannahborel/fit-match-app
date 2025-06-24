@@ -1,4 +1,9 @@
-export const handleLogout = async (router: any, signOut: any) => {
+import { Router } from 'expo-router';
+
+export const handleLogout = async (
+  router: Router,
+  signOut: () => Promise<void>,
+) => {
   try {
     await signOut();
     router.replace('/login-email');

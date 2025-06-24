@@ -1,3 +1,5 @@
+import { handleLogout } from '@/helpers/helpers';
+import { useAuth } from '@clerk/clerk-expo';
 import {
   DrawerContentComponentProps,
   DrawerContentScrollView,
@@ -9,6 +11,7 @@ import { Drawer } from 'expo-router/drawer';
 
 function CustomDrawerComntentProps(props: DrawerContentComponentProps) {
   const { navigation } = props; // ← drawer navigation object
+  const { signOut } = useAuth();
 
   /** Closes the drawer, then navigates */
   const closeThenNavigate = (href: string) => {
@@ -28,6 +31,15 @@ function CustomDrawerComntentProps(props: DrawerContentComponentProps) {
       <DrawerItem
         label="Settings"
         onPress={() => closeThenNavigate('/(protected)/userSettings')}
+      />
+      <DrawerItem
+        label="Logout"
+        onPress={() => {
+          // Handle logout logic here
+          handleLogout(router, signOut);
+          // For example, you might want to clear user data or redirect to login
+          closeThenNavigate('/(auth)/login-email');
+        }}
       />
     </DrawerContentScrollView>
   );
