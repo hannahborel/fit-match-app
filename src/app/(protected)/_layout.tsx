@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import { useTheme } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function ProtectedLayout() {
   const theme = useTheme();
