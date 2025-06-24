@@ -8,7 +8,7 @@ export const userSettings = () => {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <TouchableOpacity
         onPress={() => {
-          router.push('home');
+          router.back();
         }}
       >
         <X />

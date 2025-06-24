@@ -8,16 +8,26 @@ import { router } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 
 function CustomDrawerComntentProps(props: DrawerContentComponentProps) {
+  const { navigation } = props; // ← drawer navigation object
+
+  /** Closes the drawer, then navigates */
+  const closeThenNavigate = (href: string) => {
+    navigation.closeDrawer(); // 1. start close animation
+    setTimeout(() => {
+      // 2. wait one frame
+      router.push(href); // 3. push the new route
+    }, 500);
+  };
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       <DrawerItem
         label="My Profile"
-        onPress={() => router.push('/(protected)/userProfile')}
+        onPress={() => closeThenNavigate('/(protected)/userProfile')}
       />
       <DrawerItem
         label="Settings"
-        onPress={() => router.push('/(protected)/userSettings')}
+        onPress={() => closeThenNavigate('/(protected)/userSettings')}
       />
     </DrawerContentScrollView>
   );
