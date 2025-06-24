@@ -54,7 +54,8 @@ const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const paperTheme = colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
+  const paperTheme =
+    colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
 
   const queryClient = new QueryClient();
 

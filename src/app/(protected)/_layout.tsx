@@ -8,6 +8,7 @@ export default function ProtectedLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+
         contentStyle: {
           backgroundColor: theme.colors.background,
           width: '100%',
@@ -20,6 +21,13 @@ export default function ProtectedLayout() {
           animation: 'slide_from_bottom',
         }}
         name="userProfile"
+      />
+      <Stack.Screen
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_bottom',
+        }}
+        name="userSettings"
       />
       <Stack.Screen name="leagueEntry" />
       <Stack.Screen name="selectChallengeType" />

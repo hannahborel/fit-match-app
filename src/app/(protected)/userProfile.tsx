@@ -10,7 +10,8 @@ export const userProfile = () => {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <TouchableOpacity
         onPress={() => {
-          router.push('home');
+          console.log('userProfile: back to home');
+          router.back();
         }}
       >
         <X />

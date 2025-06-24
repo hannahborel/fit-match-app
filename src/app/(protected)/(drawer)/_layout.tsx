@@ -15,6 +15,10 @@ function CustomDrawerComntentProps(props: DrawerContentComponentProps) {
         label="My Profile"
         onPress={() => router.push('/(protected)/userProfile')}
       />
+      <DrawerItem
+        label="Settings"
+        onPress={() => router.push('/(protected)/userSettings')}
+      />
     </DrawerContentScrollView>
   );
 }
@@ -28,6 +32,7 @@ export const DrawerLayout = () => {
         name="home"
         options={{ drawerItemStyle: { display: 'none' } }}
       />
+
       <Drawer.Screen name="userProfile" options={{ title: 'My Profile' }} />
     </Drawer>
   );
