@@ -3,8 +3,8 @@ import { View, Pressable, Text as RNText } from 'react-native';
 import { useSignIn } from '@clerk/clerk-expo';
 import { Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import InputPrimary from '@/components/library/InputPrimary';
-import ButtonPrimary from '@/components/library/ButtonPrimary';
+import InputPrimary from '@/components/elements/InputPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import Logo from '@/assets/Logo';
 import { formatPhoneNumberInput } from '@/helpers/formatPhoneNumberInput';
 
@@ -44,7 +44,10 @@ export default function ForgotPassword() {
       }
     } catch (err) {
       if (err instanceof ReferenceError) {
-        console.error('Error requesting password reset:', JSON.stringify(err, null, 2));
+        console.error(
+          'Error requesting password reset:',
+          JSON.stringify(err, null, 2),
+        );
         setError('An error occurred while sending the reset code');
       }
     } finally {
@@ -59,7 +62,13 @@ export default function ForgotPassword() {
           <Logo />
         </View>
         {error && (
-          <Text style={{ color: theme.colors.error, textAlign: 'center', marginBottom: 16 }}>
+          <Text
+            style={{
+              color: theme.colors.error,
+              textAlign: 'center',
+              marginBottom: 16,
+            }}
+          >
             {error}
           </Text>
         )}
@@ -75,7 +84,11 @@ export default function ForgotPassword() {
           />
         </View>
         <View style={{ marginTop: 24 }}>
-          <ButtonPrimary onPress={onRequestReset} loading={loading} disabled={loading}>
+          <ButtonPrimary
+            onPress={onRequestReset}
+            loading={loading}
+            disabled={loading}
+          >
             <Text>SEND RESET CODE</Text>
           </ButtonPrimary>
         </View>
@@ -85,7 +98,12 @@ export default function ForgotPassword() {
         >
           <View style={{ flexDirection: 'row' }}>
             <Text>Remember your password? </Text>
-            <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
+            <RNText
+              style={{
+                color: theme.colors.primary,
+                textDecorationLine: 'underline',
+              }}
+            >
               <Text> Sign In</Text>
             </RNText>
           </View>

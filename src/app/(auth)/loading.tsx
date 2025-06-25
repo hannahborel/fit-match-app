@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@clerk/clerk-expo';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import LoadingSpinner from '@/components/elements/LoadingSpinner';
 import { useGetLeague } from '@/hooks/useGetLeague';
 
 const LoadingPage = () => {
   const router = useRouter();
   const { isSignedIn } = useAuth();
-  const { data, isLoading } = useGetLeague();
+  const { data, isLoading, error } = useGetLeague();
 
   useEffect(() => {
     // Only proceed if user is signed in and query is not loading
@@ -28,6 +28,7 @@ const LoadingPage = () => {
     }
   }, [isSignedIn, data, isLoading, router]);
 
+  if (error) console.log('Error fetching league data:', error);
   // Show loading spinner while checking
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

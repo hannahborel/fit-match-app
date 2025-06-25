@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import ButtonPrimary from '@/components/library/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
-import InputPrimary from '@/components/library/InputPrimary';
+import InputPrimary from '@/components/elements/InputPrimary';
 import { useSignUp } from '@clerk/clerk-expo';
 
 export default function VerifyEmail() {
@@ -17,7 +17,9 @@ export default function VerifyEmail() {
     if (!isLoaded) return;
     setLoading(true);
     try {
-      const completeSignUp = await signUp.attemptEmailAddressVerification({ code });
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code,
+      });
       await setActive({ session: completeSignUp.createdSessionId });
       // if (leagueStatus) {
       //   router.replace('/(protected)/home');
@@ -34,7 +36,14 @@ export default function VerifyEmail() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 16 }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+      }}
+    >
       <View style={{ width: 300 }}>
         <Text
           style={{
@@ -47,7 +56,11 @@ export default function VerifyEmail() {
           Enter the 6-digit code sent to your email
         </Text>
 
-        <InputPrimary value={code} onChangeText={text => setCode(text)} maxLength={6} />
+        <InputPrimary
+          value={code}
+          onChangeText={(text) => setCode(text)}
+          maxLength={6}
+        />
         <View style={{ marginTop: 24 }}>
           <ButtonPrimary onPress={onPressVerify}>
             <Text>Verify Email</Text>

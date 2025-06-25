@@ -1,5 +1,5 @@
 import Logo from '@/assets/Logo';
-import InputPrimary from '@/components/library/InputPrimary';
+import InputPrimary from '@/components/elements/InputPrimary';
 import { isEmailValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
@@ -22,11 +22,17 @@ export default function Login() {
         const emailCheck = await signIn.create({
           identifier: email,
         });
-        console.log('After create call - emailCheck status:', emailCheck.status);
+        console.log(
+          'After create call - emailCheck status:',
+          emailCheck.status,
+        );
 
         if (emailCheck.status === 'needs_first_factor') {
           //has account, needs to enter password
-          router.push({ pathname: '/login-password', params: { emailParam: email } });
+          router.push({
+            pathname: '/login-password',
+            params: { emailParam: email },
+          });
         }
       } catch (err) {
         if (err instanceof ReferenceError) {
@@ -51,12 +57,16 @@ export default function Login() {
           <InputPrimary
             label="Email"
             value={email}
-            onChangeText={text => setEmail(text)}
+            onChangeText={(text) => setEmail(text)}
             autoCapitalize="none"
             keyboardType="email-address"
             right={
               <TextInput.Icon
-                color={isValidEmail ? theme.colors.primary : theme.colors.surfaceDisabled}
+                color={
+                  isValidEmail
+                    ? theme.colors.primary
+                    : theme.colors.surfaceDisabled
+                }
                 icon="arrow-right-circle"
                 onPress={handleContinue}
                 disabled={!isValidEmail}

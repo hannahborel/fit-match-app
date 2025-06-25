@@ -17,3 +17,6 @@ export type CreateLeagueInput = {
   weeks: number;
   startDate: Date; // ISO string, e.g. "2025-06-30T00:00:00.000Z"
 };
+export type CountdownTimerProps = {
+  targetTime: string; // ISO date string
+};

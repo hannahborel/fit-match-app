@@ -1,5 +1,5 @@
-import ButtonPrimary from '@/components/library/ButtonPrimary';
-import InputPrimary from '@/components/library/InputPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import InputPrimary from '@/components/elements/InputPrimary';
 
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
@@ -16,7 +16,7 @@ const LoginPassword = () => {
   const [, setLoading] = useState(false);
 
   const { emailParam } = useLocalSearchParams();
-
+  console.log(isPasswordValid(password));
   const handleSignIn = async () => {
     if (!isLoaded) return;
     setLoading(true);
@@ -44,7 +44,7 @@ const LoginPassword = () => {
         <InputPrimary
           label="Password"
           value={password}
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
           secureTextEntry={!showPassword}
           right={
             <TextInput.Icon
@@ -56,7 +56,10 @@ const LoginPassword = () => {
         <View style={{ alignSelf: 'flex-end' }}>
           <Pressable
             onPress={() =>
-              router.push({ pathname: '/forgot-password', params: { email: emailParam as string } })
+              router.push({
+                pathname: '/forgot-password',
+                params: { email: emailParam as string },
+              })
             }
             style={{ alignSelf: 'flex-end', marginTop: 8 }}
           >
@@ -71,7 +74,10 @@ const LoginPassword = () => {
           </Pressable>
         </View>
         <View style={{ marginTop: 24 }}>
-          <ButtonPrimary onPress={handleSignIn} disabled={isPasswordValid(password)}>
+          <ButtonPrimary
+            onPress={handleSignIn}
+            disabled={!isPasswordValid(password)}
+          >
             <Text>SIGN IN</Text>
           </ButtonPrimary>
         </View>

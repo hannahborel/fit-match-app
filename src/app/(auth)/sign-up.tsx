@@ -4,10 +4,10 @@ import React, { useState } from 'react';
 import { Pressable, Text as RNText, View } from 'react-native';
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ButtonPrimary from '../../components/library/ButtonPrimary';
-import StyledInput from '../../components/library/InputPrimary';
+import ButtonPrimary from '../../components/elements/ButtonPrimary';
+import StyledInput from '../../components/elements/InputPrimary';
 
-import PasswordVerification from '@/components/library/PasswordVerification';
+import PasswordVerification from '@/components/elements/PasswordVerification';
 import { isEmailValid, isPasswordValid } from '@/helpers/validationHandlers';
 import { useLocalSearchParams } from 'expo-router';
 
@@ -25,7 +25,10 @@ const signUp = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const disableSignUp =
-    !firstName || !lastName || !isEmailValid(email) || !isPasswordValid(password);
+    !firstName ||
+    !lastName ||
+    !isEmailValid(email) ||
+    !isPasswordValid(password);
 
   // Create the user and send the verification email
   const onSignUpPress = async () => {
@@ -64,7 +67,7 @@ const signUp = () => {
               autoCapitalize="words"
               placeholder="First"
               value={firstName}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 setFirstName(text);
               }}
             />
@@ -72,7 +75,7 @@ const signUp = () => {
               autoCapitalize="words"
               placeholder="Last"
               value={lastName}
-              onChangeText={text => {
+              onChangeText={(text) => {
                 setLastName(text);
               }}
             />
@@ -88,7 +91,7 @@ const signUp = () => {
             autoCapitalize="none"
             placeholder="Password"
             value={password}
-            onChangeText={text => {
+            onChangeText={(text) => {
               setPassword(text);
             }}
             secureTextEntry={!showPassword}
@@ -102,7 +105,11 @@ const signUp = () => {
           <PasswordVerification password={password} />
         </View>
         <View style={{ marginTop: 24 }}>
-          <ButtonPrimary onPress={onSignUpPress} disabled={disableSignUp} loading={loading}>
+          <ButtonPrimary
+            onPress={onSignUpPress}
+            disabled={disableSignUp}
+            loading={loading}
+          >
             <Text>SIGN UP</Text>
           </ButtonPrimary>
         </View>
@@ -112,7 +119,12 @@ const signUp = () => {
         >
           <View style={{ flexDirection: 'row' }}>
             <Text>Already have an account? </Text>
-            <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
+            <RNText
+              style={{
+                color: theme.colors.primary,
+                textDecorationLine: 'underline',
+              }}
+            >
               <Text>Sign In</Text>
             </RNText>
           </View>

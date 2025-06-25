@@ -23,13 +23,20 @@ const PasswordVerification = ({ password }: PasswordVerificationProps) => {
   return (
     <View style={{ gap: 8, marginTop: 8 }}>
       {requirements.map((req, index) => (
-        <View key={index} style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View
+          key={index}
+          style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+        >
           {req.met ? (
             <Check size={16} color={theme.colors.primary} />
           ) : (
             <X size={16} color={theme.colors.error} />
           )}
-          <Text style={{ color: req.met ? theme.colors.primary : theme.colors.error }}>
+          <Text
+            style={{
+              color: req.met ? theme.colors.primary : theme.colors.error,
+            }}
+          >
             {req.label}
           </Text>
         </View>

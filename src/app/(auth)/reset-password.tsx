@@ -3,8 +3,8 @@ import { View, Pressable, Text as RNText } from 'react-native';
 import { useSignIn } from '@clerk/clerk-expo';
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import InputPrimary from '@/components/library/InputPrimary';
-import ButtonPrimary from '@/components/library/ButtonPrimary';
+import InputPrimary from '@/components/elements/InputPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import Logo from '@/assets/Logo';
 
 export default function ResetPassword() {
@@ -41,7 +41,10 @@ export default function ResetPassword() {
     } catch (err) {
       if (err instanceof ReferenceError) {
         setLoading(false);
-        console.error('Error resetting password:', JSON.stringify(err, null, 2));
+        console.error(
+          'Error resetting password:',
+          JSON.stringify(err, null, 2),
+        );
       }
 
       // if (err.errors && err.errors[0]) {
@@ -70,7 +73,13 @@ export default function ResetPassword() {
           <Logo />
         </View>
         {error && (
-          <Text style={{ color: theme.colors.error, textAlign: 'center', marginBottom: 16 }}>
+          <Text
+            style={{
+              color: theme.colors.error,
+              textAlign: 'center',
+              marginBottom: 16,
+            }}
+          >
             {error}
           </Text>
         )}
@@ -78,7 +87,7 @@ export default function ResetPassword() {
           <InputPrimary
             label="Verification Code"
             value={code}
-            onChangeText={text => {
+            onChangeText={(text) => {
               setCode(text);
               setError(null);
             }}
@@ -88,7 +97,7 @@ export default function ResetPassword() {
           <InputPrimary
             label="New Password"
             value={newPassword}
-            onChangeText={text => {
+            onChangeText={(text) => {
               setNewPassword(text);
               setError(null);
             }}
@@ -103,7 +112,11 @@ export default function ResetPassword() {
           />
         </View>
         <View style={{ marginTop: 24 }}>
-          <ButtonPrimary onPress={onResetPassword} loading={loading} disabled={loading}>
+          <ButtonPrimary
+            onPress={onResetPassword}
+            loading={loading}
+            disabled={loading}
+          >
             <Text>RESET PASSWORD</Text>
           </ButtonPrimary>
         </View>
@@ -113,7 +126,12 @@ export default function ResetPassword() {
         >
           <View style={{ flexDirection: 'row' }}>
             <Text>Remember your password? </Text>
-            <RNText style={{ color: theme.colors.primary, textDecorationLine: 'underline' }}>
+            <RNText
+              style={{
+                color: theme.colors.primary,
+                textDecorationLine: 'underline',
+              }}
+            >
               <Text>Sign In</Text>
             </RNText>
           </View>
