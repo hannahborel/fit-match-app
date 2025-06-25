@@ -10,37 +10,37 @@ import { router } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 
 function CustomDrawerComntentProps(props: DrawerContentComponentProps) {
-  const { navigation } = props; // ← drawer navigation object
+  const { navigation } = props;
   const { signOut } = useAuth();
 
-  /** Closes the drawer, then navigates */
   const closeThenNavigate = (href: string) => {
-    navigation.closeDrawer(); // 1. start close animation
+    navigation.closeDrawer();
     setTimeout(() => {
-      // 2. wait one frame
-      router.push(href); // 3. push the new route
+      router.push(href);
     }, 500);
   };
+  const drawerItems = [
+    { label: 'My Profile', href: '/(protected)/userProfile' },
+    { label: 'Settings', href: '/(protected)/userSettings' },
+    {
+      label: 'Logout',
+      href: '/(auth)/login-email',
+      actions: () => handleLogout(router, signOut),
+    },
+  ];
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem
-        label="My Profile"
-        onPress={() => closeThenNavigate('/(protected)/userProfile')}
-      />
-      <DrawerItem
-        label="Settings"
-        onPress={() => closeThenNavigate('/(protected)/userSettings')}
-      />
-      <DrawerItem
-        label="Logout"
-        onPress={() => {
-          // Handle logout logic here
-          handleLogout(router, signOut);
-          // For example, you might want to clear user data or redirect to login
-          closeThenNavigate('/(auth)/login-email');
-        }}
-      />
+      {drawerItems.map((item, index) => (
+        <DrawerItem
+          key={index}
+          label={item.label}
+          onPress={() => {
+            item.actions?.();
+            closeThenNavigate(item.href);
+          }}
+        />
+      ))}
     </DrawerContentScrollView>
   );
 }
@@ -48,14 +48,12 @@ export const DrawerLayout = () => {
   return (
     <Drawer
       drawerContent={(props) => <CustomDrawerComntentProps {...props} />}
-      screenOptions={{ drawerType: 'front' }}
+      screenOptions={{ drawerType: 'front', headerShown: false }}
     >
       <Drawer.Screen
         name="home"
         options={{ drawerItemStyle: { display: 'none' } }}
       />
-
-      <Drawer.Screen name="userProfile" options={{ title: 'My Profile' }} />
     </Drawer>
   );
 };
