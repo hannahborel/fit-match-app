@@ -49,7 +49,6 @@ function Table2Col({ tableData }: TTableProps) {
                 alignItems: 'center',
                 width: '100%',
                 padding: 12,
-
                 borderBottomWidth: 1,
                 borderBottomColor:
                   index !== personalInfo.length - 1

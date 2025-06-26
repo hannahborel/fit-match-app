@@ -9,17 +9,23 @@ export const CardElement = (props: CardElementProps) => {
   const theme = useTheme();
   const styles = StyleSheet.create({
     container: {
-      margin: 16,
       backgroundColor: theme.colors.surface,
+      borderRadius: 6,
+      paddingVertical: 0,
     },
     cardText: {
       color: theme.colors.onSurface,
     },
+    cardContent: {
+      paddingVertical: 0,
+    },
   });
   return (
     <Card style={styles.container}>
-      <Card.Title titleStyle={styles.cardText} title={props.title} />
-      <Card.Content>{props.children}</Card.Content>
+      {props.title && (
+        <Card.Title titleStyle={styles.cardText} title={props.title} />
+      )}
+      <Card.Content style={styles.cardContent}>{props.children}</Card.Content>
     </Card>
   );
 };

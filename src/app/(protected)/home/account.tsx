@@ -4,10 +4,10 @@ import { View } from 'react-native';
 import Table2Col from '@/components/elements/Table/Table2Col';
 import ThemeWrapperBg from '@/components/elements/ThemeWrapperBg';
 import { useGetLeague } from '@/hooks/useGetLeague';
-import { UserIcon } from 'lucide-react-native';
-import { useTheme } from 'react-native-paper';
-import { useUser } from '@clerk/clerk-expo';
 import { Table } from '@/types/types';
+import { useUser } from '@clerk/clerk-expo';
+import { ChevronRight, UserIcon } from 'lucide-react-native';
+import { Text, useTheme } from 'react-native-paper';
 
 const Account = () => {
   const { data } = useGetLeague();
@@ -22,6 +22,11 @@ const Account = () => {
     { col1: 'First Name', col2: user?.firstName },
     { col1: 'Last Name', col2: user?.lastName },
     { col1: 'Email', col2: user?.emailAddresses[0].emailAddress },
+  ];
+
+  const settings = [
+    { label: 'Account Settings' },
+    { label: 'View League Details' },
   ];
   return (
     <ThemeWrapperBg>
@@ -53,6 +58,35 @@ const Account = () => {
             <UserIcon size={60} color={theme.colors.onBackground} />
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          backgroundColor: theme.colors.surface,
+          borderRadius: 6,
+        }}
+      >
+        {settings.map((item, index) => (
+          <View
+            key={index}
+            style={{
+              backgroundColor: theme.colors.surface,
+              borderRadius: 6,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: 14,
+              borderBottomColor: theme.colors.outline,
+              borderBottomWidth: 1,
+            }}
+          >
+            <View>
+              <Text style={{ fontWeight: 500 }}>{item.label}</Text>
+            </View>
+            <View>
+              <ChevronRight color={theme.colors.onSurface} />
+            </View>
+          </View>
+        ))}
       </View>
       <Table2Col tableData={personalInfo} />
 

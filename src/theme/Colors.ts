@@ -63,7 +63,7 @@ export const themeColors = {
     onBackground: 'rgba(232,232,237,1)',
     surface: 'rgba(41, 49, 66, 1)',
     onSurface: 'rgba(255, 255, 255, 1)',
-    surfaceVariant: 'rgb(66, 73, 64)',
+    surfaceVariant: 'rgba(102, 119, 150, 1)',
     onSurfaceVariant: 'rgba(102, 119, 150, 1)',
     outline: 'rgb(51, 59, 75)',
     outlineVariant: 'rgb(66, 73, 64)',
