@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 import Table2Col from '@/components/elements/Table/Table2Col';
 import ThemeWrapperBg from '@/components/elements/ThemeWrapperBg';
@@ -8,9 +8,11 @@ import { Table } from '@/types/types';
 import { useUser } from '@clerk/clerk-expo';
 import { ChevronRight, UserIcon } from 'lucide-react-native';
 import { Text, useTheme } from 'react-native-paper';
+import { useRouter } from 'expo-router';
 
 const Account = () => {
   const { data } = useGetLeague();
+  const router = useRouter();
 
   console.log('userProfile: data', JSON.stringify(data, null, 2));
   const theme = useTheme();
@@ -25,8 +27,8 @@ const Account = () => {
   ];
 
   const settings = [
-    { label: 'Account Settings' },
-    { label: 'View League Details' },
+    { label: 'Account Settings', route: 'accountSettings' },
+    { label: 'View League Details', route: 'leagueDetails' },
   ];
   return (
     <ThemeWrapperBg>
@@ -66,26 +68,27 @@ const Account = () => {
         }}
       >
         {settings.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              backgroundColor: theme.colors.surface,
-              borderRadius: 6,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 14,
-              borderBottomColor: theme.colors.outline,
-              borderBottomWidth: 1,
-            }}
-          >
-            <View>
-              <Text style={{ fontWeight: 500 }}>{item.label}</Text>
+          <TouchableOpacity key={index} onPress={() => router.push(item.route)}>
+            <View
+              style={{
+                backgroundColor: theme.colors.surface,
+                borderRadius: 6,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: 14,
+                borderBottomColor: theme.colors.outline,
+                borderBottomWidth: 1,
+              }}
+            >
+              <View>
+                <Text style={{ fontWeight: 500 }}>{item.label}</Text>
+              </View>
+              <View>
+                <ChevronRight color={theme.colors.onSurface} />
+              </View>
             </View>
-            <View>
-              <ChevronRight color={theme.colors.onSurface} />
-            </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
       <Table2Col tableData={personalInfo} />

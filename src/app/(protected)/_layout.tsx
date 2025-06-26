@@ -18,6 +18,12 @@ export default function ProtectedLayout() {
       <Stack.Screen name="leagueEntry" />
       <Stack.Screen name="selectChallengeType" />
       <Stack.Screen name="faceOffSetup" />
+      <Stack.Screen
+        options={{
+          presentation: 'modal',
+        }}
+        name="leagueDetails"
+      />
     </Stack>
   );
 }
