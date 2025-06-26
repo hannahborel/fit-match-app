@@ -6,7 +6,7 @@ const ThemeWrapperBg = ({ children }: { children: React.ReactNode }) => {
   const theme = useTheme();
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      {children}
+      <View style={{ flex: 1, margin: 16 }}>{children}</View>
     </View>
   );
 };

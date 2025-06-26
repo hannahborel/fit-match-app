@@ -18,7 +18,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import merge from 'deepmerge';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import themeColors from '../constants/Colors';
+import themeColors from '../theme/Colors';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();

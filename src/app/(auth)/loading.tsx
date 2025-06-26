@@ -20,7 +20,7 @@ const LoadingPage = () => {
     if (!isLoading) {
       if (data.league) {
         // User has league data, go to home
-        router.replace('/home/home');
+        router.replace('/home/dashboard');
       } else {
         // User has no league data, go to league entry
         router.push('/leagueEntry');

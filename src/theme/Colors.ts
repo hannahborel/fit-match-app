@@ -44,6 +44,7 @@ export const themeColors = {
   dark: {
     primary: 'rgba(47, 112, 250, 1)',
     onPrimary: 'rgba(255, 255, 255, 1)',
+
     primaryContainer: 'rgb(0, 83, 32)',
     onPrimaryContainer: 'rgb(104, 255, 139)',
     secondary: 'rgb(150, 204, 255)',
@@ -63,8 +64,8 @@ export const themeColors = {
     surface: 'rgba(41, 49, 66, 1)',
     onSurface: 'rgba(255, 255, 255, 1)',
     surfaceVariant: 'rgb(66, 73, 64)',
-    onSurfaceVariant: 'rgb(193, 201, 190)',
-    outline: 'rgb(139, 147, 137)',
+    onSurfaceVariant: 'rgba(102, 119, 150, 1)',
+    outline: 'rgb(51, 59, 75)',
     outlineVariant: 'rgb(66, 73, 64)',
     shadow: 'rgb(0, 0, 0)',
     scrim: 'rgb(0, 0, 0)',

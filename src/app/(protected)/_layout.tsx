@@ -15,20 +15,6 @@ export default function ProtectedLayout() {
         },
       }}
     >
-      <Stack.Screen
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_bottom',
-        }}
-        name="userProfile"
-      />
-      <Stack.Screen
-        options={{
-          presentation: 'modal',
-          animation: 'slide_from_bottom',
-        }}
-        name="userSettings"
-      />
       <Stack.Screen name="leagueEntry" />
       <Stack.Screen name="selectChallengeType" />
       <Stack.Screen name="faceOffSetup" />
