@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useTheme } from 'react-native-paper';
 
-const leagueEntry = () => {
+const startPage = () => {
   const theme = useTheme();
   const { signOut, isSignedIn } = useAuth();
   const { user } = useUser();
@@ -38,8 +38,16 @@ const leagueEntry = () => {
         >
           Hey, {firstName}!
         </Text>
-        <Text style={{ fontSize: 16, textAlign: 'center', marginBottom: 20, color: '#666' }}>
-          You&#39;re all set;rere all set! Now you can join an existing league or create your own.
+        <Text
+          style={{
+            fontSize: 16,
+            textAlign: 'center',
+            marginBottom: 20,
+            color: '#666',
+          }}
+        >
+          You&#39;re all set;rere all set! Now you can join an existing league
+          or create your own.
         </Text>
         <Button
           mode="contained"
@@ -78,4 +86,4 @@ const leagueEntry = () => {
   );
 };
 
-export default leagueEntry;
+export default startPage;

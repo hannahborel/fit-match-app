@@ -20,3 +20,8 @@ export type CreateLeagueInput = {
 export type CountdownTimerProps = {
   targetTime: string; // ISO date string
 };
+
+export type Table = {
+  col1: string;
+  col2: string | null | undefined;
+}[];

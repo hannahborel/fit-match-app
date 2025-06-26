@@ -1,9 +1,12 @@
+import { Table } from '@/types/types';
 import { useUser } from '@clerk/clerk-expo';
 import React from 'react';
 import { View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
-
-function Table2Col() {
+type TTableProps = {
+  tableData: Table;
+};
+function Table2Col({ tableData }: TTableProps) {
   const theme = useTheme();
   const { user, isLoaded } = useUser();
   console.log(JSON.stringify(user, null, 2));
@@ -37,7 +40,7 @@ function Table2Col() {
       </View>
       <View style={{ backgroundColor: theme.colors.surface, borderRadius: 6 }}>
         {isLoaded &&
-          personalInfo.map((item, index) => (
+          tableData.map((item, index) => (
             <View
               key={index}
               style={{
@@ -56,7 +59,7 @@ function Table2Col() {
             >
               <View style={{ width: '40%' }}>
                 <Text style={{ color: theme.colors.onSurface, fontSize: 14 }}>
-                  {item.label}
+                  {item.col1}
                 </Text>
               </View>
               <View
@@ -73,7 +76,7 @@ function Table2Col() {
                     flexWrap: 'nowrap',
                   }}
                 >
-                  {item.value}
+                  {item.col2}
                 </Text>
               </View>
             </View>

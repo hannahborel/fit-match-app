@@ -6,12 +6,23 @@ import ThemeWrapperBg from '@/components/elements/ThemeWrapperBg';
 import { useGetLeague } from '@/hooks/useGetLeague';
 import { UserIcon } from 'lucide-react-native';
 import { useTheme } from 'react-native-paper';
+import { useUser } from '@clerk/clerk-expo';
+import { Table } from '@/types/types';
 
 const Account = () => {
   const { data } = useGetLeague();
 
   console.log('userProfile: data', JSON.stringify(data, null, 2));
   const theme = useTheme();
+
+  const { user } = useUser();
+  console.log(JSON.stringify(user, null, 2));
+
+  const personalInfo: Table = [
+    { col1: 'First Name', col2: user?.firstName },
+    { col1: 'Last Name', col2: user?.lastName },
+    { col1: 'Email', col2: user?.emailAddresses[0].emailAddress },
+  ];
   return (
     <ThemeWrapperBg>
       <View
@@ -43,7 +54,7 @@ const Account = () => {
           </View>
         </View>
       </View>
-      <Table2Col />
+      <Table2Col tableData={personalInfo} />
 
       {/* <View>
         {data?.league ? (

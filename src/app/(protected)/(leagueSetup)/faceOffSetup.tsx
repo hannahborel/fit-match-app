@@ -1,4 +1,4 @@
-import NumberAvatar from '../../components/library/NumberAvatar';
+import NumberAvatar from '@/components/library/NumberAvatar';
 
 import { useCreateLeague } from '@/hooks/useCrateLeague';
 import { CreateLeagueInput } from '@/types/types';
@@ -6,9 +6,9 @@ import { useUser } from '@clerk/clerk-expo';
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
-import ButtonPrimary from '../../components/elements/ButtonPrimary';
-import CustomHeader from '../../components/library/CustomHeader';
-import InputPrimary from '../../components/elements/InputPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import CustomHeader from '@/components/library/CustomHeader';
+import InputPrimary from '@/components/elements/InputPrimary';
 
 const FaceOffSetup = () => {
   const { user } = useUser();

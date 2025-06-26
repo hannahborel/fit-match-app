@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
-import StepsChallageImg from '../../assets/svg/stepsChallageImg.svg';
-import FaceOffImg from '../../assets/svg/faceOffImg.svg';
-import DuelImg from '../../assets/svg/duelImg.svg';
+import StepsChallageImg from '../../../assets/svg/stepsChallageImg.svg';
+import FaceOffImg from '../../../assets/svg/faceOffImg.svg';
+import DuelImg from '../../../assets/svg/duelImg.svg';
 import { Card } from 'react-native-paper';
 import { useTheme } from 'react-native-paper';
 import { router } from 'expo-router';
@@ -36,9 +36,15 @@ const selectChallengeType = () => {
             }}
           >
             <FaceOffImg />
-            <Text style={{ fontSize: 12, color: theme.colors.onSurface, textAlign: 'center' }}>
-              Grab 4 or more friends for this league-style competition. FaceOff against your friends
-              in weekly battles to see where you stack up.
+            <Text
+              style={{
+                fontSize: 12,
+                color: theme.colors.onSurface,
+                textAlign: 'center',
+              }}
+            >
+              Grab 4 or more friends for this league-style competition. FaceOff
+              against your friends in weekly battles to see where you stack up.
             </Text>
           </Card.Content>
         </Card>
@@ -50,12 +56,16 @@ const selectChallengeType = () => {
           }}
         >
           <Card.Content
-            style={{ alignItems: 'center', height: '100%', justifyContent: 'space-between' }}
+            style={{
+              alignItems: 'center',
+              height: '100%',
+              justifyContent: 'space-between',
+            }}
           >
             <StepsChallageImg />
             <Text style={{ fontSize: 12, color: theme.colors.onSurface }}>
-              Anyone can talk the talk, but who can walk the walk? Log the most steps, take home the
-              title
+              Anyone can talk the talk, but who can walk the walk? Log the most
+              steps, take home the title
             </Text>
           </Card.Content>
         </Card>
@@ -68,7 +78,11 @@ const selectChallengeType = () => {
           }}
         >
           <Card.Content
-            style={{ alignItems: 'center', height: '100%', justifyContent: 'space-between' }}
+            style={{
+              alignItems: 'center',
+              height: '100%',
+              justifyContent: 'space-between',
+            }}
           >
             <DuelImg />
             <Text style={{ fontSize: 12, color: theme.colors.onSurface }}>
