@@ -3,6 +3,7 @@ import { useUser } from '@clerk/clerk-expo';
 import React from 'react';
 import { View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
+import SectionHeader from '../Headers/SectionHeader';
 type TTableProps = {
   tableData: Table;
 };
@@ -24,18 +25,7 @@ function Table2Col({ tableData }: TTableProps) {
           alignItems: 'flex-start',
         }}
       >
-        <Text
-          style={{
-            color: theme.colors.onSurfaceVariant,
-            letterSpacing: 0.75,
-            fontSize: 14,
-            fontWeight: 500,
-            paddingVertical: 8,
-            marginLeft: 8,
-          }}
-        >
-          Personal Information
-        </Text>
+        <SectionHeader text="Personal Information" />
       </View>
       <View style={{ backgroundColor: theme.colors.surface, borderRadius: 6 }}>
         {isLoaded &&

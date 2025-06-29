@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 import Table2Col from '@/components/elements/Table/Table2Col';
-import ThemeWrapperBg from '@/components/elements/ThemeWrapperBg';
+import BgView from '@/components/elements/BgView';
 
 import { Table } from '@/types/types';
 import { useUser } from '@clerk/clerk-expo';
@@ -28,7 +28,7 @@ const Account = () => {
     { label: 'View League Details', route: 'leagueDetails' },
   ];
   return (
-    <ThemeWrapperBg>
+    <BgView>
       <View style={{ gap: 8 }}>
         <View
           style={{
@@ -92,7 +92,7 @@ const Account = () => {
         </View>
         <Table2Col tableData={personalInfo} />
       </View>
-    </ThemeWrapperBg>
+    </BgView>
   );
 };
 

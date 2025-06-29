@@ -34,3 +34,15 @@ export const formatDate = (dateString: string) => {
   const yyyy = date.getFullYear();
   return `${mm}/${dd}/${yyyy}`;
 };
+
+export const capitalize = (word: string) => {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+};
+
+export const formatString = (key: string) => {
+  const format = key
+    .split('_')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
+  return capitalize(format);
+};

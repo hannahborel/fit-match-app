@@ -1,4 +1,4 @@
-import ThemeWrapperBg from '@/components/elements/ThemeWrapperBg';
+import BgView from '@/components/elements/BgView';
 
 import React from 'react';
 import { Avatar, Text, useTheme } from 'react-native-paper';
@@ -20,7 +20,7 @@ const leagueDetails = () => {
   const leaguePlayers = cachedLeagueResponse?.league.leaguesToUsers;
 
   return (
-    <ThemeWrapperBg>
+    <BgView>
       <View style={{ gap: 12 }}>
         {leagueDetails ? (
           <>
@@ -72,7 +72,7 @@ const leagueDetails = () => {
           </View>
         )}
       </View>
-    </ThemeWrapperBg>
+    </BgView>
   );
 };
 
