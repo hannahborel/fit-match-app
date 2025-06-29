@@ -1,4 +1,6 @@
-import { Stack } from 'expo-router';
+import { router, Stack } from 'expo-router';
+import { ChevronLeft } from 'lucide-react-native';
+import { TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 export default function ProtectedLayout() {
@@ -8,19 +10,30 @@ export default function ProtectedLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
-
         contentStyle: {
           backgroundColor: theme.colors.background,
           width: '100%',
         },
       }}
     >
-      <Stack.Screen name="leagueEntry" />
-      <Stack.Screen name="selectChallengeType" />
-      <Stack.Screen name="faceOffSetup" />
+      <Stack.Screen name="(leagueSetup)/startPage" />
+      <Stack.Screen name="(leagueSetup)/selectChallengeType" />
+      <Stack.Screen name="(leagueSetup)/faceOffSetup" />
       <Stack.Screen
         options={{
+          title: 'League Details',
+          headerStyle: { backgroundColor: theme.colors.background },
+          headerTitleStyle: {
+            color: theme.colors.onBackground,
+            fontWeight: 500,
+          },
+          headerShown: true,
           presentation: 'modal',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.push('home/account')}>
+              <ChevronLeft />
+            </TouchableOpacity>
+          ),
         }}
         name="leagueDetails"
       />

@@ -3,7 +3,6 @@ import { useAuth } from '@clerk/clerk-expo';
 import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 
 export const useGetLeague = () => {
-  console.log('useGetLeagueById hook called');
   const { getToken } = useAuth();
   return useQuery({
     queryKey: ['league'],

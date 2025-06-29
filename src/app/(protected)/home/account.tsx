@@ -3,7 +3,7 @@ import { TouchableOpacity, View } from 'react-native';
 
 import Table2Col from '@/components/elements/Table/Table2Col';
 import ThemeWrapperBg from '@/components/elements/ThemeWrapperBg';
-import { useGetLeague } from '@/hooks/useGetLeague';
+
 import { Table } from '@/types/types';
 import { useUser } from '@clerk/clerk-expo';
 import { ChevronRight, UserIcon } from 'lucide-react-native';
@@ -11,14 +11,11 @@ import { Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 
 const Account = () => {
-  const { data } = useGetLeague();
   const router = useRouter();
 
-  console.log('userProfile: data', JSON.stringify(data, null, 2));
   const theme = useTheme();
 
   const { user } = useUser();
-  console.log(JSON.stringify(user, null, 2));
 
   const personalInfo: Table = [
     { col1: 'First Name', col2: user?.firstName },

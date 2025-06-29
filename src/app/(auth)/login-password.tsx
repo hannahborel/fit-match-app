@@ -16,7 +16,7 @@ const LoginPassword = () => {
   const [, setLoading] = useState(false);
 
   const { emailParam } = useLocalSearchParams();
-  console.log(isPasswordValid(password));
+
   const handleSignIn = async () => {
     if (!isLoaded) return;
     setLoading(true);

@@ -13,7 +13,6 @@ export default function VerifyEmail() {
   const [, setLoading] = useState(false);
   const { isLoaded, signUp, setActive } = useSignUp();
   const onPressVerify = async () => {
-    console.log('onPressVerify', code);
     if (!isLoaded) return;
     setLoading(true);
     try {

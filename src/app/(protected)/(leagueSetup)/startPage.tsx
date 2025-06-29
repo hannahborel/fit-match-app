@@ -63,7 +63,7 @@ const startPage = () => {
           <Text>Join an Exiting Challenge</Text>
         </Button>
         <Button
-          onPress={() => router.push('/selectChallengeType')}
+          onPress={() => router.push('(leagueSetup)/selectChallengeType')}
           mode="contained"
           textColor={theme.colors.onSurface}
           style={{

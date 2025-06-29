@@ -9,7 +9,6 @@ type TTableProps = {
 function Table2Col({ tableData }: TTableProps) {
   const theme = useTheme();
   const { user, isLoaded } = useUser();
-  console.log(JSON.stringify(user, null, 2));
 
   const personalInfo = [
     { label: 'First Name', value: user?.firstName },

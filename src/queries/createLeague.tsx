@@ -1,10 +1,10 @@
 import { apiUrl } from '@/constants/auth';
 import { CreateLeagueInput } from '@/types/types';
 
-export const createLeague = async (data: CreateLeagueInput, token: string | null) => {
-  console.log('data param: ', data);
-  console.log('createLeague query fn hit');
-
+export const createLeague = async (
+  data: CreateLeagueInput,
+  token: string | null,
+) => {
   const res = await fetch(`${apiUrl}/api/create-league`, {
     method: 'POST',
 
@@ -15,7 +15,6 @@ export const createLeague = async (data: CreateLeagueInput, token: string | null
     body: JSON.stringify(data),
   });
   const response = await res.json();
-  console.log(response);
 
   if (!res.ok) {
     throw new Error('Failed to create league');
