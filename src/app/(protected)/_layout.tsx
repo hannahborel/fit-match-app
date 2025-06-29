@@ -30,7 +30,7 @@ export default function ProtectedLayout() {
           headerShown: true,
           presentation: 'modal',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.push('home/account')}>
+            <TouchableOpacity onPress={() => router.back()}>
               <ChevronLeft />
             </TouchableOpacity>
           ),

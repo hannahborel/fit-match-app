@@ -24,6 +24,7 @@ module.exports = {
     'react-native/sort-styles': 'off',
     'prettier/prettier': 'error',
     'react/prop-types': 'off',
+    'unused-imports/no-unused-imports': 'off',
   },
   settings: {
     react: {

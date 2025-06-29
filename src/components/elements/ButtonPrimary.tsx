@@ -22,9 +22,10 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
 }) => {
   const theme = useTheme();
 
-  const isDisabled = conditions.some(condition => !condition.isValid) || disabled || loading;
+  const isDisabled =
+    conditions.some((condition) => !condition.isValid) || disabled || loading;
   const failedConditions = conditions.filter(
-    condition => !condition.isValid && condition.errorMessage
+    (condition) => !condition.isValid && condition.errorMessage,
   );
 
   return (
@@ -35,7 +36,9 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
         loading={loading}
         style={[
           {
-            backgroundColor: isDisabled ? theme.colors.surfaceDisabled : theme.colors.primary,
+            backgroundColor: isDisabled
+              ? theme.colors.surfaceDisabled
+              : theme.colors.primary,
             paddingLeft: 18,
             paddingRight: 18,
             borderRadius: 12,
@@ -44,7 +47,9 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
           style,
         ]}
         labelStyle={{
-          color: isDisabled ? theme.colors.onSurfaceDisabled : theme.colors.onPrimary,
+          color: isDisabled
+            ? theme.colors.onSurfaceDisabled
+            : theme.colors.onPrimary,
         }}
       >
         {otherProps.children}
@@ -53,7 +58,10 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
       {showErrors && failedConditions.length > 0 && (
         <View style={{ marginTop: 8 }}>
           {failedConditions.map((condition, index) => (
-            <Text key={index} style={{ color: theme.colors.error, fontSize: 12 }}>
+            <Text
+              key={index}
+              style={{ color: theme.colors.error, fontSize: 12 }}
+            >
               {condition.errorMessage}
             </Text>
           ))}

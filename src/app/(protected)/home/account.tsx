@@ -29,83 +29,69 @@ const Account = () => {
   ];
   return (
     <ThemeWrapperBg>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingVertical: 8,
-        }}
-      >
+      <View style={{ gap: 8 }}>
         <View
           style={{
-            backgroundColor: theme.colors.surface,
-            borderRadius: 1000,
-
             justifyContent: 'center',
             alignItems: 'center',
+            paddingVertical: 8,
           }}
         >
           <View
             style={{
-              height: 100,
-              width: 100,
+              backgroundColor: theme.colors.surface,
+              borderRadius: 1000,
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
-            <UserIcon size={60} color={theme.colors.onBackground} />
-          </View>
-        </View>
-      </View>
-      <View
-        style={{
-          backgroundColor: theme.colors.surface,
-          borderRadius: 6,
-        }}
-      >
-        {settings.map((item, index) => (
-          <TouchableOpacity key={index} onPress={() => router.push(item.route)}>
             <View
               style={{
-                backgroundColor: theme.colors.surface,
-                borderRadius: 6,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
+                height: 100,
+                width: 100,
+                justifyContent: 'center',
                 alignItems: 'center',
-                padding: 14,
-                borderBottomColor: theme.colors.outline,
-                borderBottomWidth: 1,
               }}
             >
-              <View>
-                <Text style={{ fontWeight: 500 }}>{item.label}</Text>
-              </View>
-              <View>
-                <ChevronRight color={theme.colors.onSurface} />
-              </View>
+              <UserIcon size={60} color={theme.colors.onBackground} />
             </View>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <Table2Col tableData={personalInfo} />
-
-      {/* <View>
-        {data?.league ? (
-          <>
-            {Object.entries(data.league).map(([key, value]) => (
-              <View key={key} style={{ marginBottom: 8 }}>
-                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{key}:</Text>
-                <Text style={{ fontSize: 16 }}>{String(value)}</Text>
+          </View>
+        </View>
+        <View
+          style={{
+            backgroundColor: theme.colors.surface,
+            borderRadius: 6,
+          }}
+        >
+          {settings.map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              onPress={() => router.push(item.route)}
+            >
+              <View
+                style={{
+                  backgroundColor: theme.colors.surface,
+                  borderRadius: 6,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: 14,
+                  borderBottomColor: theme.colors.outline,
+                  borderBottomWidth: 1,
+                }}
+              >
+                <View>
+                  <Text style={{ fontWeight: 500 }}>{item.label}</Text>
+                </View>
+                <View>
+                  <ChevronRight color={theme.colors.onSurface} />
+                </View>
               </View>
-            ))}
-          </>
-        ) : (
-          <Text style={{ fontSize: 24, fontWeight: 'bold' }}>
-            No League Data
-          </Text>
-        )}
-      </View> */}
+            </TouchableOpacity>
+          ))}
+        </View>
+        <Table2Col tableData={personalInfo} />
+      </View>
     </ThemeWrapperBg>
   );
 };
