@@ -20,7 +20,7 @@ const selectChallengeType = () => {
     >
       <View style={{ width: 350, height: '70%', gap: 16 }}>
         <Card
-          onPress={() => router.push('(leagueSetup)/faceOffSetup')}
+          onPress={() => router.push('faceOffSetup')}
           style={{
             backgroundColor: 'rgba(41, 49, 66, 1)',
             height: '33%',

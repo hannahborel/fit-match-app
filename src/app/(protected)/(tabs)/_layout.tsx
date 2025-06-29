@@ -11,33 +11,31 @@ export default function HomeTabs() {
     {
       title: 'Home',
       icon: () => <Home />,
-      route: 'dashboard',
+      route: 'index', // This maps to (tabs)/index.tsx
     },
     {
-      title: 'Stangings',
+      title: 'Standings',
       icon: () => <FlowchartIcon color={theme.colors.primary} />,
-      route: 'standings',
+      route: 'standings/index',
     },
     {
       title: 'Log a Workout',
       icon: () => <Plus />,
-      route: 'logActivity',
-      // Custom header left for this tab
+      route: 'activity/index',
     },
     {
       title: 'Calendar',
       icon: () => <Calendar />,
-      route: 'calendar',
+      route: 'calendar/index',
     },
     {
       title: 'Account',
       icon: () => <CircleUser />,
-      route: 'account',
+      route: 'account/index',
     },
   ];
   return (
     <Tabs
-      initialRouteName="account"
       screenOptions={{
         headerShown: true,
         headerStyle: {
@@ -61,9 +59,7 @@ export default function HomeTabs() {
             title: tab.title,
 
             tabBarLabel: () => null,
-            tabBarIcon: () => {
-              return <tab.icon />;
-            },
+            tabBarIcon: tab.icon,
           }}
         />
       ))}

@@ -16,9 +16,9 @@ export default function ProtectedLayout() {
         },
       }}
     >
-      <Stack.Screen name="(leagueSetup)/startPage" />
-      <Stack.Screen name="(leagueSetup)/selectChallengeType" />
-      <Stack.Screen name="(leagueSetup)/faceOffSetup" />
+      <Stack.Screen name="createLeague" />
+      <Stack.Screen name="createLeague/selectChallengeType" />
+      <Stack.Screen name="createLeague/faceOffSetup" />
       <Stack.Screen
         options={{
           title: 'League Details',

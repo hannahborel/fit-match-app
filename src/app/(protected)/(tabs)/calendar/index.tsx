@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 
-const calendar = () => {
+const BgViewar = () => {
   return (
     <View>
-      <Text>calendar</Text>
+      <Text>BgViewar</Text>
     </View>
   );
 };
 
-export default calendar;
+export default BgViewar;
