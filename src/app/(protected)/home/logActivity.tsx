@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import React from 'react';
 import BgView from '@/components/elements/BgView';
 import { TextInput, useTheme } from 'react-native-paper';
@@ -37,7 +37,7 @@ const logActivity = () => {
               }}
             >
               {Object.values(ActivityType).map((activity, index, arr) => (
-                <TouchableOpacity
+                <View
                   key={index}
                   style={{
                     padding: 12,
@@ -54,7 +54,7 @@ const logActivity = () => {
                   >
                     {formatString(activity.toLowerCase())}
                   </Text>
-                </TouchableOpacity>
+                </View>
               ))}
             </View>
           </View>
