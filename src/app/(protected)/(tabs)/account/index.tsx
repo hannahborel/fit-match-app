@@ -25,7 +25,10 @@ const Account = () => {
 
   const settings = [
     { label: 'Account Settings', route: 'accountSettings' },
-    { label: 'View League Details', route: 'leagueDetails' },
+    {
+      label: 'View League Details',
+      route: '/(modals)/(account)/leagueDetails',
+    },
   ];
   return (
     <BgView>
