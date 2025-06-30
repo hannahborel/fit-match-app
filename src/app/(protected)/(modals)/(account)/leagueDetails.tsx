@@ -33,11 +33,11 @@ const leagueDetails = () => {
               <Row col1={'League Name'} col2={leagueDetails.name} />
               <Row
                 col1={'Start Date'}
-                col2={formatDate(leagueDetails.startDate) + ' weeks'}
+                col2={formatDate(leagueDetails.startDate)}
               />
               <Row
                 col1={'Duration'}
-                col2={leagueDetails.weeks.toString()}
+                col2={leagueDetails.weeks.toString() + ' weeks'}
                 lastRow={true}
               />
             </View>
