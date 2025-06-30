@@ -42,8 +42,10 @@ export const NumberScroller: React.FC<NumberScrollerProps> = ({
     const offsetX = e.nativeEvent.contentOffset.x;
     const index = Math.round(offsetX / ITEM_WIDTH);
     const value = numbers[index];
-    setSelected(value);
-    onValueChange(value);
+    if (value !== selected) {
+      setSelected(value);
+      onValueChange(value);
+    }
   };
 
   return (
@@ -53,6 +55,7 @@ export const NumberScroller: React.FC<NumberScrollerProps> = ({
         data={numbers}
         horizontal
         showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={16}
         snapToInterval={ITEM_WIDTH}
         decelerationRate="fast"
         onMomentumScrollEnd={onScrollEnd}
