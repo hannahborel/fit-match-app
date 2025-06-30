@@ -8,6 +8,11 @@ export default function modals() {
   return (
     <Stack
       screenOptions={{
+        headerStyle: { backgroundColor: theme.colors.background },
+        headerTitleStyle: {
+          color: theme.colors.onBackground,
+          fontWeight: 500,
+        },
         contentStyle: {
           backgroundColor: theme.colors.background,
         },
@@ -16,11 +21,6 @@ export default function modals() {
       <Stack.Screen
         options={{
           title: 'League Details',
-          headerStyle: { backgroundColor: theme.colors.background },
-          headerTitleStyle: {
-            color: theme.colors.onBackground,
-            fontWeight: 500,
-          },
 
           presentation: 'modal',
           headerLeft: () => (
@@ -30,6 +30,19 @@ export default function modals() {
           ),
         }}
         name="(account)/leagueDetails"
+      />
+      <Stack.Screen
+        options={{
+          title: 'Log A Workout',
+
+          presentation: 'modal',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <ChevronLeft />
+            </TouchableOpacity>
+          ),
+        }}
+        name="(activity)/logActivity"
       />
     </Stack>
   );
