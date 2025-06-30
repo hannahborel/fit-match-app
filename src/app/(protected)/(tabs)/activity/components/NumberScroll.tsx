@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import {
   FlatList,
   Text,
@@ -47,7 +47,16 @@ export const NumberScroller: React.FC<NumberScrollerProps> = ({
       onValueChange(value);
     }
   };
-
+  const renderItem = useCallback(
+    ({ item }: { item: number }) => (
+      <View style={styles.item}>
+        <Text style={[styles.text, item === selected && styles.selected]}>
+          {item}
+        </Text>
+      </View>
+    ),
+    [selected],
+  );
   return (
     <View style={styles.container}>
       <FlatList
@@ -68,13 +77,7 @@ export const NumberScroller: React.FC<NumberScrollerProps> = ({
         contentContainerStyle={{
           paddingHorizontal: (SCREEN_WIDTH - ITEM_WIDTH) / 2,
         }}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={[styles.text, item === selected && styles.selected]}>
-              {item}
-            </Text>
-          </View>
-        )}
+        renderItem={renderItem}
       />
 
       <View style={styles.centerIndicator} pointerEvents="none" />
@@ -94,11 +97,12 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 88,
-    color: '#888',
+
     fontWeight: '900',
+    color: 'rgba(255,255,255,0.2)',
   },
   selected: {
-    fontSize: 88,
+    fontSize: 90,
     fontWeight: '900',
     color: '#fff',
   },
@@ -108,8 +112,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: SCREEN_WIDTH / 2 - ITEM_WIDTH / 2,
     width: ITEM_WIDTH,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
+
     borderColor: 'rgba(255,255,255,0.2)',
   },
 });
+export default NumberScroller;
