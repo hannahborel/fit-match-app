@@ -5,14 +5,16 @@ import { Button, IconButton, Text, useTheme } from 'react-native-paper';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../components/library/NumberScroll';
 import BgView from '@/components/elements/BgView';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
   const theme = useTheme();
+  const { activityType } = useLocalSearchParams();
   return (
     <BgView>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>ELLIPTICAL</Text>
+        <Text style={styles.title}>{activityType}</Text>
       </View>
       <View
         style={{
@@ -26,7 +28,6 @@ export default function LogWorkoutScreen() {
           initial={34}
           onValueChange={setMinutes}
         />
-        <Text style={styles.label}>MINUTES</Text>
       </View>
       <View style={{ flexDirection: 'row' }}>
         <IconButton
@@ -55,14 +56,13 @@ export default function LogWorkoutScreen() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    marginTop: 20,
+    marginTop: 40,
+    marginBottom: 40,
   },
   title: {
     color: 'white',
     fontSize: 20,
-  },
-  label: {
-    color: 'white',
-    fontSize: 16,
+    textAlign: 'center',
+    fontWeight: 600,
   },
 });
