@@ -58,7 +58,7 @@ export const NumberScroll: React.FC<NumberScrollerProps> = ({
     [selected],
   );
   return (
-    <View style={styles.container}>
+    <View>
       <FlatList
         ref={listRef}
         data={numbers}
@@ -86,10 +86,6 @@ export const NumberScroll: React.FC<NumberScrollerProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: 100,
-    position: 'relative',
-  },
   item: {
     width: ITEM_WIDTH,
     justifyContent: 'center',

@@ -37,7 +37,6 @@ export default function HomeTabs() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: true,
         headerStyle: {
           backgroundColor: theme.colors.background,
         },

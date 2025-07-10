@@ -3,13 +3,14 @@ import { View, StyleSheet } from 'react-native';
 import { Button, IconButton, Text, useTheme } from 'react-native-paper';
 
 import { Image, StickyNote } from 'lucide-react-native';
-import NumberScroll from './NumberScroll';
+import NumberScroll from '../../../components/library/NumberScroll';
+import BgView from '@/components/elements/BgView';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
   const theme = useTheme();
   return (
-    <View style={styles.container}>
+    <BgView>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>ELLIPTICAL</Text>
       </View>
@@ -48,16 +49,11 @@ export default function LogWorkoutScreen() {
       >
         <Text>Log Workout</Text>
       </Button>
-    </View>
+    </BgView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#121826',
-    flex: 1,
-    alignItems: 'center',
-  },
   titleContainer: {
     marginTop: 20,
   },

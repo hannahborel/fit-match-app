@@ -39,7 +39,7 @@ const logActivity = () => {
             >
               {Object.values(ActivityType).map((activity, index) => (
                 <TouchableOpacity
-                  onPress={() => router.push('/activity/logActivity')}
+                  onPress={() => router.push('logActivity/logActivity')}
                   key={index}
                   style={{
                     padding: 12,
