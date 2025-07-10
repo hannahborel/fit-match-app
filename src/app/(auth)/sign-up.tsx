@@ -37,10 +37,10 @@ const signUp = () => {
     setLoading(true);
     try {
       await signUp.create({
-        firstName,
-        lastName,
         emailAddress: email,
         password,
+        firstName,
+        lastName,
       });
 
       console.log('signUp', signUp);
@@ -48,9 +48,9 @@ const signUp = () => {
       await signUp.prepareVerification({ strategy: 'email_code' });
       router.push('/verify-email');
     } catch (err) {
-      if (err instanceof ReferenceError) {
-        console.log('ERROR: ', err);
-      }
+      console.error('Signup error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,24 +62,23 @@ const signUp = () => {
     <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ width: 300, alignSelf: 'center' }}>
         <View style={{ gap: 12 }}>
-          <View style={{ flexDirection: 'row', gap: 12, width: '100%' }}>
-            <StyledInput
-              autoCapitalize="words"
-              placeholder="First"
-              value={firstName}
-              onChangeText={(text) => {
-                setFirstName(text);
-              }}
-            />
-            <StyledInput
-              autoCapitalize="words"
-              placeholder="Last"
-              value={lastName}
-              onChangeText={(text) => {
-                setLastName(text);
-              }}
-            />
-          </View>
+          <StyledInput
+            autoCapitalize="words"
+            placeholder="First"
+            value={firstName}
+            onChangeText={(text) => {
+              setFirstName(text);
+            }}
+          />
+          <StyledInput
+            autoCapitalize="words"
+            placeholder="Last"
+            value={lastName}
+            onChangeText={(text) => {
+              setLastName(text);
+            }}
+          />
+
           <StyledInput
             autoCapitalize="none"
             placeholder="Email"

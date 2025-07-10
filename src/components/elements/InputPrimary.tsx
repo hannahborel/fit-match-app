@@ -9,7 +9,7 @@ const InputPrimary: React.FC<TextInputProps> = (props) => {
       theme={{ roundness: 12 }}
       outlineColor={theme.colors.surface}
       style={{
-        flexShrink: 2,
+        width: '100%',
         borderRadius: 12,
         backgroundColor: theme.colors.background,
         height: 45,

@@ -35,11 +35,14 @@ export default function Login() {
           });
         }
       } catch (err) {
-        if (err instanceof ReferenceError) {
+        if (err) {
           console.log(err);
           setError('Clerk Could not Find the user by email');
           // Clerk could not find the user by email.
-          return false;
+          router.push({
+            pathname: '/sign-up',
+            params: { emailParam: email },
+          });
         }
         console.error('Unexpected error:', error);
         return false;
