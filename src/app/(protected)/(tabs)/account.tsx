@@ -24,10 +24,13 @@ const Account = () => {
   ];
 
   const settings = [
-    { label: 'Account Settings', route: 'accountSettings' },
+    {
+      label: 'Account Settings',
+      route: 'account/accountSettings',
+    },
     {
       label: 'View League Details',
-      route: '/(modals)/account/leagueDetails',
+      route: '/account/leagueDetails',
     },
   ];
   return (

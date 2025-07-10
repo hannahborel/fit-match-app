@@ -25,6 +25,22 @@ export default function ProtectedLayout() {
       <Stack.Screen name="createLeague/selectChallengeType" />
       <Stack.Screen name="createLeague/faceOffSetup" />
       <Stack.Screen
+        name="account/leagueDetails"
+        options={{
+          headerShown: true,
+          title: 'League Details',
+          headerLeft: () => <ChevronLeft onPress={() => router.back()} />,
+        }}
+      />
+      <Stack.Screen
+        name="account/accountSettings"
+        options={{
+          headerShown: true,
+          title: 'Account Settings',
+          headerLeft: () => <ChevronLeft onPress={() => router.back()} />,
+        }}
+      />
+      <Stack.Screen
         name="logActivity/logActivity"
         options={{
           headerShown: true,
