@@ -17,6 +17,8 @@ export default function ProtectedLayout() {
       <Stack.Screen name="createLeague/index" />
       <Stack.Screen name="createLeague/selectChallengeType" />
       <Stack.Screen name="createLeague/faceOffSetup" />
+      <Stack.Screen name="logActivity/logActivity" />
+      <Stack.Screen name="logActivity/numberScroll" />
     </Stack>
   );
 }

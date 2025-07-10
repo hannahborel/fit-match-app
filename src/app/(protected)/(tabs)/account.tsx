@@ -27,7 +27,7 @@ const Account = () => {
     { label: 'Account Settings', route: 'accountSettings' },
     {
       label: 'View League Details',
-      route: '/(modals)/(account)/leagueDetails',
+      route: '/(modals)/account/leagueDetails',
     },
   ];
   return (

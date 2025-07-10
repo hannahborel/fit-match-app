@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, IconButton, Text, useTheme } from 'react-native-paper';
-import { NumberScroller } from '@/app/(protected)/(modals)/(activity)/NumberScroll';
+
 import { Image, StickyNote } from 'lucide-react-native';
+import NumberScroll from './NumberScroll';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
@@ -18,7 +19,7 @@ export default function LogWorkoutScreen() {
           gap: 8,
         }}
       >
-        <NumberScroller
+        <NumberScroll
           min={0}
           max={120}
           initial={34}

@@ -21,7 +21,7 @@ export default function HomeTabs() {
     {
       title: 'Log a Workout',
       icon: () => <Plus />,
-      route: 'activity',
+      route: 'logActivity',
     },
     {
       title: 'Calendar',

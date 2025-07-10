@@ -19,7 +19,7 @@ interface NumberScrollerProps {
 const ITEM_WIDTH = 175;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-export const NumberScroller: React.FC<NumberScrollerProps> = ({
+export const NumberScroll: React.FC<NumberScrollerProps> = ({
   min,
   max,
   initial,
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.2)',
   },
 });
-export default NumberScroller;
+export default NumberScroll;
