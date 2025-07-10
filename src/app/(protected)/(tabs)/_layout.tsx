@@ -16,22 +16,22 @@ export default function HomeTabs() {
     {
       title: 'Standings',
       icon: () => <FlowchartIcon color={theme.colors.primary} />,
-      route: 'standings/index',
+      route: 'standings',
     },
     {
       title: 'Log a Workout',
       icon: () => <Plus />,
-      route: 'activity/index',
+      route: 'activity',
     },
     {
       title: 'Calendar',
       icon: () => <Calendar />,
-      route: 'calendar/index',
+      route: 'calendar',
     },
     {
       title: 'Account',
       icon: () => <CircleUser />,
-      route: 'account/index',
+      route: 'account',
     },
   ];
   return (
