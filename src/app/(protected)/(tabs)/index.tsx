@@ -1,4 +1,4 @@
-import CardElement from '@/components/elements/CardElement';
+import { BaseCard } from '@/components/elements/Card';
 import BgView from '@/components/elements/BgView';
 import CountdownTimer from '@/components/library/CountdownTimer';
 
@@ -9,9 +9,9 @@ const Home = () => {
 
   return (
     <BgView>
-      <CardElement title={'YOUR LEAGUE STARTS IN'}>
+      <BaseCard title={'YOUR LEAGUE STARTS IN'}>
         <CountdownTimer targetTime={dummyTime} />
-      </CardElement>
+      </BaseCard>
     </BgView>
   );
 };

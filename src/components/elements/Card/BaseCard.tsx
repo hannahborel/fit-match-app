@@ -1,24 +1,21 @@
 import { Card, useTheme } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
 
-type CardElementProps = {
-  title: string;
+type BaseCardProps = {
+  title?: string;
   children: JSX.Element;
 };
-export const CardElement = (props: CardElementProps) => {
+export const BaseCard = (props: BaseCardProps) => {
   const theme = useTheme();
   const styles = StyleSheet.create({
     container: {
       backgroundColor: theme.colors.surface,
       borderRadius: 6,
-      paddingVertical: 0,
     },
     cardText: {
       color: theme.colors.onSurface,
     },
-    cardContent: {
-      paddingVertical: 0,
-    },
+    cardContent: {},
   });
   return (
     <Card style={styles.container}>
@@ -29,5 +26,3 @@ export const CardElement = (props: CardElementProps) => {
     </Card>
   );
 };
-
-export default CardElement;

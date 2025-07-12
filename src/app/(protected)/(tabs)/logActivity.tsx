@@ -1,11 +1,12 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import React from 'react';
 import BgView from '@/components/elements/BgView';
-import { TextInput, useTheme } from 'react-native-paper';
-import { ActivityType } from '@/types/types';
-import { formatString } from '@/helpers/helpers';
+import { ButtonCard } from '@/components/elements/Card';
 import SectionHeader from '@/components/elements/Headers/SectionHeader';
+import { formatString } from '@/helpers/helpers';
+import { ActivityType } from '@/types/types';
 import { router } from 'expo-router';
+import React from 'react';
+import { ScrollView, Text, View } from 'react-native';
+import { TextInput, useTheme } from 'react-native-paper';
 const logActivity = () => {
   const theme = useTheme();
   return (
@@ -38,7 +39,7 @@ const logActivity = () => {
               }}
             >
               {Object.values(ActivityType).map((activity, index) => (
-                <TouchableOpacity
+                <ButtonCard
                   onPress={() =>
                     router.push({
                       params: {
@@ -48,18 +49,13 @@ const logActivity = () => {
                     })
                   }
                   key={index}
-                  style={{
-                    padding: 12,
-                    borderRadius: 6,
-                    backgroundColor: theme.colors.surface,
-                  }}
                 >
                   <Text
                     style={{ color: theme.colors.onSurface, fontWeight: 500 }}
                   >
                     {formatString(activity.toLowerCase())}
                   </Text>
-                </TouchableOpacity>
+                </ButtonCard>
               ))}
             </View>
           </View>

@@ -1,11 +1,12 @@
-import { View, Text } from 'react-native';
+import BgView from '@/components/elements/BgView';
 import React from 'react';
+import { Text } from 'react-native';
 
 const Standings = () => {
   return (
-    <View>
+    <BgView>
       <Text>Standings</Text>
-    </View>
+    </BgView>
   );
 };
 
