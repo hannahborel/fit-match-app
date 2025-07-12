@@ -9,18 +9,14 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler", // ✅ fix
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "tailwind.config": [
-        "./tailwind.config.js"
-      ]
+      "@/*": ["./src/*"],
+      "tailwind.config": ["./tailwind.config.js"]
     }
   },
   "exclude": [
-    "node_modules",
+
     "babel.config.js",
     "metro.config.js",
     "jest.config.js"
