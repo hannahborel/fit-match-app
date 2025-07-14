@@ -32,6 +32,7 @@
     "expo-secure-store": "~14.2.3",
     "expo-status-bar": "~2.2.3",
     "expo-web-browser": "~14.2.0",
+    "hustle-types": "github:hannahborel/hustle-types",
     "lucide-react-native": "^0.525.0",
     "nativewind": "^4.1.23",
     "npm": "^11.4.2",
