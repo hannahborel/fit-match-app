@@ -3,34 +3,47 @@
 import FlowchartIcon from '@/assets/svg/icons/bracketIcon';
 import { Tabs } from 'expo-router';
 import { Calendar, CircleUser, Home, Plus } from 'lucide-react-native';
+import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 export default function HomeTabs() {
   const theme = useTheme();
-  const homeTabs = [
+  type TabIconProps = {
+    color: string;
+    size: number;
+    focused: boolean;
+  };
+
+  type HomeTab = {
+    title: string;
+    route: string;
+    icon: (props: TabIconProps) => React.ReactNode;
+  };
+
+  const homeTabs: HomeTab[] = [
     {
       title: 'Home',
-      icon: () => <Home />,
-      route: 'index', // This maps to (tabs)/index.tsx
+      icon: ({ color }) => <Home color={color} />,
+      route: 'index',
     },
     {
       title: 'Standings',
-      icon: () => <FlowchartIcon color={theme.colors.primary} />,
+      icon: ({ color }) => <FlowchartIcon color={color} />,
       route: 'standings',
     },
     {
       title: 'Log a Workout',
-      icon: () => <Plus />,
+      icon: ({ color }) => <Plus color={color} />,
       route: 'logActivity',
     },
     {
       title: 'Calendar',
-      icon: () => <Calendar />,
+      icon: ({ color }) => <Calendar color={color} />,
       route: 'calendar',
     },
     {
       title: 'Account',
-      icon: () => <CircleUser />,
+      icon: ({ color }) => <CircleUser color={color} />,
       route: 'account',
     },
   ];
@@ -43,6 +56,8 @@ export default function HomeTabs() {
         headerTitleStyle: {
           color: theme.colors.onBackground,
         },
+        tabBarInactiveTintColor: 'rgba(102, 119, 150, 0.56)',
+        tabBarActiveTintColor: 'rgba(207, 213, 247, 1)',
       }}
     >
       {homeTabs.map((tab, index) => (
@@ -53,10 +68,9 @@ export default function HomeTabs() {
             tabBarStyle: {
               backgroundColor: theme.colors.background,
               borderTopColor: theme.colors.backdrop,
-              height: 60,
             },
-            title: tab.title,
 
+            title: tab.title,
             tabBarLabel: () => null,
             tabBarIcon: tab.icon,
           }}

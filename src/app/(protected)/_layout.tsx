@@ -4,6 +4,12 @@ import { useTheme } from 'react-native-paper';
 
 export default function ProtectedLayout() {
   const theme = useTheme();
+  const BackButton = (
+    <ChevronLeft
+      color={theme.colors.onBackground}
+      onPress={() => router.back()}
+    />
+  );
 
   return (
     <Stack
@@ -14,6 +20,7 @@ export default function ProtectedLayout() {
         headerTitleStyle: {
           color: theme.colors.onBackground,
         },
+
         contentStyle: {
           backgroundColor: theme.colors.background,
           width: '100%',
@@ -29,7 +36,7 @@ export default function ProtectedLayout() {
         options={{
           headerShown: true,
           title: 'League Details',
-          headerLeft: () => <ChevronLeft onPress={() => router.back()} />,
+          headerLeft: () => BackButton,
         }}
       />
       <Stack.Screen
@@ -37,15 +44,17 @@ export default function ProtectedLayout() {
         options={{
           headerShown: true,
           title: 'Account Settings',
-          headerLeft: () => <ChevronLeft onPress={() => router.back()} />,
+
+          headerLeft: () => BackButton,
         }}
       />
       <Stack.Screen
         name="logActivity/logActivity"
         options={{
           headerShown: true,
+
           title: 'Log Workout',
-          headerLeft: () => <ChevronLeft onPress={() => router.back()} />,
+          headerLeft: () => BackButton,
         }}
       />
     </Stack>
