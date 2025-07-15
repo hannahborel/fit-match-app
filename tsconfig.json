@@ -9,17 +9,13 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "moduleResolution": "bundler", // ✅ fix
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": ["./src/*"],
       "tailwind.config": ["./tailwind.config.js"]
     }
   },
-  "exclude": [
-
-    "babel.config.js",
-    "metro.config.js",
-    "jest.config.js"
-  ],
+  "exclude": ["babel.config.js", "metro.config.js", "jest.config.js"],
   "extends": "expo/tsconfig.base"
 }

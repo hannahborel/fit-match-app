@@ -22,7 +22,6 @@ import themeColors from '../theme/Colors';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
-
   const segments = useSegments();
   const router = useRouter();
 
@@ -30,17 +29,20 @@ const InitialLayout = () => {
     if (!isLoaded) return;
 
     const inTabsGroup = segments[0] === '(auth)';
+    console.log('segments[0]', segments[0]);
 
-    if (isSignedIn && !inTabsGroup) {
-      router.replace('/loading');
-    } else if (!isSignedIn) {
-      router.replace('/login-email');
-    }
-  }, [isSignedIn]);
+    // Delay navigation until everything is mounted
+    setTimeout(() => {
+      if (isSignedIn && !inTabsGroup) {
+        router.replace('/loading');
+      } else if (!isSignedIn) {
+        router.replace('/login-email');
+      }
+    }, 0); // or 100ms if still unstable
+  }, [isLoaded, isSignedIn]);
 
   return <Slot />;
 };
-
 const customDarkTheme = { ...MD3DarkTheme, colors: themeColors.dark };
 const customLightTheme = { ...MD3LightTheme, colors: themeColors.light };
 

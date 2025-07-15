@@ -58,7 +58,7 @@ importers:
         version: 14.2.0(expo@53.0.19(@babel/core@7.28.0)(@expo/metro-runtime@5.0.4(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0)))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))
       hustle-types:
         specifier: github:hannahborel/hustle-types
-        version: https://codeload.github.com/hannahborel/hustle-types/tar.gz/a5b52a650ae5ab5f3a788933ad0f1ff0d864799e
+        version: https://codeload.github.com/hannahborel/hustle-types/tar.gz/863b46088e7699f45f7fbef0558bdb01a660849f
       lucide-react-native:
         specifier: ^0.525.0
         version: 0.525.0(react-native-svg@15.12.0(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0))(react-native@0.79.4(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.0.0))(react@19.0.0)
@@ -3138,8 +3138,8 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
 
-  hustle-types@https://codeload.github.com/hannahborel/hustle-types/tar.gz/a5b52a650ae5ab5f3a788933ad0f1ff0d864799e:
-    resolution: {tarball: https://codeload.github.com/hannahborel/hustle-types/tar.gz/a5b52a650ae5ab5f3a788933ad0f1ff0d864799e}
+  hustle-types@https://codeload.github.com/hannahborel/hustle-types/tar.gz/863b46088e7699f45f7fbef0558bdb01a660849f:
+    resolution: {tarball: https://codeload.github.com/hannahborel/hustle-types/tar.gz/863b46088e7699f45f7fbef0558bdb01a660849f}
     version: 1.0.0
 
   hyphenate-style-name@1.1.0:
@@ -9401,7 +9401,7 @@ snapshots:
 
   human-signals@2.1.0: {}
 
-  hustle-types@https://codeload.github.com/hannahborel/hustle-types/tar.gz/a5b52a650ae5ab5f3a788933ad0f1ff0d864799e: {}
+  hustle-types@https://codeload.github.com/hannahborel/hustle-types/tar.gz/863b46088e7699f45f7fbef0558bdb01a660849f: {}
 
   hyphenate-style-name@1.1.0: {}
 

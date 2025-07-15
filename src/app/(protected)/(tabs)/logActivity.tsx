@@ -2,13 +2,14 @@ import BgView from '@/components/elements/BgView';
 import { ButtonCard } from '@/components/elements/Card';
 import SectionHeader from '@/components/elements/Headers/SectionHeader';
 import { formatString } from '@/helpers/helpers';
-import { ActivityType } from '@/types/types';
 import { router } from 'expo-router';
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
+import { ActivityDefinitions } from 'hustle-types';
 const logActivity = () => {
   const theme = useTheme();
+
   return (
     <BgView>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -38,23 +39,38 @@ const logActivity = () => {
                 gap: 8,
               }}
             >
-              {Object.values(ActivityType).map((activity, index) => (
+              {Object.values(ActivityDefinitions).map((activity, index) => (
                 <ButtonCard
                   onPress={() =>
                     router.push({
                       params: {
-                        activityType: formatString(activity.toLowerCase()),
+                        activityType: formatString(activity.name.toLowerCase()),
                       },
                       pathname: 'logActivity/logActivity',
                     })
                   }
+                  spacing={4}
                   key={index}
                 >
                   <Text
-                    style={{ color: theme.colors.onSurface, fontWeight: 500 }}
+                    style={{
+                      color: theme.colors.onSurface,
+                      fontWeight: 500,
+                    }}
                   >
-                    {formatString(activity.toLowerCase())}
+                    {formatString(activity.name.toLowerCase())}
                   </Text>
+                  {activity.name == 'Strength Training' ? (
+                    <Text
+                      style={{
+                        color: theme.colors.onSurface,
+                        fontSize: 10,
+                        fontWeight: 300,
+                      }}
+                    >
+                      {activity.description}
+                    </Text>
+                  ) : null}
                 </ButtonCard>
               ))}
             </View>
