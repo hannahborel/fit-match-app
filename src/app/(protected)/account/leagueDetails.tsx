@@ -8,16 +8,15 @@ import { View } from 'react-native';
 import { LeagueResponse } from '@/types/types';
 import { Row } from '@/components/elements/Table/TableElements';
 import { formatDate } from '@/helpers/helpers';
+import { useAtomValue } from 'jotai';
+import { leagueAtom } from '@/atoms/leagueAtom';
 
 const leagueDetails = () => {
   // const theme = useTheme();
   const queryClient = useQueryClient();
   const theme = useTheme();
-  const cachedLeagueResponse: LeagueResponse | undefined =
-    queryClient.getQueryData(['league']);
 
-  const leagueDetails = cachedLeagueResponse?.league;
-  const leaguePlayers = cachedLeagueResponse?.league.leaguesToUsers;
+  const leagueDetails = useAtomValue(leagueAtom);
 
   return (
     <BgView>
@@ -42,7 +41,7 @@ const leagueDetails = () => {
               />
             </View>
             <View>
-              {leaguePlayers?.map((user, index) => (
+              {leagueDetails.leaguesToUsers.map((user, index) => (
                 <View
                   style={{
                     flexDirection: 'row',

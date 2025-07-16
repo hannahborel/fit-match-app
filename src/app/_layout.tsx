@@ -19,11 +19,17 @@ import merge from 'deepmerge';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import themeColors from '../theme/Colors';
+import { useGetLeague } from '@/hooks/useGetLeague';
+import { useSetAtom } from 'jotai';
+import { leagueAtom } from '@/atoms/leagueAtom';
+import { queryClient } from '@/lib/queryClient';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
   const segments = useSegments();
   const router = useRouter();
+  const { data, isLoading, error } = useGetLeague();
+  const setLeague = useSetAtom(leagueAtom);
 
   useEffect(() => {
     if (!isLoaded) return;
@@ -31,15 +37,23 @@ const InitialLayout = () => {
     const inTabsGroup = segments[0] === '(auth)';
     console.log('segments[0]', segments[0]);
 
+    console.log(data);
+
     // Delay navigation until everything is mounted
     setTimeout(() => {
       if (isSignedIn && !inTabsGroup) {
-        router.replace('/loading');
+        if (!isLoading && data) {
+          setLeague(data.league);
+          router.replace('/(tabs)');
+        }
+        if (!data && !isLoading) {
+          router.replace('/createLeague');
+        }
       } else if (!isSignedIn) {
         router.replace('/login-email');
       }
     }, 0); // or 100ms if still unstable
-  }, [isLoaded, isSignedIn]);
+  }, [isLoaded, isSignedIn, isLoading]);
 
   return <Slot />;
 };
@@ -58,8 +72,6 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const paperTheme =
     colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
-
-  const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
