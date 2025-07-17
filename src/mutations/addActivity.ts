@@ -34,20 +34,6 @@ export const addActivity = async (
   }
 
   if (!res.ok) {
-    const errorId = Math.random().toString(36).substring(2, 15);
-    const logMessage = `[${errorId}] Error logging activity: ${res.status} - ${res.statusText}`;
-    console.error(logMessage, { request: activity, response: responseData });
-
-    // Zod issue formatting (if present)
-    const zodIssues = responseData?.error?.issues;
-    if (Array.isArray(zodIssues)) {
-      const messages = zodIssues.map((issue: any) => {
-        const path = issue.path?.join('.') || 'field';
-        return `${path}: ${issue.message}`;
-      });
-      throw new Error(messages.join('\n'));
-    }
-
     // Check for known message fields
     const message =
       responseData?.message ||
