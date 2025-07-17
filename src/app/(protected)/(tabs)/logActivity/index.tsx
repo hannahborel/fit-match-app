@@ -47,7 +47,7 @@ const logActivity = () => {
                         params: {
                           typeName: activityType,
                         },
-                        pathname: 'logActivity/logActivity',
+                        pathname: 'logActivity/activityDetails',
                       })
                     }
                     spacing={4}

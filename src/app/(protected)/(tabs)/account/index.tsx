@@ -30,7 +30,7 @@ const Account = () => {
     },
     {
       label: 'View League Details',
-      route: '/account/leagueDetails',
+      route: 'account/leagueDetails',
     },
   ];
   return (

@@ -9,7 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
 import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
-import NumberScroll from '../../../components/library/NumberScroll';
+import NumberScroll from '../../../../components/library/NumberScroll';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);

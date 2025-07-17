@@ -18,6 +18,7 @@ export default function HomeTabs() {
     title: string;
     route: string;
     icon: (props: TabIconProps) => React.ReactNode;
+    headerShown?: boolean;
   };
 
   const homeTabs: HomeTab[] = [
@@ -25,6 +26,7 @@ export default function HomeTabs() {
       title: 'Home',
       icon: ({ color }) => <Home color={color} />,
       route: 'index',
+      headerShown: true,
     },
     {
       title: 'Standings',
@@ -65,6 +67,7 @@ export default function HomeTabs() {
           key={index}
           name={tab.route}
           options={{
+            headerShown: tab.headerShown ?? false,
             tabBarStyle: {
               backgroundColor: theme.colors.background,
               borderTopColor: theme.colors.backdrop,

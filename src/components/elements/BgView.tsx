@@ -2,11 +2,23 @@ import { ScrollView, View } from 'react-native';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
-const BgView = ({ children }: { children: React.ReactNode }) => {
+type BgViewProps = {
+  padding?: number;
+  children: React.ReactNode;
+};
+const BgView = ({ padding, children }: BgViewProps) => {
   const theme = useTheme();
+
+  let paddingHorOverrride = padding ? padding : 16;
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ flex: 1, paddingHorizontal: 16, paddingVertical: 8 }}>
+      <View
+        style={{
+          flex: 1,
+          paddingHorizontal: paddingHorOverrride,
+          paddingVertical: 8,
+        }}
+      >
         {children}
       </View>
     </ScrollView>
