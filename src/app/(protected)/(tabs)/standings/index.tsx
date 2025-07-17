@@ -9,25 +9,26 @@ import {
   useTabIndex,
   useTabNavigation,
 } from 'react-native-paper-tabs';
+import StandingsTab from './standingsPage';
+import SchedulePage from './schedulePage';
 
 const Standings = () => {
   const { data, error } = useGetLeague();
 
   const parsedData = JSON.stringify(data, null, 2);
+  console.log(parsedData);
 
   return (
-    <BgView padding={0}>
-      <TabsProvider
-        defaultIndex={0}
-        // onChangeIndex={handleChangeIndex} optional
-      >
-        <Tabs showTextLabel={true}>
-          <Text>Standings</Text>
-          <Text>Schedule</Text>
-        </Tabs>
-      </TabsProvider>
-      <Text style={{ color: 'white' }}>{parsedData}</Text>
-    </BgView>
+    <TabsProvider>
+      <Tabs showTextLabel={true}>
+        <TabScreen label={'Standings'}>
+          <StandingsTab />
+        </TabScreen>
+        <TabScreen label={'Schedule'}>
+          <SchedulePage />
+        </TabScreen>
+      </Tabs>
+    </TabsProvider>
   );
 };
 

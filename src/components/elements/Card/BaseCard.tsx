@@ -1,5 +1,6 @@
 import { Card, useTheme } from 'react-native-paper';
 import { StyleSheet } from 'react-native';
+import { JSX } from 'react';
 
 type BaseCardProps = {
   title?: string;
@@ -11,11 +12,12 @@ export const BaseCard = (props: BaseCardProps) => {
     container: {
       backgroundColor: theme.colors.surface,
       borderRadius: 6,
+      paddingVertical: 8,
     },
     cardText: {
       color: theme.colors.onSurface,
     },
-    cardContent: {},
+    cardContent: { backgroundColor: 'red' },
   });
   return (
     <Card style={styles.container}>
