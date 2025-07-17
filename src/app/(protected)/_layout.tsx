@@ -10,7 +10,7 @@ export default function ProtectedLayout() {
   return (
     <ThemedStack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="createLeague/index" />
+      <Stack.Screen name="createLeague" />
       <Stack.Screen name="createLeague/selectChallengeType" />
       <Stack.Screen name="createLeague/faceOffSetup" />
     </ThemedStack>
