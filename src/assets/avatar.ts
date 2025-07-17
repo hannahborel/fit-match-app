@@ -11,3 +11,11 @@ export const avatars = [
 export function getAvatarByIndex(index: number) {
   return avatars[index % avatars.length]; // Loops through if index exceeds length
 }
+
+// function getAvatarForUserId(userId: string) {
+//   let hash = 0;
+//   for (let i = 0; i < userId.length; i++) {
+//     hash += userId.charCodeAt(i);
+//   }
+//   return avatars[hash % avatars.length];
+// }

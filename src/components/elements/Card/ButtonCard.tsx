@@ -1,11 +1,11 @@
 import { TouchableOpacity, ViewStyle } from 'react-native';
 import { BaseCard } from './BaseCard';
 import { useTheme } from 'react-native-paper';
-import { JSX } from 'react';
+import { JSX, ReactNode } from 'react';
 
 type ButtonCardProps = React.ComponentProps<typeof BaseCard> & {
   onPress: () => void;
-  children: (JSX.Element | null)[];
+  children: ReactNode;
   spacing: number;
 };
 
