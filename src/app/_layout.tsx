@@ -14,7 +14,11 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { tokenCache } from '@/constants/auth';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+} from '@tanstack/react-query';
 import merge from 'deepmerge';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
@@ -23,6 +27,7 @@ import { useGetLeague } from '@/hooks/useGetLeague';
 import { useSetAtom } from 'jotai';
 import { leagueAtom } from '@/atoms/leagueAtom';
 import { queryClient } from '@/lib/queryClient';
+import { addActivity } from '@/mutations/addActivity';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
@@ -35,9 +40,6 @@ const InitialLayout = () => {
     if (!isLoaded) return;
 
     const inTabsGroup = segments[0] === '(auth)';
-    console.log('segments[0]', segments[0]);
-
-    console.log(data);
 
     // Delay navigation until everything is mounted
     setTimeout(() => {
@@ -52,7 +54,7 @@ const InitialLayout = () => {
       } else if (!isSignedIn) {
         router.replace('/login-email');
       }
-    }, 0); // or 100ms if still unstable
+    }, 0);
   }, [isLoaded, isSignedIn, isLoading]);
 
   return <Slot />;

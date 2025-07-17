@@ -1,5 +1,5 @@
 import { CreateLeagueInput } from '@/types/types';
-import { createLeague } from '@/queries/createLeague';
+import { createLeague } from '@/mutations/createLeague';
 import { useMutation } from '@tanstack/react-query';
 import { useAuth } from '@clerk/clerk-expo';
 

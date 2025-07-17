@@ -39,40 +39,42 @@ const logActivity = () => {
                 gap: 8,
               }}
             >
-              {Object.values(ActivityDefinitions).map((activity, index) => (
-                <ButtonCard
-                  onPress={() =>
-                    router.push({
-                      params: {
-                        activityType: formatString(activity.name.toLowerCase()),
-                      },
-                      pathname: 'logActivity/logActivity',
-                    })
-                  }
-                  spacing={4}
-                  key={index}
-                >
-                  <Text
-                    style={{
-                      color: theme.colors.onSurface,
-                      fontWeight: 500,
-                    }}
+              {Object.entries(ActivityDefinitions).map(
+                ([activityType, activity]) => (
+                  <ButtonCard
+                    onPress={() =>
+                      router.push({
+                        params: {
+                          typeName: activityType,
+                        },
+                        pathname: 'logActivity/logActivity',
+                      })
+                    }
+                    spacing={4}
+                    key={activityType}
                   >
-                    {formatString(activity.name.toLowerCase())}
-                  </Text>
-                  {activity.name == 'Strength Training' ? (
                     <Text
                       style={{
                         color: theme.colors.onSurface,
-                        fontSize: 10,
-                        fontWeight: 300,
+                        fontWeight: 500,
                       }}
                     >
-                      {activity.description}
+                      {formatString(activity.name.toLowerCase())}
                     </Text>
-                  ) : null}
-                </ButtonCard>
-              ))}
+                    {activity.name == 'Strength Training' ? (
+                      <Text
+                        style={{
+                          color: theme.colors.onSurface,
+                          fontSize: 10,
+                          fontWeight: 300,
+                        }}
+                      >
+                        {activity.description}
+                      </Text>
+                    ) : null}
+                  </ButtonCard>
+                ),
+              )}
             </View>
           </View>
         </View>
