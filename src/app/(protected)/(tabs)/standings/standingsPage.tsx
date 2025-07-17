@@ -1,11 +1,10 @@
-import { View, Text } from 'react-native';
-import React from 'react';
-import BgView from '@/components/elements/BgView';
-import { getDefaultStore, useAtomValue } from 'jotai';
+import { getAvatarByIndex } from '@/assets/avatar';
 import { leagueAtom } from '@/atoms/leagueAtom';
-import { League } from 'hustle-types';
+import BgView from '@/components/elements/BgView';
 import { getLeagueStandings } from '@/helpers/getLeagueStandings';
-import { BaseCard } from '@/components/elements/Card';
+import { useAtomValue } from 'jotai';
+import React from 'react';
+import { Text, View } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
 
 const StandingsTab = () => {
@@ -34,10 +33,7 @@ const StandingsTab = () => {
                   alignItems: 'flex-start',
                 }}
               >
-                <Avatar.Image
-                  size={40}
-                  source={require('@/assets/avatars/alien.png')}
-                />
+                <Avatar.Image size={40} source={getAvatarByIndex(index)} />
               </View>
               <View
                 style={{

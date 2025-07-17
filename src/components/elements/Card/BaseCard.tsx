@@ -17,7 +17,7 @@ export const BaseCard = (props: BaseCardProps) => {
     cardText: {
       color: theme.colors.onSurface,
     },
-    cardContent: { backgroundColor: 'red' },
+    cardContent: {},
   });
   return (
     <Card style={styles.container}>
