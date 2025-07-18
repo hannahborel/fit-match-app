@@ -1,13 +1,11 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
-import BgView from '@/components/elements/BgView';
-import { getDefaultStore, useAtomValue } from 'jotai';
-import { leagueAtom } from '@/atoms/leagueAtom';
-import { League } from 'hustle-types';
-import { getLeagueStandings } from '@/helpers/getLeagueStandings';
-import { BaseCard } from '@/components/elements/Card';
-import { Avatar, useTheme } from 'react-native-paper';
 import { getAvatarByIndex } from '@/assets/avatar';
+import { leagueAtom } from '@/atoms/leagueAtom';
+import BgView from '@/components/elements/BgView';
+import { getLeagueStandings } from '@/helpers/getLeagueStandings';
+import { useAtomValue } from 'jotai';
+import React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Avatar, useTheme } from 'react-native-paper';
 
 const StandingsTab = () => {
   const leagueData = useAtomValue(leagueAtom);
@@ -15,12 +13,15 @@ const StandingsTab = () => {
   const standingsList = leagueData ? getLeagueStandings(leagueData) : [];
   console.log(standingsList);
   const theme = useTheme();
+  leagueData;
+
   return (
     <BgView>
       <View style={{ gap: 8 }}>
         {leagueData ? (
           standingsList.map((player, index) => (
             <TouchableOpacity
+              key={index}
               style={{
                 flexDirection: 'row',
                 justifyContent: 'space-between',
