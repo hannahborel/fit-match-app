@@ -1,3 +1,7 @@
 import { atom } from 'jotai';
 
-export const currentMatchIdAtom = atom<string | null>(null);
+export type TAllMatchesIdAtom = Record<number, string>;
+export const AllMatchesIdAtom = atom<TAllMatchesIdAtom>({});
+
+export type TCurrentMatchIdAtom = string;
+export const currentMatchAtom = atom<TCurrentMatchIdAtom>('');

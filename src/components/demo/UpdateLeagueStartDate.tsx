@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Platform, StyleSheet } from 'react-native';
+import { updateLeagueStartTime } from '@/queries/updateLeagueStartTime';
+import { useAuth } from '@clerk/clerk-expo';
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
-import { useAuth } from '@clerk/clerk-expo';
-import { ISOStringFormat } from 'date-fns';
-import { Button, ButtonProps, useTheme } from 'react-native-paper';
-import { apiUrl } from '@/constants/auth';
 import { useMutation } from '@tanstack/react-query';
-import { updateLeagueStartTime } from '@/queries/updateLeagueStartTime';
+import React, { useState } from 'react';
+import { Platform, Text, View } from 'react-native';
+import { Button, useTheme } from 'react-native-paper';
 
 type UpdateLeagueStartDateDemo = {
   startDate: Date;
@@ -19,7 +17,9 @@ export default function UpdateLeagueStartDateDemo({
   leagueId,
 }: UpdateLeagueStartDateDemo) {
   const [newStartDate, setNewStartDate] = useState(new Date(startDate));
+
   const [showPicker, setShowPicker] = useState(false);
+  const isDisabled = startDate.toISOString() === newStartDate.toISOString();
   const [status, setStatus] = useState('');
   const theme = useTheme();
   const { getToken } = useAuth();
@@ -29,18 +29,18 @@ export default function UpdateLeagueStartDateDemo({
     onSuccess: () => {
       setStatus('Start date updated');
     },
-    onError: () => {
-      setStatus(`Error: ${error?.message}`);
+    onError: (err) => {
+      setStatus(`Error: ${err?.message}`);
     },
   });
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    console.log(selectedDate);
     if (selectedDate) setNewStartDate(selectedDate);
     setShowPicker(false);
   };
 
   const handleSubmit = async () => {
+    setStatus('');
     const token = await getToken();
     if (token) {
       mutate({ leagueId, newStartDate, token });
@@ -55,6 +55,7 @@ export default function UpdateLeagueStartDateDemo({
       day: 'numeric',
     });
   };
+
   return (
     <View style={{ padding: 20, backgroundColor: theme.colors.surface }}>
       <Text style={{ marginBottom: 10, color: theme.colors.onSurface }}>
@@ -77,7 +78,10 @@ export default function UpdateLeagueStartDateDemo({
       )}
       <View style={{ marginTop: 20 }}>
         <Button
-          style={{ backgroundColor: theme.colors.onSurface }}
+          disabled={isDisabled}
+          style={{
+            backgroundColor: isDisabled ? 'grey' : theme.colors.onSurface,
+          }}
           textColor={theme.colors.surface}
           onPress={handleSubmit}
         >

@@ -23,7 +23,7 @@ import { useAtom, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import themeColors from '../theme/Colors';
-import { currentMatchIdAtom } from '@/atoms/currentMatchIdAtom';
+
 import { getCurrentWeek } from '@/helpers/getCurrentWeek';
 
 const InitialLayout = () => {
@@ -32,7 +32,6 @@ const InitialLayout = () => {
   const router = useRouter();
   const { data, isLoading, error } = useGetLeague();
   const setLeague = useSetAtom(leagueAtom);
-  const setCurrentMatchId = useSetAtom(currentMatchIdAtom);
 
   useEffect(() => {
     if (!isLoaded || isLoading) return;
