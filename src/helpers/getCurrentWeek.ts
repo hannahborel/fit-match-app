@@ -1,7 +1,5 @@
-import { leagueAtom } from '@/atoms/leagueAtom';
 import { differenceInWeeks } from 'date-fns';
 import { League } from 'hustle-types';
-import { useAtomValue } from 'jotai';
 
 export const getCurrentWeek = (startDate: string): number => {
   const earlierDate = new Date(startDate);
