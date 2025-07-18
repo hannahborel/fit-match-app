@@ -11,6 +11,6 @@ export const useGetLeague = () => {
 
       return fetchLeagueByUserId(token);
     },
-    enabled: true, // Only run when user is signed in
+    enabled: true,
   });
 };

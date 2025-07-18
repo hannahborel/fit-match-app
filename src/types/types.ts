@@ -84,3 +84,10 @@ export enum ActivityType {
   DANCE = 'DANCE',
   OTHER = 'OTHER',
 }
+
+export type MatchUser = {
+  id: string;
+  matchId: string;
+  userId: string;
+  teamIndex: 0 | 1;
+};

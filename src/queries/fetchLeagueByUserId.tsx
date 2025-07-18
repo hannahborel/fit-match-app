@@ -5,5 +5,15 @@ export const fetchLeagueByUserId = async (token: string | null) => {
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = await res.json();
+  if (!res.ok) {
+    console.error('Server returned error status', res.status, data);
+    throw new Error(data.message || 'Fetch League Failed');
+  }
+
+  // Optional: sanity check for expected shape
+  if (!data.league) {
+    console.warn('Response did not include league:', data);
+    throw new Error('No league found');
+  }
   return data;
 };

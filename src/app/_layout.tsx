@@ -13,21 +13,18 @@ import {
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { leagueAtom } from '@/atoms/leagueAtom';
 import { tokenCache } from '@/constants/auth';
-import {
-  QueryClient,
-  QueryClientProvider,
-  useMutation,
-} from '@tanstack/react-query';
+import { useGetLeague } from '@/hooks/useGetLeague';
+import { queryClient } from '@/lib/queryClient';
+import { QueryClientProvider } from '@tanstack/react-query';
 import merge from 'deepmerge';
+import { useAtom, useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import themeColors from '../theme/Colors';
-import { useGetLeague } from '@/hooks/useGetLeague';
-import { useSetAtom } from 'jotai';
-import { leagueAtom } from '@/atoms/leagueAtom';
-import { queryClient } from '@/lib/queryClient';
-import { addActivity } from '@/mutations/addActivity';
+import { currentMatchIdAtom } from '@/atoms/currentMatchIdAtom';
+import { getCurrentWeek } from '@/helpers/getCurrentWeek';
 
 const InitialLayout = () => {
   const { isLoaded, isSignedIn } = useAuth();
@@ -35,27 +32,24 @@ const InitialLayout = () => {
   const router = useRouter();
   const { data, isLoading, error } = useGetLeague();
   const setLeague = useSetAtom(leagueAtom);
+  const setCurrentMatchId = useSetAtom(currentMatchIdAtom);
 
   useEffect(() => {
-    if (!isLoaded) return;
+    if (!isLoaded || isLoading) return;
 
     const inTabsGroup = segments[0] === '(auth)';
 
-    // Delay navigation until everything is mounted
-    setTimeout(() => {
-      if (isSignedIn && !inTabsGroup) {
-        if (!isLoading && data) {
-          setLeague(data.league);
-          router.replace('/(tabs)');
-        }
-        if (!data && !isLoading) {
-          router.replace('/createLeague');
-        }
-      } else if (!isSignedIn) {
-        router.replace('/login-email');
+    if (isSignedIn && !inTabsGroup) {
+      if (data?.league) {
+        setLeague(data.league);
+        router.replace('/(tabs)');
+      } else if (!data) {
+        router.replace('/(protected)/createLeague');
       }
-    }, 0);
-  }, [isLoaded, isSignedIn, isLoading]);
+    } else if (!isSignedIn) {
+      router.replace('/login-email');
+    }
+  }, [isLoaded, isSignedIn, isLoading, data]);
 
   return <Slot />;
 };
