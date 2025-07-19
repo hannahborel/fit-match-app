@@ -1,4 +1,6 @@
 import { Slot, useRouter, useSegments } from 'expo-router';
+import { useReactQueryDevTools } from '@dev-plugins/react-query';
+import { ActivityIndicator, View } from 'react-native';
 
 import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import {
@@ -9,6 +11,7 @@ import {
   MD3DarkTheme,
   MD3LightTheme,
   PaperProvider,
+  Text,
   adaptNavigationTheme,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -25,28 +28,36 @@ import { useColorScheme } from 'react-native';
 import themeColors from '../theme/Colors';
 
 const InitialLayout = () => {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded: isSignInLoading, isSignedIn } = useAuth();
   const segments = useSegments();
   const router = useRouter();
-  const { data, isLoading, error } = useGetLeague();
+  const { data, isLoading: isLeagueDataLoading, error } = useGetLeague();
   const setLeague = useSetAtom(leagueAtom);
+  useReactQueryDevTools(queryClient);
 
   useEffect(() => {
-    if (!isLoaded || isLoading) return;
-
+    if (!isSignInLoading || isLeagueDataLoading) return;
     const inTabsGroup = segments[0] === '(auth)';
 
-    if (isSignedIn && !inTabsGroup) {
-      if (data?.league) {
-        setLeague(data.league);
-        router.replace('/(tabs)');
-      } else if (!data) {
-        router.replace('/(protected)/createLeague');
-      }
-    } else if (!isSignedIn) {
-      router.replace('/login-email');
+    if (!isSignedIn) {
+      return router.replace('/login-email');
     }
-  }, [isLoaded, isSignedIn, isLoading, data]);
+
+    if (isSignedIn && !inTabsGroup && data) {
+      setLeague(data);
+      return router.replace('/(tabs)');
+    } else {
+      router.replace('/(protected)/createLeague');
+    }
+  }, [isSignInLoading, isSignedIn, data, isLeagueDataLoading]);
+
+  if (isLeagueDataLoading || !isSignInLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={{ color: 'white' }}> League Data Loading</Text>
+      </View>
+    );
+  }
 
   return <Slot />;
 };

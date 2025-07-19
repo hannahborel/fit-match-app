@@ -1,6 +1,9 @@
 import { apiUrl } from '@/constants/auth';
+import { League } from 'hustle-types';
 
-export const fetchLeagueByUserId = async (token: string | null) => {
+export const fetchLeagueByUserId = async (
+  token: string | null,
+): Promise<League> => {
   const res = await fetch(`${apiUrl}/api/league-by-user-id`, {
     headers: { Authorization: `Bearer ${token}` },
   });
