@@ -12,7 +12,10 @@ export const fetchLeagueByUserId = async (token: string | null) => {
 
   // Optional: sanity check for expected shape
   if (!data.league) {
-    console.warn('Response did not include league:', data);
+    console.warn(
+      '[fetchLeagueByUserId] Response did not include league:',
+      data,
+    );
     throw new Error('No league found');
   }
   return data;

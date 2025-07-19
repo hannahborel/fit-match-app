@@ -14,11 +14,12 @@ import { Avatar, useTheme } from 'react-native-paper';
 
 const StandingsTab = () => {
   const leagueData = useAtomValue(leagueAtom);
-  console.log(JSON.stringify(leagueData, null, 2));
-  const standingsList = leagueData ? getLeagueStandings(leagueData) : [];
-  console.log(standingsList);
-  const theme = useTheme();
 
+  const standingsList = leagueData ? getLeagueStandings(leagueData) : [];
+
+  const theme = useTheme();
+  // console.log(standingsList);
+  // console.log(JSON.stringify(leagueData, null, 2));
   return (
     <BgView>
       <View style={{ gap: 8 }}>

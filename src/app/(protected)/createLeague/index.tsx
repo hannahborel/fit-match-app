@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useTheme } from 'react-native-paper';
+import BgView from '@/components/elements/BgView';
 
 const startPage = () => {
   const theme = useTheme();
@@ -26,7 +27,7 @@ const startPage = () => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+    <BgView>
       <View style={{ padding: 16, gap: 16 }}>
         <Text
           style={{
@@ -46,8 +47,8 @@ const startPage = () => {
             color: '#666',
           }}
         >
-          You&#39;re all set;rere all set! Now you can join an existing league
-          or create your own.
+          You&#39;re all set all set! Now you can join an existing league or
+          create your own.
         </Text>
         <Button
           mode="contained"
@@ -63,7 +64,7 @@ const startPage = () => {
           <Text>Join an Exiting Challenge</Text>
         </Button>
         <Button
-          onPress={() => router.push('(leagueSetup)/selectChallengeType')}
+          onPress={() => router.push('createLeague/selectChallengeType')}
           mode="contained"
           textColor={theme.colors.onSurface}
           style={{
@@ -77,12 +78,12 @@ const startPage = () => {
           <Text>Create a New Challenge</Text>
         </Button>
       </View>
-      <View style={{ position: 'absolute', bottom: 25 }}>
+      <View style={{}}>
         <Button mode="contained" onPress={handleLogout}>
           <Text>Log Out</Text>
         </Button>
       </View>
-    </View>
+    </BgView>
   );
 };
 

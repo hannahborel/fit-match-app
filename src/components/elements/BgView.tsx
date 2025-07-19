@@ -17,6 +17,7 @@ const BgView = ({ padding, children }: BgViewProps) => {
           flex: 1,
           paddingHorizontal: paddingHorOverrride,
           paddingVertical: 8,
+          alignItems: 'center',
         }}
       >
         {children}
