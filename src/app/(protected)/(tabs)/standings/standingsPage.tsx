@@ -1,11 +1,5 @@
 import { getAvatarByIndex } from '@/assets/avatar';
 import { leagueAtom } from '@/atoms/leagueAtom';
-import BgView from '@/components/elements/BgView';
-import {
-  getCurrentWeek,
-  getCurrentWeekMatchIds,
-  mapAllWeeksToMatchIds,
-} from '@/helpers/getCurrentWeek';
 import { getLeagueStandings } from '@/helpers/getLeagueStandings';
 import { useAtomValue } from 'jotai';
 import React from 'react';
