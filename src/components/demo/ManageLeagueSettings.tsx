@@ -69,7 +69,7 @@ const ManageLeagueSettings = ({
         disabled={mutation.isPending || newSize === String(leagueSize)}
         loading={mutation.isPending}
       >
-        Update
+        <Text>Update</Text>
       </Button>
 
       {mutation.isSuccess && (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, View } from 'react-native';
-import { Button, useTheme } from 'react-native-paper';
+import { Button, Text, useTheme } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
 import { deleteLeague } from '@/queries/deleteLeague';
 
@@ -58,7 +58,7 @@ const DeleteLeagueButton = ({
         textColor={theme.colors.error}
         style={{ borderColor: theme.colors.error }}
       >
-        Delete League
+        <Text> Delete League</Text>
       </Button>
     </View>
   );

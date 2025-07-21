@@ -5,7 +5,7 @@ import { JSX, ReactNode } from 'react';
 
 type ButtonCardProps = React.ComponentProps<typeof BaseCard> & {
   onPress: () => void;
-  children: ReactNode;
+  children: React.ReactNode;
   spacing: number;
 };
 

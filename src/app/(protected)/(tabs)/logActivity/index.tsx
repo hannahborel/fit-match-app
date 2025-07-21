@@ -11,48 +11,48 @@ const logActivity = () => {
   const theme = useTheme();
 
   return (
-    <BgView>
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        <View
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View
+        style={{
+          gap: 18,
+          padding: 8,
+        }}
+      >
+        <TextInput
+          placeholder="search"
+          mode="flat"
+          underlineColor="transparent"
+          activeUnderlineColor="transparent"
           style={{
-            gap: 18,
-            padding: 8,
+            backgroundColor: theme.colors.surface,
+            height: 40,
+            borderRadius: 6,
           }}
-        >
-          <TextInput
-            placeholder="search"
-            mode="flat"
-            underlineColor="transparent"
-            activeUnderlineColor="transparent"
+        />
+        <View>
+          <SectionHeader text={'All activities'} />
+          <View
             style={{
-              backgroundColor: theme.colors.surface,
-              height: 40,
+              borderColor: theme.colors.onSurface,
               borderRadius: 6,
+              gap: 8,
             }}
-          />
-          <View>
-            <SectionHeader text={'All activities'} />
-            <View
-              style={{
-                borderColor: theme.colors.onSurface,
-                borderRadius: 6,
-                gap: 8,
-              }}
-            >
-              {Object.entries(ActivityDefinitions).map(
-                ([activityType, activity]) => (
-                  <ButtonCard
-                    onPress={() =>
-                      router.push({
-                        params: {
-                          typeName: activityType,
-                        },
-                        pathname: 'logActivity/activityDetails',
-                      })
-                    }
-                    spacing={4}
-                    key={activityType}
-                  >
+          >
+            {Object.entries(ActivityDefinitions).map(
+              ([activityType, activity]) => (
+                <ButtonCard
+                  onPress={() =>
+                    router.push({
+                      params: {
+                        typeName: activityType,
+                      },
+                      pathname: 'logActivity/activityDetails',
+                    })
+                  }
+                  spacing={4}
+                  key={activityType}
+                >
+                  <>
                     <Text
                       style={{
                         color: theme.colors.onSurface,
@@ -72,14 +72,14 @@ const logActivity = () => {
                         {activity.description}
                       </Text>
                     ) : null}
-                  </ButtonCard>
-                ),
-              )}
-            </View>
+                  </>
+                </ButtonCard>
+              ),
+            )}
           </View>
         </View>
-      </ScrollView>
-    </BgView>
+      </View>
+    </ScrollView>
   );
 };
 

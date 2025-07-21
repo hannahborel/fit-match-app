@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
 import { Button, IconButton, Text, useTheme } from 'react-native-paper';
 
-import BgView from '@/components/elements/BgView';
 import { addActivity, LogActivityInput } from '@/mutations/addActivity';
 import { useAuth } from '@clerk/clerk-expo';
 import { useMutation } from '@tanstack/react-query';
@@ -10,6 +9,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../../components/library/NumberScroll';
+import { useGetLeague } from '@/hooks/useGetLeague';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
@@ -36,6 +36,7 @@ export default function LogWorkoutScreen() {
   const activityData = ActivityDefinitions[typeName as ActivityType];
 
   const handleLogWorkout = async () => {
+    console.log('handleLogWorkout');
     if (!leagueId || !matchId || !typeName || !userId) {
       Alert.alert('Missing Info', 'Required info is missing.');
       return;
@@ -53,11 +54,13 @@ export default function LogWorkoutScreen() {
       activityNote: 'dummy note',
     };
 
+    console.log(activity.activityType);
+
     mutation.mutate(activity);
   };
 
   return (
-    <BgView>
+    <>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>
           {activityData?.name ?? 'Unknown Activity'}
@@ -94,7 +97,7 @@ export default function LogWorkoutScreen() {
       >
         <Text>Log Workout</Text>
       </Button>
-    </BgView>
+    </>
   );
 }
 
