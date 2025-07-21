@@ -64,8 +64,6 @@ const InitialLayout = () => {
     }, 0);
   }, [isSignInLoading, isSignedIn, data, isLeagueDataLoading]);
 
-  const pageLoad = isLeagueDataLoading || !isSignInLoading;
-
   return <Slot />;
 };
 const customDarkTheme = { ...MD3DarkTheme, colors: themeColors.dark };
