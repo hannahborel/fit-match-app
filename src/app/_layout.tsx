@@ -35,11 +35,11 @@ import { SessionProvider } from '@/lib/util/authentication/AuthContext';
 
 const InitialLayout = () => {
   const { isLoaded: isSignInLoading, isSignedIn } = useAuth();
-  const rootNavigationState = useRootNavigationState();
+
   const segments = useSegments();
   const router = useRouter();
   const { data, isLoading: isLeagueDataLoading, isFetched } = useGetLeague();
-  // const [isRouterReady, setIsRouterReady] = useState(false);
+
   const setLeague = useSetAtom(leagueAtom);
   useReactQueryDevTools(queryClient);
 
