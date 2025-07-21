@@ -13,13 +13,5 @@ export const fetchLeagueByUserId = async (
     throw new Error(data.message || 'Fetch League Failed');
   }
 
-  // Optional: sanity check for expected shape
-  if (!data.league) {
-    console.warn(
-      '[fetchLeagueByUserId] Response did not include league:',
-      data,
-    );
-    throw new Error('No league found');
-  }
-  return data;
+  return data?.league ?? null;
 };

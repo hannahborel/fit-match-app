@@ -1,4 +1,9 @@
-import { Slot, useRouter, useSegments } from 'expo-router';
+import {
+  Slot,
+  useRootNavigationState,
+  useRouter,
+  useSegments,
+} from 'expo-router';
 import { useReactQueryDevTools } from '@dev-plugins/react-query';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -23,41 +28,43 @@ import { queryClient } from '@/lib/queryClient';
 import { QueryClientProvider } from '@tanstack/react-query';
 import merge from 'deepmerge';
 import { useAtom, useSetAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import themeColors from '../theme/Colors';
+import { SessionProvider } from '@/lib/util/authentication/AuthContext';
 
 const InitialLayout = () => {
   const { isLoaded: isSignInLoading, isSignedIn } = useAuth();
+  const rootNavigationState = useRootNavigationState();
   const segments = useSegments();
   const router = useRouter();
-  const { data, isLoading: isLeagueDataLoading, error } = useGetLeague();
+  const { data, isLoading: isLeagueDataLoading, isFetched } = useGetLeague();
+  // const [isRouterReady, setIsRouterReady] = useState(false);
   const setLeague = useSetAtom(leagueAtom);
   useReactQueryDevTools(queryClient);
 
+  const inAuthGroup = segments[0] === '(auth)';
+  const isAppReady = isSignInLoading && isFetched;
+
   useEffect(() => {
-    if (!isSignInLoading || isLeagueDataLoading) return;
-    const inTabsGroup = segments[0] === '(auth)';
+    if (!isAppReady) return;
 
-    if (!isSignedIn) {
-      return router.replace('/login-email');
-    }
+    setTimeout(() => {
+      if (!isSignedIn && !inAuthGroup) {
+        router.replace('/login-email');
+        return;
+      }
 
-    if (isSignedIn && !inTabsGroup && data) {
-      setLeague(data);
-      return router.replace('/(tabs)');
-    } else {
-      router.replace('/(protected)/createLeague');
-    }
+      if (data) {
+        setLeague(data);
+        if (!inAuthGroup) router.replace('/(tabs)');
+      } else {
+        if (!inAuthGroup) router.replace('/(protected)/createLeague');
+      }
+    }, 0);
   }, [isSignInLoading, isSignedIn, data, isLeagueDataLoading]);
 
-  if (isLeagueDataLoading || !isSignInLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ color: 'white' }}> League Data Loading</Text>
-      </View>
-    );
-  }
+  const pageLoad = isLeagueDataLoading || !isSignInLoading;
 
   return <Slot />;
 };
@@ -83,11 +90,13 @@ export default function RootLayout() {
         publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
         tokenCache={tokenCache}
       >
-        <PaperProvider theme={paperTheme}>
-          <SafeAreaProvider>
-            <InitialLayout />
-          </SafeAreaProvider>
-        </PaperProvider>
+        <SessionProvider>
+          <PaperProvider theme={paperTheme}>
+            <SafeAreaProvider>
+              <InitialLayout />
+            </SafeAreaProvider>
+          </PaperProvider>
+        </SessionProvider>
       </ClerkProvider>
     </QueryClientProvider>
   );
