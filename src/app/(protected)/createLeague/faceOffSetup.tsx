@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import CustomHeader from '@/components/library/CustomHeader';
+
 import InputPrimary from '@/components/elements/InputPrimary';
 
 const FaceOffSetup = () => {
@@ -32,7 +32,6 @@ const FaceOffSetup = () => {
   };
   return (
     <View style={{ flex: 1 }}>
-      <CustomHeader title="FaceOff Setup" />
       <View
         style={{
           flex: 1,

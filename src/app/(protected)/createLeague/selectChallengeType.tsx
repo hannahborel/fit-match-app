@@ -1,34 +1,40 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import DuelImg from '../../../assets/svg/duelImg.svg';
 import FaceOffImg from '../../../assets/svg/faceOffImg.svg';
 import StepsChallageImg from '../../../assets/svg/stepsChallageImg.svg';
+import { router } from 'expo-router';
 const selectChallengeType = () => {
   const theme = useTheme();
 
   return (
     <View style={styles.parent}>
-      <View
+      <TouchableOpacity
         style={[
           styles.container,
           {
             backgroundColor: 'rgba(0, 206, 184, 0.1)',
+            borderWidth: 1,
+            borderColor: 'rgba(0, 206, 184, 1)',
           },
         ]}
+        onPress={() => router.push('/createLeague/faceOffSetup')}
       >
         <FaceOffImg />
         <Text style={{ fontSize: 12, color: theme.colors.onSurface }}>
           Grab 4 or more friends for this league-style competition. FaceOff
           against your friends in weekly battles to see where you stack up.
         </Text>
-      </View>
+      </TouchableOpacity>
 
-      <View
+      <TouchableOpacity
         style={[
           styles.container,
           {
             backgroundColor: 'rgba(41, 49, 66, 1)',
+            borderWidth: 1,
+            borderColor: '  rgb(0, 42, 133)',
           },
         ]}
       >
@@ -37,13 +43,15 @@ const selectChallengeType = () => {
           Anyone can talk the talk, but who can walk the walk? Log the most
           steps, take home the title
         </Text>
-      </View>
+      </TouchableOpacity>
 
-      <View
+      <TouchableOpacity
         style={[
           styles.container,
           {
             backgroundColor: 'rgba(47, 112, 250, 0.16)',
+            borderWidth: 1,
+            borderColor: '  rgba(47, 112, 250, 1)',
           },
         ]}
       >
@@ -51,7 +59,7 @@ const selectChallengeType = () => {
         <Text style={{ fontSize: 12, color: theme.colors.onSurface }}>
           Call someone out in this head to head battle.
         </Text>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 };
