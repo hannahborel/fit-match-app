@@ -26,7 +26,6 @@ export default function HomeTabs() {
       title: 'Home',
       icon: ({ color }) => <Home color={color} />,
       route: 'index',
-      headerShown: true,
     },
     {
       title: 'Standings',
@@ -54,10 +53,12 @@ export default function HomeTabs() {
       screenOptions={{
         headerStyle: {
           backgroundColor: theme.colors.background,
+          height: 60,
         },
         headerTitleStyle: {
           color: theme.colors.onBackground,
         },
+
         tabBarInactiveTintColor: 'rgba(102, 119, 150, 0.56)',
         tabBarActiveTintColor: 'rgba(207, 213, 247, 1)',
       }}

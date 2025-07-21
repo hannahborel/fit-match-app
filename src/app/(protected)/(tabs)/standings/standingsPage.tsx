@@ -21,52 +21,50 @@ const StandingsTab = () => {
   // console.log(standingsList);
   // console.log(JSON.stringify(leagueData, null, 2));
   return (
-    <BgView>
-      <View style={{ gap: 8 }}>
-        {leagueData ? (
-          standingsList.map((player, index) => (
-            <TouchableOpacity
-              key={index}
+    <View style={{ gap: 16, padding: 16 }}>
+      {leagueData ? (
+        standingsList.map((player, index) => (
+          <TouchableOpacity
+            key={index}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              backgroundColor: theme.colors.surface,
+              borderRadius: 6,
+              paddingVertical: 8,
+              paddingHorizontal: 20,
+            }}
+          >
+            <View
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                backgroundColor: theme.colors.surface,
-                borderRadius: 6,
-                paddingVertical: 8,
-                paddingHorizontal: 20,
+                justifyContent: 'center',
+                alignItems: 'flex-start',
               }}
             >
-              <View
+              <Avatar.Image size={40} source={getAvatarByIndex(index)} />
+            </View>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+              }}
+            >
+              <Text
                 style={{
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
+                  color: theme.colors.onSurface,
+                  fontSize: 16,
+                  fontWeight: 400,
                 }}
               >
-                <Avatar.Image size={40} source={getAvatarByIndex(index)} />
-              </View>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'flex-end',
-                }}
-              >
-                <Text
-                  style={{
-                    color: theme.colors.onSurface,
-                    fontSize: 16,
-                    fontWeight: 400,
-                  }}
-                >
-                  {player.totalPoints}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text>Not Ready</Text>
-        )}
-      </View>
-    </BgView>
+                {player.totalPoints}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))
+      ) : (
+        <Text>Not Ready</Text>
+      )}
+    </View>
   );
 };
 

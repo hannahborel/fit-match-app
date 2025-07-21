@@ -13,12 +13,14 @@ const CustomHeader: React.FC<CustomHeaderProps> = ({ title }) => {
   const router = useRouter();
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
       <TouchableOpacity
         onPress={() => router.back()}
         style={{ width: 40, height: 40, justifyContent: 'center' }}
       >
-        <ChevronLeft size={24} color={theme.colors.onBackground} />
+        {/* <ChevronLeft size={24} color={theme.colors.onBackground} /> */}
       </TouchableOpacity>
       <Text variant="titleMedium" style={{ color: theme.colors.onBackground }}>
         {title}

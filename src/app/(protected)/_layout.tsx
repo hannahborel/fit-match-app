@@ -13,6 +13,7 @@ export default function ProtectedLayout() {
       <ThemedStack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="createLeague" options={{ headerShown: false }} />
+        <Stack.Screen name="inviteFriends" options={{ headerShown: false }} />
       </ThemedStack>
     </SafeAreaView>
   );

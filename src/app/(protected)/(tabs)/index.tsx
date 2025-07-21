@@ -9,6 +9,8 @@ import { leagueAtom } from '@/atoms/leagueAtom';
 import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
 import { Card } from 'react-native-paper';
+import { View } from 'lucide-react-native';
+import CustomHeader from '@/components/library/CustomHeader';
 
 const Home = () => {
   const dummyTime = '2025-08-23T17:11:29.300Z';
@@ -17,7 +19,8 @@ const Home = () => {
   console.log(JSON.stringify(leagueData, null, 2));
 
   return (
-    <BgView>
+    <>
+      <CustomHeader title={'Home'} />
       {leagueData && (
         <>
           <BaseCard title={'YOUR LEAGUE STARTS IN'}>
@@ -34,7 +37,7 @@ const Home = () => {
           <DeleteLeagueButton leagueId={leagueData.id} />=
         </>
       )}
-    </BgView>
+    </>
   );
 };
 
