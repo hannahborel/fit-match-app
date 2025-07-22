@@ -1,18 +1,18 @@
 import { BaseCard } from '@/components/elements/Card';
 import CountdownTimer from '@/components/library/CountdownTimer';
 
-import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
 import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
 import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
 import CustomHeader from '@/components/library/CustomHeader';
-import { useAtom } from 'jotai';
+import { useGetLeague } from '@/hooks/useGetLeague';
 import React from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 const Home = () => {
-  const [{ data: leagueData }] = useAtom(leagueQueryAtom);
+  const { data: leagueData } = useGetLeague();
+
   const theme = useTheme();
 
   return (

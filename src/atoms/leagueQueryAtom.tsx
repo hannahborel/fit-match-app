@@ -1,20 +1,21 @@
-import { atomWithQuery } from 'jotai-tanstack-query';
-import { sessionAtom } from './sessionAtom';
-import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
+// import { atomWithQuery } from 'jotai-tanstack-query';
+// import { sessionAtom } from './sessionAtom';
+// import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
+// import { League } from 'hustle-types';
 
-type TLeagueIdAtom = string;
+// export const leagueQueryAtom = atomWithQuery<League>((get) => {
+//   const [isLoading, token] = get(sessionAtom);
 
-export const leagueQueryAtom = atomWithQuery((get) => {
-  const [isLoading, token] = get(sessionAtom);
-
-  return {
-    queryKey: ['league'],
-    enabled: !isLoading && !!token,
-    queryFn: async () => {
-      if (!token) throw new Error('No token available');
-      return fetchLeagueByUserId(token);
-    },
-    staleTime: 1000 * 60 * 5,
-    keepPreviousData: true,
-  };
-});
+//   return {
+//     queryKey: ['league'],
+//     enabled: !isLoading && !!token,
+//     queryFn: async () => {
+//       if (!token) throw new Error('No token available');
+//       const league = await fetchLeagueByUserId(token);
+//       if (!league) throw new Error('No league returned');
+//       return league;
+//     },
+//     staleTime: 1000 * 60 * 5,
+//     keepPreviousData: true,
+//   };
+// });

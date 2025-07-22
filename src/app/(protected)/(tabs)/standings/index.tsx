@@ -1,4 +1,3 @@
-import { useGetLeague } from '@/hooks/useGetLeague';
 import React from 'react';
 import { Tabs, TabScreen, TabsProvider } from 'react-native-paper-tabs';
 import SchedulePage from './schedulePage';

@@ -1,13 +1,14 @@
 import { getAvatarByIndex } from '@/assets/avatar';
-import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
+
 import { getLeagueStandings } from '@/helpers/getLeagueStandings';
-import { useAtom } from 'jotai';
+import { useGetLeague } from '@/hooks/useGetLeague';
+
 import React from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
 
 const StandingsTab = () => {
-  const [{ data: leagueData }] = useAtom(leagueQueryAtom);
+  const { data: leagueData } = useGetLeague();
 
   const standingsList = leagueData ? getLeagueStandings(leagueData) : [];
 

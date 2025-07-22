@@ -10,6 +10,10 @@ import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../../components/library/NumberScroll';
 import { useGetLeague } from '@/hooks/useGetLeague';
+import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
+import { useAtom, useAtomValue } from 'jotai';
+import { currentMatchAtom } from '@/atoms/matchesAtom';
+import { queryClient } from '@/lib/queryClient';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
@@ -17,8 +21,9 @@ export default function LogWorkoutScreen() {
   const { typeName } = useLocalSearchParams(); // from route
   const { userId, getToken } = useAuth();
 
-  const leagueId = '20a4f7d3-989f-47a7-a6ef-e80342d385e8';
-  const matchId = '6fe084c9-efd8-4e67-905f-5d5780b20e6c';
+  const currentMatch = useAtomValue(currentMatchAtom);
+
+  const [{ data: league }] = useAtom(leagueQueryAtom);
 
   const mutation = useMutation({
     mutationFn: async (activity: LogActivityInput) => {
@@ -27,6 +32,7 @@ export default function LogWorkoutScreen() {
     },
     onSuccess: () => {
       Alert.alert('Success', 'Workout logged successfully!');
+      queryClient.invalidateQueries({ queryKey: ['league'] });
     },
     onError: (error: any) => {
       Alert.alert('Error', error.message || 'Failed to log workout');
@@ -36,15 +42,15 @@ export default function LogWorkoutScreen() {
   const activityData = ActivityDefinitions[typeName as ActivityType];
 
   const handleLogWorkout = async () => {
-    console.log('handleLogWorkout');
-    if (!leagueId || !matchId || !typeName || !userId) {
+    if (!league || !typeName || !userId) {
       Alert.alert('Missing Info', 'Required info is missing.');
+
       return;
     }
 
     const activity: LogActivityInput = {
-      leagueId,
-      matchId,
+      leagueId: league.id,
+      matchId: currentMatch?.id as string,
       activityType: typeName as ActivityType,
       duration: minutes,
       sets: 0,
