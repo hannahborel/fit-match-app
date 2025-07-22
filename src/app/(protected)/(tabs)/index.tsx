@@ -9,9 +9,11 @@ import { useGetLeague } from '@/hooks/useGetLeague';
 import React from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { useAtomValue } from 'jotai';
+import { leagueAtom } from '@/atoms/leaugeAtom';
 
 const Home = () => {
-  const { data: leagueData } = useGetLeague();
+  const leagueData = useAtomValue(leagueAtom);
 
   const theme = useTheme();
 

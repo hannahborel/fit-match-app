@@ -9,7 +9,7 @@ export const useGetLeague = () => {
 
   return useQuery({
     // Use unique queryKey to avoid caching conflicts
-    queryKey: ['league'],
+    queryKey: ['league', [userId]],
     queryFn: async () => {
       const token = await getToken();
       return fetchLeagueByUserId(token);
@@ -17,7 +17,10 @@ export const useGetLeague = () => {
     placeholderData: () => {
       return queryClient.getQueryData(['league', userId]);
     },
-    staleTime: 1000 * 60 * 5, // Keep data fresh for 5 minutes
+    staleTime: 1000 * 60 * 10,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+
     enabled: isLoaded,
   });
 };
