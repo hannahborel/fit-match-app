@@ -1,14 +1,9 @@
-import { leagueAtom } from '@/atoms/leagueAtom';
+import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
 import BgView from '@/components/elements/BgView';
-import {
-  getCurrentWeekMatchIds,
-  mapAllWeeksToMatchIds,
-} from '@/helpers/getCurrentWeek';
-import { League, Match, MatchToUser } from 'hustle-types';
-import { useAtomValue } from 'jotai';
+import { League, MatchToUser } from 'hustle-types';
+import { useAtom } from 'jotai';
 import { View } from 'lucide-react-native';
 import React from 'react';
-import { Text } from 'react-native';
 type Matches = {
   matchId: string;
   team1: MatchToUser[];
@@ -16,7 +11,8 @@ type Matches = {
 };
 type AllMatchups = Record<number, Matches>;
 const SchedulePage = () => {
-  const leagueData = useAtomValue(leagueAtom);
+  const [{ data: leagueData }] = useAtom(leagueQueryAtom);
+
   const formattedMatchups: AllMatchups = {};
 
   const createMatchups = (leagueData: League) => {

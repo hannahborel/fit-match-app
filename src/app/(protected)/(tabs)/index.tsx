@@ -1,22 +1,16 @@
 import { BaseCard } from '@/components/elements/Card';
-import BgView from '@/components/elements/BgView';
 import CountdownTimer from '@/components/library/CountdownTimer';
 
-import React from 'react';
-import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
-import { useAtomValue } from 'jotai';
-import { leagueAtom } from '@/atoms/leagueAtom';
+import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
 import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
+import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
-import { Card } from 'react-native-paper';
-import { View } from 'lucide-react-native';
 import CustomHeader from '@/components/library/CustomHeader';
+import { useAtom } from 'jotai';
+import React from 'react';
 
 const Home = () => {
-  const dummyTime = '2025-08-23T17:11:29.300Z';
-  const leagueData = useAtomValue(leagueAtom);
-
-  console.log(JSON.stringify(leagueData, null, 2));
+  const [{ data: leagueData }] = useAtom(leagueQueryAtom);
 
   return (
     <>
@@ -34,7 +28,7 @@ const Home = () => {
             leagueId={leagueData.id}
             leagueSize={leagueData.size}
           />
-          <DeleteLeagueButton leagueId={leagueData.id} />=
+          <DeleteLeagueButton leagueId={leagueData.id} />
         </>
       )}
     </>

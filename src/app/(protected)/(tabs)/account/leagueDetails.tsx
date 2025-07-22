@@ -1,16 +1,16 @@
+import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
 import BgView from '@/components/elements/BgView';
-import React from 'react';
-import { Avatar, Text, useTheme } from 'react-native-paper';
-import { leagueAtom } from '@/atoms/leagueAtom';
 import { Row } from '@/components/elements/Table/TableElements';
 import { formatDate } from '@/helpers/helpers';
-import { useAtomValue } from 'jotai';
+import { useAtom } from 'jotai';
+import React from 'react';
 import { View } from 'react-native';
+import { Avatar, Text, useTheme } from 'react-native-paper';
 
 const leagueDetails = () => {
   const theme = useTheme();
 
-  const leagueDetails = useAtomValue(leagueAtom);
+  const [{ data: leagueDetails }] = useAtom(leagueQueryAtom);
 
   return (
     <BgView>
