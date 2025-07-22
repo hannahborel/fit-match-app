@@ -2,6 +2,8 @@ import { atomWithQuery } from 'jotai-tanstack-query';
 import { sessionAtom } from './sessionAtom';
 import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 
+type TLeagueIdAtom = string;
+
 export const leagueQueryAtom = atomWithQuery((get) => {
   const [isLoading, token] = get(sessionAtom);
 
@@ -9,10 +11,10 @@ export const leagueQueryAtom = atomWithQuery((get) => {
     queryKey: ['league'],
     enabled: !isLoading && !!token,
     queryFn: async () => {
-      if (!token) throw new Error('No token available'); // 🔐 guard it anyway
+      if (!token) throw new Error('No token available');
       return fetchLeagueByUserId(token);
     },
     staleTime: 1000 * 60 * 5,
-    retry: 1, // Optional: prevent retry storm if still early
+    keepPreviousData: true,
   };
 });

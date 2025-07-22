@@ -8,15 +8,26 @@ import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
 import CustomHeader from '@/components/library/CustomHeader';
 import { useAtom } from 'jotai';
 import React from 'react';
+import { View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 const Home = () => {
   const [{ data: leagueData }] = useAtom(leagueQueryAtom);
+  const theme = useTheme();
 
   return (
     <>
       <CustomHeader title={'Home'} />
+
       {leagueData && (
-        <>
+        <View
+          style={{
+            backgroundColor: theme.colors.background,
+            flex: 1,
+            padding: 16,
+            gap: 16,
+          }}
+        >
           <BaseCard title={'YOUR LEAGUE STARTS IN'}>
             <CountdownTimer targetTime={leagueData.startDate} />
           </BaseCard>
@@ -29,7 +40,7 @@ const Home = () => {
             leagueSize={leagueData.size}
           />
           <DeleteLeagueButton leagueId={leagueData.id} />
-        </>
+        </View>
       )}
     </>
   );

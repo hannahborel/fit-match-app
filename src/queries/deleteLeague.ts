@@ -6,7 +6,6 @@ type DeleteLeagueArgs = {
 };
 
 export const deleteLeague = async ({ token, leagueId }: DeleteLeagueArgs) => {
-  console.log(leagueId);
   const res = await fetch(`${apiUrl}/api/delete-league`, {
     method: 'POST',
     headers: {

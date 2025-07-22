@@ -33,7 +33,6 @@ const InitialLayout = () => {
   const segments = useSegments();
   const router = useRouter();
   const [{ data, isFetched }] = useAtom(leagueQueryAtom);
-  // const { data, isFetched } = useGetLeague();
 
   useReactQueryDevTools(queryClient);
 

@@ -11,9 +11,10 @@ const StandingsTab = () => {
 
   const standingsList = leagueData ? getLeagueStandings(leagueData) : [];
 
+  console.log(JSON.stringify(leagueData, null, 3));
+  // console.log(JSON.stringify(standingsList, null, 2));
   const theme = useTheme();
-  // console.log(standingsList);
-  // console.log(JSON.stringify(leagueData, null, 2));
+
   return (
     <ScrollView>
       <View style={{ gap: 16, padding: 16 }}>

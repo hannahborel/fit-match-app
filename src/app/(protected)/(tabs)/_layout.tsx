@@ -58,7 +58,6 @@ export default function HomeTabs() {
         headerTitleStyle: {
           color: theme.colors.onBackground,
         },
-
         tabBarInactiveTintColor: 'rgba(102, 119, 150, 0.56)',
         tabBarActiveTintColor: 'rgba(207, 213, 247, 1)',
       }}

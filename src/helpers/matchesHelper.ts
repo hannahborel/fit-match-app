@@ -1,13 +1,6 @@
 import { TAllMatchesIdAtom, TCurrentMatchIdAtom } from '@/atoms/matchesAtom';
-import { differenceInWeeks } from 'date-fns';
 import { League, Match } from 'hustle-types';
-
-export const getCurrentWeek = (startDate: string): number => {
-  const earlierDate = new Date(startDate);
-  const laterDate = new Date();
-  const diff = differenceInWeeks(laterDate, earlierDate);
-  return diff;
-};
+import { getCurrentWeek } from './getCurrentWeekHelper';
 
 export const getCurrentWeekMatchIds = (
   leagueData: League,

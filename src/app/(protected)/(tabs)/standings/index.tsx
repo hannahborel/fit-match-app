@@ -5,11 +5,6 @@ import SchedulePage from './schedulePage';
 import StandingsTab from './standingsPage';
 
 const Standings = () => {
-  const { data, error } = useGetLeague();
-
-  // const parsedData = JSON.stringify(data, null, 2);
-  // console.log(parsedData);
-
   return (
     <TabsProvider>
       <Tabs showTextLabel={true}>

@@ -32,7 +32,6 @@ const signUp = () => {
 
   // Create the user and send the verification email
   const onSignUpPress = async () => {
-    console.log('onSignUpPress');
     if (!isLoaded) return;
     setLoading(true);
     try {
@@ -42,8 +41,6 @@ const signUp = () => {
         firstName,
         lastName,
       });
-
-      console.log('signUp', signUp);
 
       await signUp.prepareVerification({ strategy: 'email_code' });
       router.push('/verify-email');
