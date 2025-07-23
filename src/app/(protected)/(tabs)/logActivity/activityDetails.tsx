@@ -10,20 +10,19 @@ import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../../components/library/NumberScroll';
 import { useGetLeague } from '@/hooks/useGetLeague';
-import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
+
 import { useAtom, useAtomValue } from 'jotai';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
+import { leagueAtom } from '@/atoms/leaugeAtom';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
   const theme = useTheme();
   const { typeName } = useLocalSearchParams(); // from route
   const { userId, getToken } = useAuth();
-
+  const league = useAtomValue(leagueAtom);
   const currentMatch = useAtomValue(currentMatchAtom);
-
-  const [{ data: league }] = useAtom(leagueQueryAtom);
 
   const mutation = useMutation({
     mutationFn: async (activity: LogActivityInput) => {

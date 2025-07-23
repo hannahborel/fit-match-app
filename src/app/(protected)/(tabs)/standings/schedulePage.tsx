@@ -1,18 +1,40 @@
-import BgView from '@/components/elements/BgView';
-import { MatchToUser } from 'hustle-types';
-import { View } from 'lucide-react-native';
+import { leagueAtom } from '@/atoms/leaugeAtom';
+import { AllMatchesIdAtom } from '@/atoms/matchesAtom';
+
+import { useAtomValue } from 'jotai';
+
 import React from 'react';
-type Matches = {
-  matchId: string;
-  team1: MatchToUser[];
-  team2: MatchToUser[];
-};
-type AllMatchups = Record<number, Matches>;
+import { View } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
+
 const SchedulePage = () => {
+  const matchList = useAtomValue(AllMatchesIdAtom);
+  const league = useAtomValue(leagueAtom);
+
+  console.log(JSON.stringify(league?.matches, null, 2));
+  console.log(JSON.stringify(matchList, null, 2));
+  const theme = useTheme();
   return (
-    <BgView>
-      <View style={{ borderWidth: 1, borderColor: 'white' }}></View>
-    </BgView>
+    <View style={{ gap: 8, flex: 1 }}>
+      {Object.entries(matchList).map(([weekIndex, matchId]) => (
+        <View
+          style={{
+            backgroundColor: theme.colors.surface,
+            borderRadius: 6,
+            padding: 16,
+            flex: 1,
+          }}
+          key={weekIndex}
+        >
+          <Text style={{ color: theme.colors.onSurface }}>
+            Week {weekIndex}
+          </Text>
+          <Text style={{ color: theme.colors.onSurface }}>
+            Match Id: {matchId}
+          </Text>
+        </View>
+      ))}
+    </View>
   );
 };
 

@@ -6,15 +6,30 @@ import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
 import CustomHeader from '@/components/library/CustomHeader';
 import { useGetLeague } from '@/hooks/useGetLeague';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { leagueAtom } from '@/atoms/leaugeAtom';
+import { AllMatchesIdAtom, currentMatchAtom } from '@/atoms/matchesAtom';
+import {
+  getCurrentWeekMatchIds,
+  mapAllWeeksToMatchIds,
+} from '@/helpers/matchesHelper';
+import { setUncaughtExceptionCaptureCallback } from 'process';
 
 const Home = () => {
   const leagueData = useAtomValue(leagueAtom);
-
+  const setCurrentMatchId = useSetAtom(currentMatchAtom);
+  const setMatchIdList = useSetAtom(AllMatchesIdAtom);
+  useEffect(() => {
+    if (leagueData) {
+      const currentMatch = getCurrentWeekMatchIds(leagueData);
+      const allMatchIds = mapAllWeeksToMatchIds(leagueData.matches);
+      setCurrentMatchId(currentMatch);
+      setMatchIdList(allMatchIds);
+    }
+  }, [leagueData]);
   const theme = useTheme();
 
   return (
