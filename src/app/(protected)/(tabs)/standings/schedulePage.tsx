@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { IconButton, Text, useTheme } from 'react-native-paper';
 
 const SchedulePage = () => {
   const matchList = useAtomValue(AllMatchesIdAtom);
@@ -29,9 +29,15 @@ const SchedulePage = () => {
   return (
     <View style={{ gap: 16, flex: 1, alignItems: 'center' }}>
       <View style={styles.switchContainer}>
-        <ChevronLeft size={20} color={theme.colors.onSurface} />
+        <IconButton
+          size={18}
+          icon={() => <ChevronLeft color={theme.colors.onSurface} />}
+        />
         <Text>WEEK X</Text>
-        <ChevronRight size={20} color={theme.colors.onSurface} />
+        <IconButton
+          size={18}
+          icon={() => <ChevronRight color={theme.colors.onSurface} />}
+        />
       </View>
       <MatchList />
     </View>
@@ -65,6 +71,7 @@ const styles = StyleSheet.create({
   switchContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: 16,
     gap: 8,
   },
