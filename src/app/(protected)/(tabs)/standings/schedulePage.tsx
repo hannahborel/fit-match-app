@@ -1,12 +1,14 @@
 import { leagueAtom } from '@/atoms/leaugeAtom';
 import { AllMatchesIdAtom } from '@/atoms/matchesAtom';
+import MatchList from '@/components/library/MatchList';
 import { mapMatchesWithTeamPoints } from '@/helpers/matchesHelper';
 import { Match } from 'hustle-types';
 
 import { useAtomValue } from 'jotai';
+import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
 import React from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 
 const SchedulePage = () => {
@@ -25,8 +27,19 @@ const SchedulePage = () => {
 
   const theme = useTheme();
   return (
-    <View style={{ gap: 8, flex: 1 }}>
-      {Object.entries(matchList).map(([weekIndex, matchId]) => (
+    <View style={{ gap: 16, flex: 1, alignItems: 'center' }}>
+      <View style={styles.switchContainer}>
+        <ChevronLeft size={20} color={theme.colors.onSurface} />
+        <Text>WEEK X</Text>
+        <ChevronRight size={20} color={theme.colors.onSurface} />
+      </View>
+      <MatchList />
+    </View>
+  );
+};
+
+{
+  /* {Object.entries(matchList).map(([weekIndex, matchId]) => (
         <View
           style={{
             backgroundColor: theme.colors.surface,
@@ -43,9 +56,16 @@ const SchedulePage = () => {
             Match Id: {matchId}
           </Text>
         </View>
-      ))}
-    </View>
-  );
-};
+      ))} */
+}
 
 export default SchedulePage;
+
+const styles = StyleSheet.create({
+  switchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingTop: 16,
+    gap: 8,
+  },
+});
