@@ -1,5 +1,7 @@
 import { leagueAtom } from '@/atoms/leaugeAtom';
 import { AllMatchesIdAtom } from '@/atoms/matchesAtom';
+import { mapMatchesWithTeamPoints } from '@/helpers/matchesHelper';
+import { Match } from 'hustle-types';
 
 import { useAtomValue } from 'jotai';
 
@@ -11,8 +13,16 @@ const SchedulePage = () => {
   const matchList = useAtomValue(AllMatchesIdAtom);
   const league = useAtomValue(leagueAtom);
 
-  console.log(JSON.stringify(league?.matches, null, 2));
-  console.log(JSON.stringify(matchList, null, 2));
+  // console.log(JSON.stringify(league?.matches, null, 2));
+  // console.log(JSON.stringify(league, null, 2));
+
+  const matches = league?.matches;
+  const activity = league?.loggedActivities;
+  if (matches && activity) {
+    const result = mapMatchesWithTeamPoints(matches, activity);
+    console.log(JSON.stringify(result, null, 2));
+  }
+
   const theme = useTheme();
   return (
     <View style={{ gap: 8, flex: 1 }}>

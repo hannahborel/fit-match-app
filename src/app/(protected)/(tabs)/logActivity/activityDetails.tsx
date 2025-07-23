@@ -9,12 +9,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../../components/library/NumberScroll';
-import { useGetLeague } from '@/hooks/useGetLeague';
 
-import { useAtom, useAtomValue } from 'jotai';
+import { leagueAtom } from '@/atoms/leaugeAtom';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
-import { leagueAtom } from '@/atoms/leaugeAtom';
+import { useAtomValue } from 'jotai';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
@@ -58,8 +57,6 @@ export default function LogWorkoutScreen() {
       userId,
       activityNote: 'dummy note',
     };
-
-    console.log(activity.activityType);
 
     mutation.mutate(activity);
   };

@@ -1,22 +1,20 @@
 import { BaseCard } from '@/components/elements/Card';
 import CountdownTimer from '@/components/library/CountdownTimer';
 
+import { leagueAtom } from '@/atoms/leaugeAtom';
+import { AllMatchesIdAtom, currentMatchAtom } from '@/atoms/matchesAtom';
 import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
 import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
 import CustomHeader from '@/components/library/CustomHeader';
-import { useGetLeague } from '@/hooks/useGetLeague';
-import React, { useEffect } from 'react';
-import { View } from 'react-native';
-import { useTheme } from 'react-native-paper';
-import { useAtomValue, useSetAtom } from 'jotai';
-import { leagueAtom } from '@/atoms/leaugeAtom';
-import { AllMatchesIdAtom, currentMatchAtom } from '@/atoms/matchesAtom';
 import {
   getCurrentWeekMatchIds,
   mapAllWeeksToMatchIds,
 } from '@/helpers/matchesHelper';
-import { setUncaughtExceptionCaptureCallback } from 'process';
+import { useAtomValue, useSetAtom } from 'jotai';
+import React, { useEffect } from 'react';
+import { View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 const Home = () => {
   const leagueData = useAtomValue(leagueAtom);
