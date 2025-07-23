@@ -12,7 +12,7 @@ const StandingsTab = () => {
 
   const standingsList = leagueData ? getLeagueStandings(leagueData) : [];
 
-  console.log(JSON.stringify(leagueData, null, 3));
+  // console.log(JSON.stringify(leagueData, null, 3));
   // console.log(JSON.stringify(standingsList, null, 2));
   const theme = useTheme();
 

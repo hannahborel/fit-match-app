@@ -1,45 +1,72 @@
 import { leagueAtom } from '@/atoms/leaugeAtom';
-import { AllMatchesIdAtom } from '@/atoms/matchesAtom';
+import { AllMatchesIdAtom, currentMatchAtom } from '@/atoms/matchesAtom';
 import MatchList from '@/components/library/MatchList';
-import { mapMatchesWithTeamPoints } from '@/helpers/matchesHelper';
+import { getCurrentWeek } from '@/helpers/getCurrentWeekHelper';
+import {
+  mapMatchesWithTeamPoints,
+  WeeklySchedule,
+} from '@/helpers/matchesHelper';
 import { Match } from 'hustle-types';
 
 import { useAtomValue } from 'jotai';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { IconButton, Text, useTheme } from 'react-native-paper';
 
 const SchedulePage = () => {
   const matchList = useAtomValue(AllMatchesIdAtom);
   const league = useAtomValue(leagueAtom);
+  const currentWeek = useAtomValue(currentMatchAtom);
+  const [pageIndex, setPageIndex] = useState(0);
+
+  const extractMatches = league?.matches;
+  const extractActivity = league?.loggedActivities;
+  let data: WeeklySchedule[] = [];
+
+  useEffect(() => {
+    if (extractMatches && extractActivity && currentWeek) {
+      data = mapMatchesWithTeamPoints(extractMatches, extractActivity);
+      console.log(currentWeek.id);
+      console.log(JSON.stringify(data[0]['week'], null, 2));
+      setPageIndex(currentWeek.week);
+    }
+  }, [league?.matches]);
 
   // console.log(JSON.stringify(league?.matches, null, 2));
   // console.log(JSON.stringify(league, null, 2));
 
-  const matches = league?.matches;
-  const activity = league?.loggedActivities;
-  if (matches && activity) {
-    const result = mapMatchesWithTeamPoints(matches, activity);
-    console.log(JSON.stringify(result, null, 2));
-  }
+  // if (extractMatches && extractActivity) {
+  //   const data = mapMatchesWithTeamPoints(extractMatches, extractActivity);
+  //   console.log(JSON.stringify(data, null, 2));
+  //   console.log(data.length);
+  //   console.log('current week', currentWeek) ;
+  // }
 
+  const isReady = data && currentWeek;
   const theme = useTheme();
   return (
     <View style={{ gap: 16, flex: 1, alignItems: 'center' }}>
-      <View style={styles.switchContainer}>
-        <IconButton
-          size={18}
-          icon={() => <ChevronLeft color={theme.colors.onSurface} />}
-        />
-        <Text>WEEK X</Text>
-        <IconButton
-          size={18}
-          icon={() => <ChevronRight color={theme.colors.onSurface} />}
-        />
-      </View>
-      <MatchList />
+      {isReady && (
+        <>
+          <View style={styles.switchContainer}>
+            <IconButton
+              size={18}
+              icon={() => <ChevronLeft color={theme.colors.onSurface} />}
+            />
+            <Text>{'Week ' + Number(currentWeek.week + 1)}</Text>
+            <IconButton
+              size={18}
+              icon={() => <ChevronRight color={theme.colors.onSurface} />}
+            />
+          </View>
+          <ScrollView style={{ flexGrow: 0 }} pagingEnabled horizontal>
+            <MatchList />
+            <MatchList />
+          </ScrollView>
+        </>
+      )}
     </View>
   );
 };

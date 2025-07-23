@@ -9,6 +9,7 @@ export const getCurrentWeekMatchIds = (
 
   const match = leagueData.matches.find((match) => match.week === currentWeek);
 
+  console.log(match);
   if (match) {
     return { week: currentWeek, id: match.id };
   } else {
@@ -35,7 +36,7 @@ type MatchWithPoints = {
   teamB: TeamScore;
 };
 
-type WeeklySchedule = {
+export type WeeklySchedule = {
   week: number;
   matches: MatchWithPoints[];
 };
@@ -89,7 +90,7 @@ export function mapMatchesWithTeamPoints(
 
   for (const [week, matches] of weekMap.entries()) {
     result.push({
-      week: week + 1,
+      week: week,
       matches,
     });
   }
