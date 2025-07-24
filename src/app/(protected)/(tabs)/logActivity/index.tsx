@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -18,7 +18,6 @@ import { formatString } from '@/helpers/helpers';
 const logActivity = () => {
   const theme = useTheme();
   const [search, setSearch] = useState('');
-  const inputRef = useRef(null);
 
   const filteredActivities = Object.entries(ActivityDefinitions).filter(
     ([_, activity]) =>
