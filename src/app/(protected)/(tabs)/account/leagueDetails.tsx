@@ -1,10 +1,13 @@
 import { leagueAtom } from '@/atoms/leaugeAtom';
+import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
+import UpdateLeagueSize from '@/components/demo/ManageLeagueSettings';
+import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
 import BgView from '@/components/elements/BgView';
 import { Row } from '@/components/elements/Table/TableElements';
 import { formatDate } from '@/helpers/helpers';
 import { useAtom, useAtomValue } from 'jotai';
 import React from 'react';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Avatar, Text, useTheme } from 'react-native-paper';
 
 const leagueDetails = () => {
@@ -24,16 +27,23 @@ const leagueDetails = () => {
               }}
             >
               <Row col1={'League Name'} col2={leagueDetails.name} />
+
               <Row
                 col1={'Start Date'}
                 col2={formatDate(leagueDetails.startDate)}
               />
+
               <Row
                 col1={'Duration'}
                 col2={leagueDetails.weeks.toString() + ' weeks'}
-                lastRow={true}
+              />
+              <UpdateLeagueSize
+                leagueId={leagueDetails.id}
+                leagueSize={leagueDetails.size}
               />
             </View>
+            <DeleteLeagueButton leagueId={leagueDetails.id} />
+
             <View>
               {/* {leagueDetails.leaguesToUsers.map((user, index) => (
                 <View

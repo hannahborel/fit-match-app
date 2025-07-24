@@ -5,8 +5,9 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { Platform, Text, View } from 'react-native';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
+import { Row } from '../elements/Table/TableElements';
 
 type UpdateLeagueStartDateDemo = {
   startDate: Date;
@@ -57,17 +58,10 @@ export default function UpdateLeagueStartDateDemo({
   };
 
   return (
-    <View style={{ padding: 20, backgroundColor: theme.colors.surface }}>
-      <Text style={{ marginBottom: 10, color: theme.colors.onSurface }}>
-        Select new start date:
-      </Text>
-      <Button
-        style={{ borderColor: theme.colors.onSurface, borderWidth: 1 }}
-        textColor={theme.colors.onSurface}
-        onPress={() => setShowPicker(!showPicker)}
-      >
-        <Text>{formatDate(new Date(newStartDate))}</Text>
-      </Button>
+    <>
+      <TouchableOpacity onPress={() => setShowPicker(!showPicker)}>
+        <Row col1={'Start Date'} col2={formatDate(new Date(newStartDate))} />
+      </TouchableOpacity>
       {showPicker && (
         <DateTimePicker
           value={startDate}
@@ -98,6 +92,6 @@ export default function UpdateLeagueStartDateDemo({
           {status}
         </Text>
       )}
-    </View>
+    </>
   );
 }

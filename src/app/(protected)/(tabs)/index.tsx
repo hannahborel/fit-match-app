@@ -53,11 +53,6 @@ const Home = () => {
             startDate={new Date(leagueData.startDate)}
             leagueId={leagueData.id}
           />
-          <ManageLeagueSettings
-            leagueId={leagueData.id}
-            leagueSize={leagueData.size}
-          />
-          <DeleteLeagueButton leagueId={leagueData.id} />
         </View>
       )}
     </>
