@@ -1,13 +1,14 @@
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import React from 'react';
-import { Avatar, useTheme } from 'react-native-paper';
-import { LeagueSchedule, WeeklyMatchups } from '@/helpers/matchesHelper';
-import AvatarImage from 'react-native-paper/lib/typescript/components/Avatar/AvatarImage';
 import { getAvatarByIndex } from '@/assets/avatar';
+import { WeeklyMatchups } from '@/helpers/matchesHelper';
+import React from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Avatar, useTheme } from 'react-native-paper';
 
 export type MatchListProps = {
   week: WeeklyMatchups;
 };
+
+let avatarIndex = 0;
 
 const MatchWeek = ({ week }: MatchListProps) => {
   const theme = useTheme();
@@ -19,7 +20,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
         style={[
           styles.wrapper,
           {
-            width: PAGE_WIDTH - 32,
+            width: PAGE_WIDTH,
           },
         ]}
       >
@@ -43,23 +44,28 @@ const MatchWeek = ({ week }: MatchListProps) => {
                 ]}
               >
                 <View style={styles.playerContainer}>
-                  {team.players.map((player, index) => (
-                    <View style={styles.player}>
-                      <Avatar.Image
-                        size={35}
-                        source={getAvatarByIndex(index)}
-                      />
-                      <Text
-                        ellipsizeMode={'clip'}
-                        style={{ color: theme.colors.onSurface }}
-                      >
-                        Player {index}
-                      </Text>
-                    </View>
-                  ))}
+                  {team.players.map((player, index) => {
+                    avatarIndex += 1;
+                    return (
+                      <View style={styles.player}>
+                        <Avatar.Image
+                          size={35}
+                          source={getAvatarByIndex(avatarIndex)}
+                        />
+                        <Text
+                          ellipsizeMode={'clip'}
+                          style={{ color: theme.colors.onSurface }}
+                        >
+                          Player {index}
+                        </Text>
+                      </View>
+                    );
+                  })}
                 </View>
                 <View style={styles.points}>
-                  <Text style={{ color: theme.colors.onSurface }}>
+                  <Text
+                    style={{ color: theme.colors.onSurface, fontWeight: 500 }}
+                  >
                     {team.totalPoints}
                   </Text>
                 </View>
@@ -77,13 +83,12 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     gap: 16,
-    marginHorizontal: 16,
   },
   matchContainer: {
     flexDirection: 'row',
     width: '100%',
     borderRadius: 6,
-    gap: 16,
+    gap: 8,
   },
   teamContainer: {
     flexDirection: 'row',
@@ -91,6 +96,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 6,
+    padding: 8,
   },
 
   playerContainer: {

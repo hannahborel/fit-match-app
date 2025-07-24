@@ -7,6 +7,9 @@ export const avatars = [
   require('@/assets/avatars/rabbit.png'),
   require('@/assets/avatars/sloth.png'),
   require('@/assets/avatars/woman.png'),
+  require('@/assets/avatars/meerkat.png'),
+  require('@/assets/avatars/giraffe.png'),
+  require('@/assets/avatars/koala.png'),
 ];
 export function getAvatarByIndex(index: number) {
   return avatars[index % avatars.length]; // Loops through if index exceeds length
