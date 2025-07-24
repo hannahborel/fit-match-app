@@ -1,4 +1,10 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import React, { Dispatch } from 'react';
 import { Avatar, MD3Theme, useTheme } from 'react-native-paper';
 import { SetStateAction } from 'jotai';
@@ -32,22 +38,23 @@ const ExpandedRows = ({
 
   const styles = getStyles(theme);
   return (
-    <TouchableOpacity
+    <View
       key={index}
       style={{
         backgroundColor: theme.colors.surface,
         borderRadius: 6,
       }}
-      onPress={() => toggleExpanded(index)}
     >
-      <View style={styles.listItem}>
+      <TouchableOpacity
+        onPress={() => toggleExpanded(index)}
+        style={styles.listItem}
+      >
         <View style={styles.listItem_left}>
           <Avatar.Image size={40} source={getAvatarByIndex(index)} />
           <Text style={styles.text_characters}>Johnny</Text>
         </View>
-
         <Text style={styles.text_numbers}>{player.totalPoints}</Text>
-      </View>
+      </TouchableOpacity>
       {isExpanded && (
         <>
           <View style={styles.listItem}>
@@ -66,7 +73,7 @@ const ExpandedRows = ({
           </View>
         </>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 
