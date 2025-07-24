@@ -1,14 +1,17 @@
-import { getAvatarByIndex } from '@/assets/avatar';
+import ExpandedRows from '@/components/library/standingsComponents/expandedRows';
 
 import { getLeagueStandings } from '@/helpers/getLeagueStandings';
 import { useGetLeague } from '@/hooks/useGetLeague';
 
-import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import { Avatar, useTheme } from 'react-native-paper';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { MD3Theme, useTheme } from 'react-native-paper';
 
 const StandingsTab = () => {
   const { data: leagueData } = useGetLeague();
+  const [expandedIndexes, setExpandedIndexes] = useState<Set<number>>(
+    new Set(),
+  );
 
   const standingsList = leagueData ? getLeagueStandings(leagueData) : [];
 
@@ -16,54 +19,55 @@ const StandingsTab = () => {
   // console.log(JSON.stringify(standingsList, null, 2));
   const theme = useTheme();
 
+  const styles = getStyles(theme);
   return (
     <ScrollView>
       <View style={{ gap: 16, padding: 16 }}>
-        {leagueData ? (
-          standingsList.map((player, index) => (
-            <TouchableOpacity
-              key={index}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                backgroundColor: theme.colors.surface,
-                borderRadius: 6,
-                paddingVertical: 8,
-                paddingHorizontal: 20,
-              }}
-            >
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                }}
-              >
-                <Avatar.Image size={40} source={getAvatarByIndex(index)} />
-              </View>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'flex-end',
-                }}
-              >
-                <Text
-                  style={{
-                    color: theme.colors.onSurface,
-                    fontSize: 16,
-                    fontWeight: 500,
-                  }}
-                >
-                  {player.totalPoints}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text>Not Ready</Text>
-        )}
+        {leagueData &&
+          standingsList.map((player, index) => {
+            const isExpanded = expandedIndexes.has(index);
+            return (
+              <ExpandedRows
+                index={index}
+                player={player}
+                setIsExpanded={setExpandedIndexes}
+                isExpanded={isExpanded}
+              />
+            );
+          })}
       </View>
     </ScrollView>
   );
 };
 
 export default StandingsTab;
+const getStyles = (theme: MD3Theme) =>
+  StyleSheet.create({
+    listItem: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      color: theme.colors.onSurface,
+      borderBottomColor: 'rgba(51, 60, 78, 0.53)',
+      borderBottomWidth: 1,
+      padding: 8,
+      paddingHorizontal: 16,
+    },
+    text_characters: {
+      color: theme.colors.onSurface,
+      fontWeight: 500,
+      fontSize: 16,
+      letterSpacing: 0,
+    },
+    text_numbers: {
+      color: theme.colors.onSurface,
+      fontSize: 18,
+      fontWeight: 600,
+    },
+    listItem_left: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: 16,
+    },
+  });
