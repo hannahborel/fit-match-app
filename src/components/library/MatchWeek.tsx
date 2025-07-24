@@ -74,40 +74,6 @@ const MatchWeek = ({ week }: MatchListProps) => {
             ))}
           </View>
         ))}
-        {/* <View style={styles.matchContainer}>
-        {week.matchups.map((matchup, index) => (
-          <View
-            style={[
-              styles.teamContainer,
-              {
-                backgroundColor: theme.colors.surface,
-              },
-            ]}
-          >
-            {matchup.map((team, index) => (
-              <>
-                <View style={styles.playerContainer}>
-                  {team.players.map((player, index) => (
-                    <View>
-                      <Text
-                        ellipsizeMode={'clip'}
-                        style={{ color: theme.colors.onSurface }}
-                      >
-                        Player + {index}
-                      </Text>
-                    </View>
-                  ))}
-                </View>
-                <View style={styles.points}>
-                  <Text style={{ color: theme.colors.onSurface }}>
-                    {team.totalPoints}
-                  </Text>
-                </View>
-              </>
-            ))}
-          </View>
-        ))}
-      </View> */}
       </View>
     );
 };
