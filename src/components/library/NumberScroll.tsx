@@ -14,6 +14,7 @@ interface NumberScrollerProps {
   max: number;
   initial: number;
   onValueChange: (value: number) => void;
+  unit: string;
 }
 
 const ITEM_WIDTH = 175;
@@ -23,6 +24,7 @@ export const NumberScroll: React.FC<NumberScrollerProps> = ({
   min,
   max,
   initial,
+  unit,
   onValueChange,
 }) => {
   const numbers = Array.from({ length: max - min + 1 }, (_, i) => min + i);
@@ -79,7 +81,7 @@ export const NumberScroll: React.FC<NumberScrollerProps> = ({
         }}
         renderItem={renderItem}
       />
-      <Text style={styles.label}>MINUTES</Text>
+      <Text style={styles.label}>{unit}</Text>
       <View style={styles.centerIndicator} pointerEvents="none" />
     </View>
   );

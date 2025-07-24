@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Alert, StyleSheet, View } from 'react-native';
-import { Button, IconButton, Text, useTheme } from 'react-native-paper';
-
+import { Text, useTheme, Button } from 'react-native-paper';
 import { addActivity, LogActivityInput } from '@/mutations/addActivity';
 import { useAuth } from '@clerk/clerk-expo';
 import { useMutation } from '@tanstack/react-query';
@@ -9,20 +8,27 @@ import { useLocalSearchParams } from 'expo-router';
 import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../../components/library/NumberScroll';
-
 import { leagueAtom } from '@/atoms/leaugeAtom';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
 import { useAtomValue } from 'jotai';
-import BgView from '@/components/elements/BgView';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
+  const [sets, setSets] = useState(4);
+  const [reps, setReps] = useState(12);
+
   const theme = useTheme();
-  const { typeName } = useLocalSearchParams(); // from route
+  const { typeName } = useLocalSearchParams();
   const { userId, getToken } = useAuth();
   const league = useAtomValue(leagueAtom);
   const currentMatch = useAtomValue(currentMatchAtom);
+
+  const activityData = ActivityDefinitions[typeName as ActivityType];
+  const formula = activityData?.activityFormula;
+
+  console.log(activityData);
+  console.log(formula);
 
   const mutation = useMutation({
     mutationFn: async (activity: LogActivityInput) => {
@@ -38,12 +44,9 @@ export default function LogWorkoutScreen() {
     },
   });
 
-  const activityData = ActivityDefinitions[typeName as ActivityType];
-
   const handleLogWorkout = async () => {
     if (!league || !typeName || !userId) {
       Alert.alert('Missing Info', 'Required info is missing.');
-
       return;
     }
 
@@ -51,9 +54,9 @@ export default function LogWorkoutScreen() {
       leagueId: league.id,
       matchId: currentMatch?.id as string,
       activityType: typeName as ActivityType,
-      duration: minutes,
-      sets: 0,
-      reps: 0,
+      duration: formula === 'DURATION' ? minutes : 0,
+      sets: formula === 'SETSANDREPS' ? sets : 0,
+      reps: formula === 'SETSANDREPS' ? reps : 0,
       photoUrl: 'https://dummyimage.com/300',
       userId,
       activityNote: 'dummy note',
@@ -63,21 +66,86 @@ export default function LogWorkoutScreen() {
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: 16, // optional spacing between elements
-      }}
-    >
+    <View style={styles.container}>
       <Text style={styles.title}>
         {activityData?.name ?? 'Unknown Activity'}
       </Text>
 
-      <NumberScroll min={0} max={120} initial={34} onValueChange={setMinutes} />
+      {formula === 'DURATION' && (
+        <View style={styles.centered}>
+          <NumberScroll
+            min={0}
+            max={120}
+            initial={34}
+            onValueChange={setMinutes}
+            unit={'MINUTES'}
+          />
+        </View>
+      )}
 
-      {/* <View style={{ flexDirection: 'row', gap: 8 }}>
+      {formula === 'SETSANDREPS' && (
+        <View style={styles.dualScroll}>
+          <NumberScroll
+            min={0}
+            max={10}
+            initial={sets}
+            onValueChange={setSets}
+            unit={'SETS'}
+          />
+          <NumberScroll
+            min={0}
+            max={50}
+            initial={reps}
+            onValueChange={setReps}
+            unit={'REPS'}
+          />
+        </View>
+      )}
+
+      {/* Example Add Photo + Button UI */}
+      <View style={styles.bottomActions}>
+        <Button
+          mode="contained"
+          onPress={handleLogWorkout}
+          loading={mutation.isPending}
+          disabled={mutation.isPending}
+          style={{ width: '60%' }}
+        >
+          <Text>Log Workout</Text>
+        </Button>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingVertical: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 24,
+  },
+  title: {
+    color: 'white',
+    fontSize: 22,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  centered: {
+    alignItems: 'center',
+  },
+  dualScroll: {
+    gap: 20,
+  },
+  bottomActions: {
+    marginTop: 32,
+    alignItems: 'center',
+  },
+});
+
+{
+  /* <View style={{ flexDirection: 'row', gap: 8 }}>
         <IconButton
           mode="outlined"
           style={{ borderColor: theme.colors.onPrimaryContainer }}
@@ -91,27 +159,5 @@ export default function LogWorkoutScreen() {
           icon={() => <StickyNote color={theme.colors.onPrimaryContainer} />}
           size={24}
         />
-      </View> */}
-
-      <Button
-        mode="contained"
-        onPress={handleLogWorkout}
-        loading={mutation.isPending}
-        disabled={mutation.isPending}
-        style={{ width: '50%', marginTop: 16 }}
-      >
-        <Text>Log Workout</Text>
-      </Button>
-    </View>
-  );
+      </View> */
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {},
-  title: {
-    color: 'white',
-    fontSize: 20,
-    textAlign: 'center',
-    fontWeight: '600',
-  },
-});

@@ -19,6 +19,7 @@ const logActivity = () => {
   const theme = useTheme();
   const [search, setSearch] = useState('');
 
+  console.log(JSON.stringify(ActivityDefinitions, null, 2));
   const filteredActivities = Object.entries(ActivityDefinitions).filter(
     ([_, activity]) =>
       activity.name.toLowerCase().includes(search.toLowerCase()) ||
