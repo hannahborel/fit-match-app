@@ -5,38 +5,37 @@ import DateTimePicker, {
 } from '@react-native-community/datetimepicker';
 import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { Platform, Text, TouchableOpacity, View } from 'react-native';
-import { Button, useTheme } from 'react-native-paper';
+import { Platform, View } from 'react-native';
+import { Button, Text, useTheme } from 'react-native-paper';
 import { Row } from '../elements/Table/TableElements';
 
 type UpdateLeagueStartDateDemo = {
   startDate: Date;
   leagueId: string;
 };
+
 export default function UpdateLeagueStartDateDemo({
   startDate,
   leagueId,
 }: UpdateLeagueStartDateDemo) {
   const [newStartDate, setNewStartDate] = useState(new Date(startDate));
-
   const [showPicker, setShowPicker] = useState(false);
-  const isDisabled = startDate.toISOString() === newStartDate.toISOString();
   const [status, setStatus] = useState('');
   const theme = useTheme();
   const { getToken } = useAuth();
 
-  const { mutate, isPending, isSuccess, isError, error } = useMutation({
+  const isDisabled = startDate.toISOString() === newStartDate.toISOString();
+
+  const { mutate, isPending } = useMutation({
     mutationFn: updateLeagueStartTime,
-    onSuccess: () => {
-      setStatus('Start date updated');
-    },
-    onError: (err) => {
-      setStatus(`Error: ${err?.message}`);
-    },
+    onSuccess: () => setStatus('Start date updated'),
+    onError: (err) => setStatus(`Error: ${err?.message}`),
   });
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    if (selectedDate) setNewStartDate(selectedDate);
+    if (selectedDate) {
+      setNewStartDate(selectedDate);
+    }
     setShowPicker(false);
   };
 
@@ -52,46 +51,89 @@ export default function UpdateLeagueStartDateDemo({
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString('en-US', {
-      month: 'short', // use "long" for full month name
+      month: 'short',
       day: 'numeric',
     });
   };
 
+  const showbutton = startDate !== newStartDate;
+  console.log(newStartDate, startDate);
+  console.log(showbutton);
+
   return (
     <>
-      <TouchableOpacity onPress={() => setShowPicker(!showPicker)}>
-        <Row col1={'Start Date'} col2={formatDate(new Date(newStartDate))} />
-      </TouchableOpacity>
-      {showPicker && (
-        <DateTimePicker
-          value={startDate}
-          mode="date"
-          display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-          onChange={onChange}
-        />
-      )}
-      <View style={{ marginTop: 20 }}>
-        <Button
-          disabled={isDisabled}
+      <View>
+        <View
           style={{
-            backgroundColor: isDisabled ? 'grey' : theme.colors.onSurface,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
+            padding: 12,
           }}
-          textColor={theme.colors.surface}
-          onPress={handleSubmit}
         >
-          <Text>Update</Text>
-        </Button>
+          <View style={{ width: '40%' }}>
+            <Text style={{ color: theme.colors.onSurface, fontSize: 14 }}>
+              Start Date
+            </Text>
+          </View>
+          <View
+            style={{
+              width: '60%',
+              alignItems: 'flex-end',
+            }}
+          >
+            <Text
+              onPress={() => setShowPicker(!showPicker)}
+              style={{
+                color: theme.colors.onSurface,
+                fontWeight: 500,
+                fontSize: 14,
+                flexWrap: 'nowrap',
+              }}
+            >
+              {formatDate(newStartDate)}
+            </Text>
+          </View>
+        </View>
+        {showPicker && (
+          <>
+            <DateTimePicker
+              value={newStartDate}
+              mode="date"
+              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+              onChange={onChange}
+            />
+
+            <Button
+              disabled={isDisabled}
+              loading={isPending}
+              mode="contained"
+              onPress={handleSubmit}
+              style={{
+                backgroundColor: isDisabled
+                  ? theme.colors.surfaceDisabled
+                  : theme.colors.primary,
+              }}
+            >
+              <Text>Update</Text>
+            </Button>
+          </>
+        )}
+
+        <View style={{ marginTop: 8 }}>
+          {status !== '' && (
+            <Text
+              style={{
+                marginTop: 12,
+                color: status.includes('Error') ? 'red' : 'green',
+              }}
+            >
+              {status}
+            </Text>
+          )}
+        </View>
       </View>
-      {status !== '' && (
-        <Text
-          style={{
-            marginTop: 15,
-            color: status.includes('Error') ? 'red' : 'green',
-          }}
-        >
-          {status}
-        </Text>
-      )}
     </>
   );
 }

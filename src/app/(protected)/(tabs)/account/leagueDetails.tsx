@@ -2,6 +2,7 @@ import { leagueAtom } from '@/atoms/leaugeAtom';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
 import UpdateLeagueSize from '@/components/demo/ManageLeagueSettings';
 import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
+import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
 import BgView from '@/components/elements/BgView';
 import { Row } from '@/components/elements/Table/TableElements';
 import { formatDate } from '@/helpers/helpers';
@@ -40,6 +41,10 @@ const leagueDetails = () => {
               <UpdateLeagueSize
                 leagueId={leagueDetails.id}
                 leagueSize={leagueDetails.size}
+              />
+              <UpdateLeagueStartDateDemo
+                startDate={new Date(leagueDetails.startDate)}
+                leagueId={leagueDetails.id}
               />
             </View>
             <DeleteLeagueButton leagueId={leagueDetails.id} />

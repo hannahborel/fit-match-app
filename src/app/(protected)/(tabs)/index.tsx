@@ -49,10 +49,6 @@ const Home = () => {
           <BaseCard title={'YOUR LEAGUE STARTS IN'}>
             <CountdownTimer targetTime={leagueData.startDate} />
           </BaseCard>
-          <UpdateLeagueStartDateDemo
-            startDate={new Date(leagueData.startDate)}
-            leagueId={leagueData.id}
-          />
         </View>
       )}
     </>
