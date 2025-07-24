@@ -28,6 +28,7 @@ const StandingsTab = () => {
             const isExpanded = expandedIndexes.has(index);
             return (
               <ExpandedRows
+                key={index}
                 index={index}
                 player={player}
                 setIsExpanded={setExpandedIndexes}
