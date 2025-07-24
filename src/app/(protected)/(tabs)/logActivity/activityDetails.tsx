@@ -14,6 +14,7 @@ import { leagueAtom } from '@/atoms/leaugeAtom';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
 import { useAtomValue } from 'jotai';
+import BgView from '@/components/elements/BgView';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
@@ -62,21 +63,21 @@ export default function LogWorkoutScreen() {
   };
 
   return (
-    <>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          {activityData?.name ?? 'Unknown Activity'}
-        </Text>
-      </View>
-      <View style={{ alignItems: 'center', gap: 8 }}>
-        <NumberScroll
-          min={0}
-          max={120}
-          initial={34}
-          onValueChange={setMinutes}
-        />
-      </View>
-      <View style={{ flexDirection: 'row' }}>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16, // optional spacing between elements
+      }}
+    >
+      <Text style={styles.title}>
+        {activityData?.name ?? 'Unknown Activity'}
+      </Text>
+
+      <NumberScroll min={0} max={120} initial={34} onValueChange={setMinutes} />
+
+      {/* <View style={{ flexDirection: 'row', gap: 8 }}>
         <IconButton
           mode="outlined"
           style={{ borderColor: theme.colors.onPrimaryContainer }}
@@ -90,24 +91,23 @@ export default function LogWorkoutScreen() {
           icon={() => <StickyNote color={theme.colors.onPrimaryContainer} />}
           size={24}
         />
-      </View>
+      </View> */}
+
       <Button
         mode="contained"
         onPress={handleLogWorkout}
         loading={mutation.isPending}
         disabled={mutation.isPending}
+        style={{ width: '50%', marginTop: 16 }}
       >
         <Text>Log Workout</Text>
       </Button>
-    </>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    marginTop: 40,
-    marginBottom: 40,
-  },
+  titleContainer: {},
   title: {
     color: 'white',
     fontSize: 20,

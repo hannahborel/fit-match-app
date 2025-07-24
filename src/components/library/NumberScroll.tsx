@@ -58,7 +58,7 @@ export const NumberScroll: React.FC<NumberScrollerProps> = ({
     [selected],
   );
   return (
-    <>
+    <View style={styles.scrollContainer}>
       <FlatList
         ref={listRef}
         data={numbers}
@@ -75,21 +75,28 @@ export const NumberScroll: React.FC<NumberScrollerProps> = ({
           index,
         })}
         contentContainerStyle={{
-          paddingHorizontal: (SCREEN_WIDTH - ITEM_WIDTH - 30) / 2,
+          paddingHorizontal: (SCREEN_WIDTH - ITEM_WIDTH) / 2,
         }}
         renderItem={renderItem}
       />
       <Text style={styles.label}>MINUTES</Text>
       <View style={styles.centerIndicator} pointerEvents="none" />
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    width: SCREEN_WIDTH,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
   item: {
     width: ITEM_WIDTH,
     justifyContent: 'center',
     alignItems: 'center',
+    height: 150,
   },
   text: {
     fontSize: 88,
