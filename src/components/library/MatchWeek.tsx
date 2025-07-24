@@ -39,11 +39,39 @@ const MatchWeek = ({ week }: MatchListProps) => {
             style={[
               styles.matchContainer,
               {
-                backgroundColor: theme.colors.surface,
+                backgroundColor: 'rgb(32, 38, 52)',
+                padding: 8,
               },
             ]}
           >
-            <Text>{index}</Text>
+            {matchup.map((team, index) => (
+              <View
+                style={[
+                  styles.teamContainer,
+                  {
+                    backgroundColor: theme.colors.surface,
+                  },
+                ]}
+              >
+                <View style={styles.playerContainer}>
+                  {team.players.map((player, index) => (
+                    <View>
+                      <Text
+                        ellipsizeMode={'clip'}
+                        style={{ color: theme.colors.onSurface }}
+                      >
+                        Player {index}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
+                <View style={styles.points}>
+                  <Text style={{ color: theme.colors.onSurface }}>
+                    {team.totalPoints}
+                  </Text>
+                </View>
+              </View>
+            ))}
           </View>
         ))}
         {/* <View style={styles.matchContainer}>
@@ -89,7 +117,7 @@ export default MatchWeek;
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
-    gap: 8,
+    gap: 16,
     marginHorizontal: 16,
   },
   matchContainer: {
@@ -103,8 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
-    backgroundColor: 'green',
+    borderRadius: 6,
   },
 
   playerContainer: {},
