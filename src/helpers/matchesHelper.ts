@@ -1,6 +1,7 @@
 import { TCurrentMatchIdAtom } from '@/atoms/matchesAtom';
-import { League, LoggedActivity, Match } from 'hustle-types';
+import { ActivityType, League, LoggedActivity, Match } from 'hustle-types';
 import { getCurrentWeek } from './getCurrentWeekHelper';
+import { ActivityDefinitions } from 'hustle-types';
 
 export const getCurrentWeekMatchIds = (
   leagueData: League,
@@ -17,15 +18,6 @@ export const getCurrentWeekMatchIds = (
   }
 };
 
-// export const mapAllWeeksToMatchIds = (matches: Match[]):
-//
-// TAllMatchesIdAtom => {
-//   return matches.reduce<TAllMatchesIdAtom>((acc, match) => {
-//     acc[match.week] = match.id;
-
-//     return acc;
-//   }, {});
-// };
 export type Player = {
   name?: string;
   userId: string;
@@ -50,7 +42,20 @@ export type LeagueSchedule = {
   leagueSchedule: WeeklyMatchups[];
 };
 
-export function transformLeagueToSchedule(data: any): LeagueSchedule {
+export function calculatePointsForUser(
+  userId: string,
+  loggedActivities: LoggedActivity[],
+): number {
+  return loggedActivities
+    .filter((activity) => activity.userId === userId)
+    .reduce((total, activity) => {
+      const cardio = activity.cardioPoints ?? 0;
+      const strength = activity.strengthPoints ?? 0;
+      return total + cardio + strength;
+    }, 0);
+}
+
+export function transformLeagueToSchedule(data: League): LeagueSchedule {
   const userMap = new Map<string, Player>(
     data.leaguesToUsers
       .filter((user: any) => user.userId && user.id) // Ensures required fields are present
@@ -78,11 +83,19 @@ export function transformLeagueToSchedule(data: any): LeagueSchedule {
     });
 
     const matchup: Matchup = Array.from(teamsMap.entries()).map(
-      ([teamIndex, players]) => ({
-        teamIndex,
-        players,
-        totalPoints: 0, // You can compute this using loggedActivities
-      }),
+      ([teamIndex, players]) => {
+        const totalPoints = players.reduce(
+          (sum, player) =>
+            sum + calculatePointsForUser(player.userId, data.loggedActivities),
+          0,
+        );
+
+        return {
+          teamIndex,
+          players,
+          totalPoints,
+        };
+      },
     );
 
     const weekMatchups = weeksMap.get(match.week) || [];
