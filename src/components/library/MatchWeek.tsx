@@ -11,19 +11,6 @@ const MatchWeek = ({ week }: MatchListProps) => {
   const theme = useTheme();
   const PAGE_WIDTH = Dimensions.get('window').width;
 
-  const testMap = () => {
-    week.matchups.map((matchup, index) => {
-      console.log('-----Matchup------');
-      console.log(matchup, index);
-      // console.log(JSON.stringify(matchup, null, 2));
-      // matchup.map((teams, index) => {
-      //   console.log('---TEAMS----');
-      //   console.log(JSON.stringify(teams, null, 2));
-      // });
-    });
-  };
-  console.log(testMap());
-  // console.log(JSON.stringify(week, null, 2));
   if (week.matchups)
     return (
       <View
