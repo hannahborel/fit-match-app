@@ -1,96 +1,96 @@
-import { leagueAtom } from '@/atoms/leaugeAtom';
-import { AllMatchesIdAtom, currentMatchAtom } from '@/atoms/matchesAtom';
-import MatchList from '@/components/library/MatchList';
-import { getCurrentWeek } from '@/helpers/getCurrentWeekHelper';
 import {
-  mapMatchesWithTeamPoints,
-  WeeklySchedule,
-} from '@/helpers/matchesHelper';
-import { Match } from 'hustle-types';
+  currentMatchAtom,
+  allMatchupsWithPointsAtom,
+} from '@/atoms/matchesAtom';
+import ScheduleFlatList from '@/components/library/ScheduleFlatList';
 
 import { useAtomValue } from 'jotai';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { IconButton, Text, useTheme } from 'react-native-paper';
 
 const SchedulePage = () => {
-  const matchList = useAtomValue(AllMatchesIdAtom);
-  const league = useAtomValue(leagueAtom);
+  const matchupScheduleAtom = useAtomValue(allMatchupsWithPointsAtom);
   const currentWeek = useAtomValue(currentMatchAtom);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState<number>(0);
 
-  const extractMatches = league?.matches;
-  const extractActivity = league?.loggedActivities;
-  let data: WeeklySchedule[] = [];
+  const isReady = matchupScheduleAtom && currentWeek;
 
   useEffect(() => {
-    if (extractMatches && extractActivity && currentWeek) {
-      data = mapMatchesWithTeamPoints(extractMatches, extractActivity);
-      console.log(currentWeek.id);
-      console.log(JSON.stringify(data[0]['week'], null, 2));
+    if (matchupScheduleAtom && currentWeek) {
       setPageIndex(currentWeek.week);
     }
-  }, [league?.matches]);
+  }, [matchupScheduleAtom, currentWeek]);
+  const handlePageLeft = () => {
+    if (pageIndex == 0) {
+      return;
+    } else {
+      setPageIndex((prev) => prev - 1);
+    }
+  };
 
-  // console.log(JSON.stringify(league?.matches, null, 2));
-  // console.log(JSON.stringify(league, null, 2));
+  const handlePageRight = () => {
+    let currentPage = pageIndex + 1;
 
-  // if (extractMatches && extractActivity) {
-  //   const data = mapMatchesWithTeamPoints(extractMatches, extractActivity);
-  //   console.log(JSON.stringify(data, null, 2));
-  //   console.log(data.length);
-  //   console.log('current week', currentWeek) ;
-  // }
+    if (currentPage == matchupScheduleAtom?.leagueSchedule?.length) {
+      return;
+    } else {
+      setPageIndex((prev) => prev + 1);
+    }
+  };
 
-  const isReady = data && currentWeek;
+  if (!isReady) {
+    return (
+      <View>
+        <Text>You Fucked Up</Text>
+      </View>
+    );
+  }
+
   const theme = useTheme();
+  // console.log(JSON.stringify(matchupsArr, null, 2));
+
   return (
     <View style={{ gap: 16, flex: 1, alignItems: 'center' }}>
-      {isReady && (
-        <>
-          <View style={styles.switchContainer}>
-            <IconButton
-              size={18}
-              icon={() => <ChevronLeft color={theme.colors.onSurface} />}
-            />
-            <Text>{'Week ' + Number(currentWeek.week + 1)}</Text>
-            <IconButton
-              size={18}
-              icon={() => <ChevronRight color={theme.colors.onSurface} />}
-            />
+      <>
+        <View style={styles.switchContainer}>
+          <IconButton
+            onPress={handlePageLeft}
+            disabled={pageIndex == 0}
+            size={18}
+            icon={() => <ChevronLeft color={theme.colors.onSurface} />}
+          />
+          <View style={styles.titleTextContainer}>
+            <Text>{'WEEK '}</Text>
+            <View
+              style={{
+                width: 10,
+                alignItems: 'center',
+              }}
+            >
+              <Text>{Number(pageIndex + 1)}</Text>
+            </View>
           </View>
-          <ScrollView style={{ flexGrow: 0 }} pagingEnabled horizontal>
-            <MatchList />
-            <MatchList />
-          </ScrollView>
-        </>
-      )}
+
+          <IconButton
+            onPress={handlePageRight}
+            disabled={
+              pageIndex + 1 == matchupScheduleAtom.leagueSchedule.length
+            }
+            size={18}
+            icon={() => <ChevronRight color={theme.colors.onSurface} />}
+          />
+        </View>
+        <ScheduleFlatList
+          weeks={matchupScheduleAtom.leagueSchedule}
+          page={pageIndex}
+        />
+      </>
     </View>
   );
 };
-
-{
-  /* {Object.entries(matchList).map(([weekIndex, matchId]) => (
-        <View
-          style={{
-            backgroundColor: theme.colors.surface,
-            borderRadius: 6,
-            padding: 16,
-            flex: 1,
-          }}
-          key={weekIndex}
-        >
-          <Text style={{ color: theme.colors.onSurface }}>
-            Week {weekIndex}
-          </Text>
-          <Text style={{ color: theme.colors.onSurface }}>
-            Match Id: {matchId}
-          </Text>
-        </View>
-      ))} */
-}
 
 export default SchedulePage;
 
@@ -101,5 +101,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 16,
     gap: 8,
+  },
+  titleTextContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8,
+  },
+  disabled: {
+    color: 'rgba(102, 119, 150, 1)',
   },
 });

@@ -1,4 +1,4 @@
-import { TAllMatchesIdAtom, TCurrentMatchIdAtom } from '@/atoms/matchesAtom';
+import { TCurrentMatchIdAtom } from '@/atoms/matchesAtom';
 import { League, LoggedActivity, Match } from 'hustle-types';
 import { getCurrentWeek } from './getCurrentWeekHelper';
 
@@ -17,83 +17,85 @@ export const getCurrentWeekMatchIds = (
   }
 };
 
-export const mapAllWeeksToMatchIds = (matches: Match[]): TAllMatchesIdAtom => {
-  return matches.reduce<TAllMatchesIdAtom>((acc, match) => {
-    acc[match.week] = match.id;
+// export const mapAllWeeksToMatchIds = (matches: Match[]):
+//
+// TAllMatchesIdAtom => {
+//   return matches.reduce<TAllMatchesIdAtom>((acc, match) => {
+//     acc[match.week] = match.id;
 
-    return acc;
-  }, {});
+//     return acc;
+//   }, {});
+// };
+export type Player = {
+  name?: string;
+  userId: string;
+  id: string;
 };
 
-type TeamScore = {
-  users: string[];
+export type Team = {
+  teamIndex: number;
+  players: Player[];
   totalPoints: number;
 };
-type MatchWithPoints = {
-  matchId: string;
+
+export type Matchup = Team[];
+
+export type WeeklyMatchups = {
   week: number;
-  teamA: TeamScore;
-  teamB: TeamScore;
+  matchups: Matchup[];
 };
 
-export type WeeklySchedule = {
-  week: number;
-  matches: MatchWithPoints[];
+export type LeagueSchedule = {
+  leagueId: string;
+  leagueSchedule: WeeklyMatchups[];
 };
-export function mapMatchesWithTeamPoints(
-  matches: Match[],
-  loggedActivities: LoggedActivity[],
-): WeeklySchedule[] {
-  const weekMap = new Map<number, MatchWithPoints[]>();
 
-  for (const match of matches) {
-    const teamA: string[] = [];
-    const teamB: string[] = [];
+export function transformLeagueToSchedule(data: any): LeagueSchedule {
+  const userMap = new Map<string, Player>(
+    data.leaguesToUsers
+      .filter((user: any) => user.userId && user.id) // Ensures required fields are present
+      .map((user: any) => [
+        user.userId,
+        {
+          userId: user.userId,
+          id: user.id,
+          name: user.userId.startsWith('bot') ? 'Bot' : undefined,
+        },
+      ]),
+  );
+  const weeksMap = new Map<number, Matchup[]>();
 
-    for (const mt of match.matchesToUsers) {
-      if (mt.teamIndex === 0) teamA.push(mt.userId);
-      else teamB.push(mt.userId);
-    }
+  data.matches.forEach((match: any) => {
+    const teamsMap = new Map<number, Player[]>();
 
-    const calcPoints = (users: string[]) =>
-      users.reduce((sum, uid) => {
-        const userMatchPoints = loggedActivities
-          .filter((act) => act.userId === uid && act.matchId === match.id)
-          .reduce(
-            (acc, act) =>
-              acc + (act.cardioPoints || 0) + (act.strengthPoints || 0),
-            0,
-          );
-        return sum + userMatchPoints;
-      }, 0);
-
-    const matchObj: MatchWithPoints = {
-      matchId: match.id,
-      week: match.week + 1,
-      teamA: {
-        users: teamA,
-        totalPoints: calcPoints(teamA),
-      },
-      teamB: {
-        users: teamB,
-        totalPoints: calcPoints(teamB),
-      },
-    };
-
-    if (!weekMap.has(match.week)) {
-      weekMap.set(match.week, []);
-    }
-    weekMap.get(match.week)!.push(matchObj);
-  }
-
-  const result: WeeklySchedule[] = [];
-
-  for (const [week, matches] of weekMap.entries()) {
-    result.push({
-      week: week,
-      matches,
+    match.matchesToUsers.forEach((entry: any) => {
+      const team = teamsMap.get(entry.teamIndex) || [];
+      const player = userMap.get(entry.userId);
+      if (player) {
+        team.push(player);
+      }
+      teamsMap.set(entry.teamIndex, team);
     });
-  }
 
-  return result.sort((a, b) => a.week - b.week);
+    const matchup: Matchup = Array.from(teamsMap.entries()).map(
+      ([teamIndex, players]) => ({
+        teamIndex,
+        players,
+        totalPoints: 0, // You can compute this using loggedActivities
+      }),
+    );
+
+    const weekMatchups = weeksMap.get(match.week) || [];
+    weekMatchups.push(matchup);
+    weeksMap.set(match.week, weekMatchups);
+  });
+
+  const leagueSchedule: WeeklyMatchups[] = Array.from(weeksMap.entries())
+    .map(([week, matchups]) => ({ week, matchups }))
+    .sort((a, b) => a.week - b.week);
+
+  return {
+    leagueId: data.id,
+    leagueSchedule,
+  };
 }
