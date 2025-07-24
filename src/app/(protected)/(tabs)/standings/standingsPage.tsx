@@ -50,7 +50,7 @@ const StandingsTab = () => {
                   style={{
                     color: theme.colors.onSurface,
                     fontSize: 16,
-                    fontWeight: 400,
+                    fontWeight: 500,
                   }}
                 >
                   {player.totalPoints}

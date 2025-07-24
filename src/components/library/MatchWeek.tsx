@@ -1,7 +1,7 @@
 import { getAvatarByIndex } from '@/assets/avatar';
 import { WeeklyMatchups } from '@/helpers/matchesHelper';
 import React from 'react';
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
 
 export type MatchListProps = {
@@ -16,8 +16,8 @@ const MatchWeek = ({ week }: MatchListProps) => {
 
   if (week.matchups)
     return (
-      <View
-        style={[
+      <ScrollView
+        contentContainerStyle={[
           styles.wrapper,
           {
             width: PAGE_WIDTH,
@@ -64,7 +64,11 @@ const MatchWeek = ({ week }: MatchListProps) => {
                 </View>
                 <View style={styles.points}>
                   <Text
-                    style={{ color: theme.colors.onSurface, fontWeight: 500 }}
+                    style={{
+                      color: theme.colors.onSurface,
+                      fontWeight: 700,
+                      fontSize: 18,
+                    }}
                   >
                     {team.totalPoints}
                   </Text>
@@ -73,7 +77,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
             ))}
           </View>
         ))}
-      </View>
+      </ScrollView>
     );
 };
 

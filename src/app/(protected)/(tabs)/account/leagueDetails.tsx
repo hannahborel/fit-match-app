@@ -1,8 +1,8 @@
-import { leagueQueryAtom } from '@/atoms/leagueQueryAtom';
+import { leagueAtom } from '@/atoms/leaugeAtom';
 import BgView from '@/components/elements/BgView';
 import { Row } from '@/components/elements/Table/TableElements';
 import { formatDate } from '@/helpers/helpers';
-import { useAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import React from 'react';
 import { View } from 'react-native';
 import { Avatar, Text, useTheme } from 'react-native-paper';
@@ -10,12 +10,12 @@ import { Avatar, Text, useTheme } from 'react-native-paper';
 const leagueDetails = () => {
   const theme = useTheme();
 
-  const [{ data: leagueDetails }] = useAtom(leagueQueryAtom);
+  const leagueDetails = useAtomValue(leagueAtom);
 
   return (
     <BgView>
       <View style={{ gap: 12 }}>
-        {leagueDetails ? (
+        {leagueDetails && (
           <>
             <View
               style={{
@@ -35,7 +35,7 @@ const leagueDetails = () => {
               />
             </View>
             <View>
-              {leagueDetails.leaguesToUsers.map((user, index) => (
+              {/* {leagueDetails.leaguesToUsers.map((user, index) => (
                 <View
                   style={{
                     flexDirection: 'row',
@@ -56,13 +56,9 @@ const leagueDetails = () => {
                     <Text>User {index + 1}</Text>
                   </View>
                 </View>
-              ))}
+              ))} */}
             </View>
           </>
-        ) : (
-          <View>
-            <Text> No data or undefined</Text>
-          </View>
         )}
       </View>
     </BgView>
