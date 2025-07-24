@@ -1,7 +1,9 @@
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
-import { useTheme } from 'react-native-paper';
+import { Avatar, useTheme } from 'react-native-paper';
 import { LeagueSchedule, WeeklyMatchups } from '@/helpers/matchesHelper';
+import AvatarImage from 'react-native-paper/lib/typescript/components/Avatar/AvatarImage';
+import { getAvatarByIndex } from '@/assets/avatar';
 
 export type MatchListProps = {
   week: WeeklyMatchups;
@@ -42,7 +44,11 @@ const MatchWeek = ({ week }: MatchListProps) => {
               >
                 <View style={styles.playerContainer}>
                   {team.players.map((player, index) => (
-                    <View>
+                    <View style={styles.player}>
+                      <Avatar.Image
+                        size={35}
+                        source={getAvatarByIndex(index)}
+                      />
                       <Text
                         ellipsizeMode={'clip'}
                         style={{ color: theme.colors.onSurface }}
@@ -87,6 +93,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
   },
 
-  playerContainer: {},
+  playerContainer: {
+    gap: 8,
+  },
+  player: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+  },
   points: {},
 });
