@@ -1,5 +1,5 @@
 import { getAvatarByIndex } from '@/assets/avatar';
-import { WeeklyMatchups } from '@/helpers/matchesHelper';
+import { Team, WeeklyMatchups } from '@/helpers/matchesHelper';
 import React from 'react';
 import { Dimensions, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Avatar, useTheme } from 'react-native-paper';
@@ -30,11 +30,10 @@ const MatchWeek = ({ week }: MatchListProps) => {
               styles.matchContainer,
               {
                 backgroundColor: 'rgb(32, 38, 52)',
-                padding: 8,
               },
             ]}
           >
-            {matchup.map((team, index) => (
+            {matchup.map((team, teamIndex) => (
               <View
                 style={[
                   styles.teamContainer,
@@ -43,36 +42,75 @@ const MatchWeek = ({ week }: MatchListProps) => {
                   },
                 ]}
               >
+                {teamIndex == 1 && (
+                  <View style={styles.points}>
+                    <Text
+                      style={{
+                        color: theme.colors.onSurface,
+                        fontWeight: 700,
+                        fontSize: 18,
+                      }}
+                    >
+                      {team.totalPoints}
+                    </Text>
+                  </View>
+                )}
                 <View style={styles.playerContainer}>
                   {team.players.map((player, index) => {
                     avatarIndex += 1;
-                    return (
-                      <View key={`${player} - ${index}`} style={styles.player}>
-                        <Avatar.Image
-                          size={35}
-                          source={getAvatarByIndex(avatarIndex)}
-                        />
-                        <Text
-                          ellipsizeMode={'clip'}
-                          style={{ color: theme.colors.onSurface }}
+                    if (teamIndex == 0) {
+                      //renders a left aligned container or a right aligned container
+                      return (
+                        <View
+                          key={`${player} - ${index}`}
+                          style={styles.player}
                         >
-                          Player {index}
-                        </Text>
-                      </View>
-                    );
+                          <Avatar.Image
+                            size={24}
+                            source={getAvatarByIndex(avatarIndex)}
+                          />
+                          <Text
+                            ellipsizeMode={'clip'}
+                            style={{ color: theme.colors.onSurface }}
+                          >
+                            Player {index}
+                          </Text>
+                        </View>
+                      );
+                    } else {
+                      return (
+                        <View
+                          key={`${player} - ${index}`}
+                          style={styles.player}
+                        >
+                          <Text
+                            ellipsizeMode={'clip'}
+                            style={{ color: theme.colors.onSurface }}
+                          >
+                            Player {index}
+                          </Text>
+                          <Avatar.Image
+                            size={24}
+                            source={getAvatarByIndex(avatarIndex)}
+                          />
+                        </View>
+                      );
+                    }
                   })}
                 </View>
-                <View style={styles.points}>
-                  <Text
-                    style={{
-                      color: theme.colors.onSurface,
-                      fontWeight: 700,
-                      fontSize: 18,
-                    }}
-                  >
-                    {team.totalPoints}
-                  </Text>
-                </View>
+                {teamIndex == 0 && (
+                  <View style={styles.points}>
+                    <Text
+                      style={{
+                        color: theme.colors.onSurface,
+                        fontWeight: 700,
+                        fontSize: 18,
+                      }}
+                    >
+                      {team.totalPoints}
+                    </Text>
+                  </View>
+                )}
               </View>
             ))}
           </View>
@@ -104,7 +142,7 @@ const styles = StyleSheet.create({
   },
 
   playerContainer: {
-    gap: 8,
+    gap: 16,
   },
   player: {
     flexDirection: 'row',
