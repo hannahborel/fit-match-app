@@ -92,13 +92,6 @@ export default function LogWorkoutScreen() {
             onValueChange={setSets}
             unit={'SETS'}
           />
-          <NumberScroll
-            min={0}
-            max={50}
-            initial={reps}
-            onValueChange={setReps}
-            unit={'REPS'}
-          />
         </View>
       )}
 
