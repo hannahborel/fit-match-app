@@ -10,7 +10,7 @@ type ManageLeagueSettingsProps = {
   leagueSize: number;
 };
 
-const ManageLeagueSettings = ({
+const ManageLeagueSize = ({
   leagueId,
   leagueSize,
 }: ManageLeagueSettingsProps) => {
@@ -45,6 +45,7 @@ const ManageLeagueSettings = ({
             width: '100%',
             padding: 12,
             borderBottomWidth: 1,
+            borderColor: theme.colors.surfaceVariant,
           }}
         >
           <View style={{ width: '40%' }}>
@@ -115,4 +116,4 @@ const ManageLeagueSettings = ({
   );
 };
 
-export default ManageLeagueSettings;
+export default ManageLeagueSize;

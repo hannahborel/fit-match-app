@@ -1,15 +1,13 @@
 import { leagueAtom } from '@/atoms/leaugeAtom';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
-import UpdateLeagueSize from '@/components/demo/ManageLeagueSettings';
-import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
+import ManageLeagueSize from '@/components/demo/ManageLeagueSize';
 import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
 import BgView from '@/components/elements/BgView';
 import { Row } from '@/components/elements/Table/TableElements';
-import { formatDate } from '@/helpers/helpers';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue } from 'jotai';
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Avatar, Text, useTheme } from 'react-native-paper';
+import { View } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 const leagueDetails = () => {
   const theme = useTheme();
@@ -29,16 +27,16 @@ const leagueDetails = () => {
             >
               <Row col1={'League Name'} col2={leagueDetails.name} />
 
-              <Row
+              {/* <Row
                 col1={'Start Date'}
                 col2={formatDate(leagueDetails.startDate)}
-              />
+              /> */}
 
               <Row
                 col1={'Duration'}
                 col2={leagueDetails.weeks.toString() + ' weeks'}
               />
-              <UpdateLeagueSize
+              <ManageLeagueSize
                 leagueId={leagueDetails.id}
                 leagueSize={leagueDetails.size}
               />

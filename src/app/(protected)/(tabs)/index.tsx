@@ -6,7 +6,7 @@ import {
   allMatchupsWithPointsAtom,
   currentMatchAtom,
 } from '@/atoms/matchesAtom';
-import ManageLeagueSettings from '@/components/demo/ManageLeagueSettings';
+import ManageLeagueSettings from '@/components/demo/ManageLeagueSize';
 import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
 import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
 import CustomHeader from '@/components/library/CustomHeader';

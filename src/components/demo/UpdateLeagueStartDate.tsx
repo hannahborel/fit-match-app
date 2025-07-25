@@ -36,7 +36,7 @@ export default function UpdateLeagueStartDateDemo({
     if (selectedDate) {
       setNewStartDate(selectedDate);
     }
-    setShowPicker(false);
+    // setShowPicker(false);
   };
 
   const handleSubmit = async () => {
@@ -61,50 +61,51 @@ export default function UpdateLeagueStartDateDemo({
   console.log(showbutton);
 
   return (
-    <>
-      <View>
+    <View style={{ alignItems: 'center' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          width: '100%',
+          padding: 12,
+        }}
+      >
+        <View style={{ width: '40%' }}>
+          <Text style={{ color: theme.colors.onSurface, fontSize: 14 }}>
+            Start Date
+          </Text>
+        </View>
         <View
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            padding: 12,
+            width: '60%',
+            alignItems: 'flex-end',
           }}
         >
-          <View style={{ width: '40%' }}>
-            <Text style={{ color: theme.colors.onSurface, fontSize: 14 }}>
-              Start Date
-            </Text>
-          </View>
-          <View
+          <Text
+            onPress={() => setShowPicker(!showPicker)}
             style={{
-              width: '60%',
-              alignItems: 'flex-end',
+              color: theme.colors.onSurface,
+              fontWeight: 500,
+              fontSize: 14,
+              flexWrap: 'nowrap',
             }}
           >
-            <Text
-              onPress={() => setShowPicker(!showPicker)}
-              style={{
-                color: theme.colors.onSurface,
-                fontWeight: 500,
-                fontSize: 14,
-                flexWrap: 'nowrap',
-              }}
-            >
-              {formatDate(newStartDate)}
-            </Text>
-          </View>
+            {formatDate(newStartDate)}
+          </Text>
         </View>
-        {showPicker && (
-          <>
-            <DateTimePicker
-              value={newStartDate}
-              mode="date"
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              onChange={onChange}
-            />
+      </View>
+      {showPicker && (
+        <>
+          <DateTimePicker
+            value={newStartDate}
+            mode="date"
+            display={'spinner'}
+            onChange={onChange}
+            style={{ width: '100%' }}
+          />
 
+          {!isDisabled && (
             <Button
               disabled={isDisabled}
               loading={isPending}
@@ -118,22 +119,22 @@ export default function UpdateLeagueStartDateDemo({
             >
               <Text>Update</Text>
             </Button>
-          </>
-        )}
-
-        <View style={{ marginTop: 8 }}>
-          {status !== '' && (
-            <Text
-              style={{
-                marginTop: 12,
-                color: status.includes('Error') ? 'red' : 'green',
-              }}
-            >
-              {status}
-            </Text>
           )}
-        </View>
+        </>
+      )}
+
+      <View style={{ marginTop: 8 }}>
+        {status !== '' && (
+          <Text
+            style={{
+              marginTop: 12,
+              color: status.includes('Error') ? 'red' : 'green',
+            }}
+          >
+            {status}
+          </Text>
+        )}
       </View>
-    </>
+    </View>
   );
 }
