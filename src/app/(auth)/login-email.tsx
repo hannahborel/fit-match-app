@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Button, Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
+import LoginPassword from './login-password';
 
 export default function Login() {
   const { signIn } = useSignIn();
@@ -14,6 +15,7 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
   const [email, setEmail] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const isValidEmail = isEmailValid(email);
 
@@ -30,10 +32,11 @@ export default function Login() {
 
         if (emailCheck.status === 'needs_first_factor') {
           //has account, needs to enter password
-          router.push({
-            pathname: '/login-password',
-            params: { emailParam: email },
-          });
+          setShowPassword(true);
+          // router.push({
+          //   pathname: '/login-password',
+          //   params: { emailParam: email },
+          // });
         }
       } catch (err) {
         if (err) {
@@ -63,6 +66,7 @@ export default function Login() {
       // }
     }
   };
+  console.log(setShowPassword);
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ width: 300, alignSelf: 'center' }}>
@@ -77,19 +81,21 @@ export default function Login() {
             autoCapitalize="none"
             keyboardType="email-address"
             right={
-              <TextInput.Icon
-                color={
-                  isValidEmail
-                    ? theme.colors.primary
-                    : theme.colors.surfaceDisabled
-                }
-                icon="arrow-right-circle"
-                onPress={handleContinue}
-                disabled={!isValidEmail}
-              />
+              !showPassword && (
+                <TextInput.Icon
+                  color={
+                    isValidEmail
+                      ? theme.colors.primary
+                      : theme.colors.surfaceDisabled
+                  }
+                  icon="arrow-right-circle"
+                  onPress={handleContinue}
+                  disabled={!isValidEmail}
+                />
+              )
             }
           />
-
+          {showPassword && <LoginPassword email={email} />}
           <View
             style={{
               flexDirection: 'row',
