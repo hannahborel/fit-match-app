@@ -124,14 +124,14 @@ export default function Login() {
             >
               Continue with Google
             </Button>
-            <Button
+            {/* <Button
               icon="apple"
               mode="outlined"
               onPress={() => handleSSO('oauth_apple')}
               style={{ marginTop: 8, borderRadius: 12 }}
             >
               Continue with Apple
-            </Button>
+            </Button> */}
           </View>
         </View>
       </View>
