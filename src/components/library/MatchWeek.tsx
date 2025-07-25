@@ -13,6 +13,7 @@ let avatarIndex = 0;
 const MatchWeek = ({ week }: MatchListProps) => {
   const theme = useTheme();
   const PAGE_WIDTH = Dimensions.get('window').width;
+  const AVATAR_SIZE = 32;
 
   if (week.matchups)
     return (
@@ -66,7 +67,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
                           style={styles.player}
                         >
                           <Avatar.Image
-                            size={24}
+                            size={AVATAR_SIZE}
                             source={getAvatarByIndex(avatarIndex)}
                           />
                           <Text
@@ -90,7 +91,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
                             Player {index}
                           </Text>
                           <Avatar.Image
-                            size={24}
+                            size={AVATAR_SIZE}
                             source={getAvatarByIndex(avatarIndex)}
                           />
                         </View>

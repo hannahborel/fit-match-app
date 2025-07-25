@@ -15,6 +15,7 @@ const SchedulePage = () => {
   const matchupScheduleAtom = useAtomValue(allMatchupsWithPointsAtom);
   const currentWeek = useAtomValue(currentMatchAtom);
   const [pageIndex, setPageIndex] = useState<number>(0);
+  const totalPages = matchupScheduleAtom?.leagueSchedule.length;
 
   const isReady = matchupScheduleAtom && currentWeek;
 
@@ -23,6 +24,7 @@ const SchedulePage = () => {
       setPageIndex(currentWeek.week);
     }
   }, [matchupScheduleAtom, currentWeek]);
+
   const handlePageLeft = () => {
     if (pageIndex == 0) {
       return;
@@ -34,7 +36,7 @@ const SchedulePage = () => {
   const handlePageRight = () => {
     let currentPage = pageIndex + 1;
 
-    if (currentPage == matchupScheduleAtom?.leagueSchedule?.length) {
+    if (currentPage == totalPages) {
       return;
     } else {
       setPageIndex((prev) => prev + 1);
@@ -49,6 +51,9 @@ const SchedulePage = () => {
     );
   }
 
+  const atPageEnd = pageIndex + 1 == totalPages;
+  const atPageBeginning = pageIndex == 0;
+
   const theme = useTheme();
   // console.log(JSON.stringify(matchupsArr, null, 2));
 
@@ -58,9 +63,15 @@ const SchedulePage = () => {
         <View style={styles.switchContainer}>
           <IconButton
             onPress={handlePageLeft}
-            disabled={pageIndex == 0}
+            disabled={atPageBeginning}
             size={18}
-            icon={() => <ChevronLeft color={theme.colors.onSurface} />}
+            icon={() => (
+              <ChevronLeft
+                color={
+                  !atPageBeginning ? theme.colors.onSurface : 'transparent'
+                }
+              />
+            )}
           />
           <View style={styles.titleTextContainer}>
             <Text>{'WEEK '}</Text>
@@ -76,11 +87,13 @@ const SchedulePage = () => {
 
           <IconButton
             onPress={handlePageRight}
-            disabled={
-              pageIndex + 1 == matchupScheduleAtom.leagueSchedule.length
-            }
+            disabled={atPageEnd}
             size={18}
-            icon={() => <ChevronRight color={theme.colors.onSurface} />}
+            icon={() => (
+              <ChevronRight
+                color={!atPageEnd ? theme.colors.onSurface : 'transparent'}
+              />
+            )}
           />
         </View>
         <ScheduleFlatList
