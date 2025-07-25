@@ -4,6 +4,7 @@ import { isEmailValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
+import { Button, Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 
@@ -49,7 +50,19 @@ export default function Login() {
       }
     }
   };
-
+  const handleSSO = async (strategy: string) => {
+    if (signIn) {
+      console.log('SSO');
+      // try {
+      //   await signIn.authenticateWithRedirect({
+      //     strategy,
+      //     redirectUrl: Linking.createURL('callback'),
+      //   });
+      // } catch (err) {
+      //   console.error('OAuth error:', err);
+      // }
+    }
+  };
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ width: 300, alignSelf: 'center' }}>
@@ -76,6 +89,50 @@ export default function Login() {
               />
             }
           />
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Divider
+              bold
+              style={{
+                backgroundColor: theme.colors.outline,
+                width: '40%',
+              }}
+            />
+
+            <Text>or</Text>
+
+            <Divider
+              bold
+              style={{
+                backgroundColor: theme.colors.outline,
+                width: '40%',
+              }}
+            />
+          </View>
+          <View>
+            <Button
+              icon="google"
+              mode="outlined"
+              onPress={() => handleSSO('oauth_google')}
+              style={{ borderRadius: 12 }}
+            >
+              Continue with Google
+            </Button>
+            <Button
+              icon="apple"
+              mode="outlined"
+              onPress={() => handleSSO('oauth_apple')}
+              style={{ marginTop: 8, borderRadius: 12 }}
+            >
+              Continue with Apple
+            </Button>
+          </View>
         </View>
       </View>
     </View>
