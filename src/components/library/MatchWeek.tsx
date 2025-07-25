@@ -47,7 +47,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
                   {team.players.map((player, index) => {
                     avatarIndex += 1;
                     return (
-                      <View style={styles.player}>
+                      <View key={`${player} - ${index}`} style={styles.player}>
                         <Avatar.Image
                           size={35}
                           source={getAvatarByIndex(avatarIndex)}
