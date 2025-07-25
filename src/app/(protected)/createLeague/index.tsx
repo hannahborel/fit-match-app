@@ -20,8 +20,8 @@ const startPage = () => {
   }, [isSignedIn]);
 
   return (
-    <BgView>
-      <View style={{ padding: 16, gap: 16 }}>
+    <View style={{ justifyContent: 'center', flex: 1, alignItems: 'center' }}>
+      <View style={{ width: 300, gap: 16 }}>
         <Text
           style={{
             fontSize: 24,
@@ -71,8 +71,8 @@ const startPage = () => {
           <Text>Create a New Challenge</Text>
         </Button>
       </View>
-      <LogoutButton />
-    </BgView>
+      {/* <LogoutButton /> */}
+    </View>
   );
 };
 
