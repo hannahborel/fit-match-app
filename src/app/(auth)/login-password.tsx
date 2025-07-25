@@ -27,8 +27,8 @@ const LoginPassword = () => {
       });
       if (signInAttempt.status === 'complete') {
         await setActive({ session: signInAttempt.createdSessionId });
-        // Redirect to loading page to check league data
-        router.replace('/loading');
+
+        router.replace('/');
       }
     } catch (err) {
       if (err instanceof ReferenceError) {

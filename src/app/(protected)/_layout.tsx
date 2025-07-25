@@ -1,7 +1,5 @@
-import BackButton from '@/components/elements/Headers/BackButton';
 import ThemedStack from '@/components/elements/Stack/ThemedStack';
-import { router, Stack } from 'expo-router';
-import { ChevronLeft } from 'lucide-react-native';
+import { Stack } from 'expo-router';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
