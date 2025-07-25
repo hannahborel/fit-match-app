@@ -3,8 +3,8 @@ import { useAuth, useUser } from '@clerk/clerk-expo';
 import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 import { queryClient } from '@/lib/queryClient';
 
-export const useGetLeague = () => {
-  const { getToken, isLoaded } = useAuth();
+export const useGetLeague = (options = {}) => {
+  const { getToken, isLoaded, isSignedIn } = useAuth();
   const userId = useAuth();
 
   return useQuery({
@@ -21,6 +21,6 @@ export const useGetLeague = () => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
 
-    enabled: isLoaded,
+    enabled: isLoaded && isSignedIn,
   });
 };

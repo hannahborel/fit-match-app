@@ -18,7 +18,7 @@ import { leagueAtom } from '@/atoms/leaugeAtom';
 import { tokenCache } from '@/constants/auth';
 import { useGetLeague } from '@/hooks/useGetLeague';
 import { queryClient } from '@/lib/queryClient';
-import { SessionProvider } from '@/lib/util/authentication/AuthContext';
+
 import { QueryClientProvider } from '@tanstack/react-query';
 import merge from 'deepmerge';
 import { useSetAtom } from 'jotai';
@@ -80,13 +80,11 @@ export default function RootLayout() {
         publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
         tokenCache={tokenCache}
       >
-        <SessionProvider>
-          <PaperProvider theme={paperTheme}>
-            <SafeAreaProvider>
-              <InitialLayout />
-            </SafeAreaProvider>
-          </PaperProvider>
-        </SessionProvider>
+        <PaperProvider theme={paperTheme}>
+          <SafeAreaProvider>
+            <InitialLayout />
+          </SafeAreaProvider>
+        </PaperProvider>
       </ClerkProvider>
     </QueryClientProvider>
   );

@@ -8,7 +8,7 @@ import BgView from '@/components/elements/BgView';
 
 const startPage = () => {
   const theme = useTheme();
-  const { signOut, isSignedIn } = useAuth();
+  const { isSignedIn } = useAuth();
   const { user } = useUser();
   const firstName = user?.firstName || 'there';
 
@@ -17,14 +17,6 @@ const startPage = () => {
       router.replace('/login-email');
     }
   }, [isSignedIn]);
-
-  const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
 
   return (
     <BgView>
@@ -76,11 +68,6 @@ const startPage = () => {
           }}
         >
           <Text>Create a New Challenge</Text>
-        </Button>
-      </View>
-      <View style={{}}>
-        <Button mode="contained" onPress={handleLogout}>
-          <Text>Log Out</Text>
         </Button>
       </View>
     </BgView>
