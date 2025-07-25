@@ -2,6 +2,7 @@
 
 import { Stack } from 'expo-router';
 import { useTheme } from 'react-native-paper';
+import ThemedSafeAreaView from './ThemedSafeAreaView';
 
 export default function ThemedStack(props: React.ComponentProps<typeof Stack>) {
   const theme = useTheme();
