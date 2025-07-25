@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useTheme } from 'react-native-paper';
 import BgView from '@/components/elements/BgView';
+import LogoutButton from '@/components/library/LogoutButton';
 
 const startPage = () => {
   const theme = useTheme();
@@ -70,6 +71,7 @@ const startPage = () => {
           <Text>Create a New Challenge</Text>
         </Button>
       </View>
+      <LogoutButton />
     </BgView>
   );
 };

@@ -1,13 +1,14 @@
 import Logo from '@/assets/Logo';
 import InputPrimary from '@/components/elements/InputPrimary';
 import { isEmailValid } from '@/helpers/validationHandlers';
-import { useSignIn } from '@clerk/clerk-expo';
+import { useSignIn, useSSO } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Button, Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import LoginPassword from './login-password';
+import * as AuthSession from 'expo-auth-session';
 
 export default function Login() {
   const { signIn } = useSignIn();
@@ -16,6 +17,7 @@ export default function Login() {
   const theme = useTheme();
   const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const { startSSOFlow } = useSSO();
 
   const isValidEmail = isEmailValid(email);
 
@@ -33,10 +35,6 @@ export default function Login() {
         if (emailCheck.status === 'needs_first_factor') {
           //has account, needs to enter password
           setShowPassword(true);
-          // router.push({
-          //   pathname: '/login-password',
-          //   params: { emailParam: email },
-          // });
         }
       } catch (err) {
         if (err) {
@@ -54,16 +52,22 @@ export default function Login() {
     }
   };
   const handleSSO = async (strategy: string) => {
-    if (signIn) {
-      console.log('SSO');
-      // try {
-      //   await signIn.authenticateWithRedirect({
-      //     strategy,
-      //     redirectUrl: Linking.createURL('callback'),
-      //   });
-      // } catch (err) {
-      //   console.error('OAuth error:', err);
-      // }
+    try {
+      const { createdSessionId, setActive, signIn, signUp } =
+        await startSSOFlow({
+          strategy: 'oauth_google',
+          redirectUrl: AuthSession.makeRedirectUri(),
+        });
+      if (createdSessionId) {
+        setActive!({ session: createdSessionId });
+        router.push('/');
+      } else {
+        console.log('signIn: ', signIn, signIn?.status);
+
+        console.log('sign up', signUp, signUp?.missingFields);
+      }
+    } catch (err) {
+      console.error(JSON.stringify(err, null, 2));
     }
   };
   console.log(setShowPassword);

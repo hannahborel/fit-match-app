@@ -7,7 +7,7 @@ export default function ProtectedLayout() {
   const theme = useTheme();
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <ThemedStack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="createLeague" options={{ headerShown: false }} />
