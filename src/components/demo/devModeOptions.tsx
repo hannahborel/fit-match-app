@@ -30,7 +30,7 @@ const SpeedDial = () => {
             style: { backgroundColor: theme.colors.primary },
             icon: () => <SquareArrowLeft color={theme.colors.onSurface} />,
             label: 'Log Out',
-            onPress: () => handleLogout,
+            onPress: () => handleLogout(),
           },
         ]}
         onStateChange={({ open }) => setOpen(open)}
