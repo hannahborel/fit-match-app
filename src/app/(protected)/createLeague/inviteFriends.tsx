@@ -11,10 +11,12 @@ import * as Clipboard from 'expo-clipboard';
 import { useLocalSearchParams } from 'expo-router'; // or your navigation param system
 import { useAtomValue } from 'jotai';
 import { leagueAtom } from '@/atoms/leaugeAtom';
-import { MD3Theme, useTheme } from 'react-native-paper';
+import { IconButton, MD3Theme, useTheme } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import ButtonSecondary from '@/components/elements/ButtonSecondary';
 import BgView from '@/components/elements/BgView';
+import { ClipboardCopy, Copy, Paperclip, ShareIcon } from 'lucide-react-native';
+import InputPrimary from '@/components/elements/InputPrimary';
 
 const InviteFriends = () => {
   const params = useLocalSearchParams();
@@ -52,7 +54,9 @@ const InviteFriends = () => {
         </View>
 
         <View style={styles.linkContainer}>
-          <Text style={styles.link}>{inviteLink}</Text>
+          <Text numberOfLines={1} ellipsizeMode="tail" style={styles.link}>
+            {inviteLink}
+          </Text>
         </View>
         <View
           style={{
@@ -62,11 +66,19 @@ const InviteFriends = () => {
           }}
         >
           <ButtonPrimary style={{ width: '50%' }} onPress={copyToClipboard}>
-            <Text>{copyLinkText}</Text>
+            <View style={styles.buttonContent}>
+              <Paperclip color={theme.colors.onSurface} size={18} />
+              <Text style={{ color: theme.colors.onSurface }}>
+                {copyLinkText}
+              </Text>
+            </View>
           </ButtonPrimary>
 
           <ButtonSecondary style={{ width: '50%' }} onPress={shareInvite}>
-            <Text>Share Link</Text>
+            <View style={styles.buttonContent}>
+              <ShareIcon size={18} color={theme.colors.onSurface} />
+              <Text style={{ color: theme.colors.onSurface }}>Share Link</Text>
+            </View>
           </ButtonSecondary>
         </View>
       </View>
@@ -100,14 +112,24 @@ const getStyles = (theme: MD3Theme) =>
       fontSize: 16,
     },
     linkContainer: {
-      width: '100%',
       alignItems: 'center',
-      backgroundColor: theme.colors.surface,
+      flexDirection: 'row',
+      borderWidth: 1,
+      borderColor: theme.colors.primary,
+      width: '100%',
       borderRadius: 12,
-      padding: 8,
+      backgroundColor: theme.colors.background,
+      paddingVertical: 12,
+      paddingHorizontal: 18,
     },
+    buttonContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 8,
+    },
+
     link: {
-      color: theme.colors.primary,
-      textAlign: 'center',
+      color: theme.colors.onBackground,
     },
   });
