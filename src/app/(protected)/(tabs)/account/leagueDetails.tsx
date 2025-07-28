@@ -1,7 +1,7 @@
 import { leagueAtom } from '@/atoms/leaugeAtom';
-import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
-import ManageLeagueSize from '@/components/demo/ManageLeagueSize';
-import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
+import DeleteLeagueButton from '@/components/library/deleteLeagueButton';
+import ManageLeagueSize from '@/components/library/ManageLeagueSize';
+import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
 import BgView from '@/components/elements/BgView';
 import { Row } from '@/components/elements/Table/TableElements';
 import { useAtomValue } from 'jotai';

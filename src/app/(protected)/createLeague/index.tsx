@@ -6,8 +6,10 @@ import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useTheme } from 'react-native-paper';
 import BgView from '@/components/elements/BgView';
 import LogoutButton from '@/components/library/LogoutButton';
+import DevModeDial from '@/components/demo/devModeOptions';
+import { relative } from 'path';
 
-const startPage = () => {
+const createOrJoinLeague = () => {
   const theme = useTheme();
   const { isSignedIn } = useAuth();
   const { user } = useUser();
@@ -71,9 +73,10 @@ const startPage = () => {
           <Text>Create a New Challenge</Text>
         </Button>
       </View>
-      {/* <LogoutButton /> */}
+
+      <DevModeDial />
     </View>
   );
 };
 
-export default startPage;
+export default createOrJoinLeague;

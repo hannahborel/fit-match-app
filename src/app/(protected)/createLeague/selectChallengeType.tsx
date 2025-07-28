@@ -5,6 +5,7 @@ import DuelImg from '../../../assets/svg/duelImg.svg';
 import FaceOffImg from '../../../assets/svg/faceOffImg.svg';
 import StepsChallageImg from '../../../assets/svg/stepsChallageImg.svg';
 import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 const selectChallengeType = () => {
   const theme = useTheme();
 
@@ -66,19 +67,20 @@ const selectChallengeType = () => {
 
 const styles = StyleSheet.create({
   parent: {
-    margin: 16,
-    flex: 1,
-    justifyContent: 'space-between',
+    height: '90%',
+    justifyContent: 'space-around',
+    padding: 20,
     gap: 20,
   },
   container: {
     width: '100%',
+    height: '30%',
     flexDirection: 'column',
     borderRadius: 6,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    flex: 1,
+    // flex: 1,
     gap: 20,
   },
 });

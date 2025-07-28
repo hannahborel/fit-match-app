@@ -6,9 +6,9 @@ import {
   allMatchupsWithPointsAtom,
   currentMatchAtom,
 } from '@/atoms/matchesAtom';
-import ManageLeagueSettings from '@/components/demo/ManageLeagueSize';
-import UpdateLeagueStartDateDemo from '@/components/demo/UpdateLeagueStartDate';
-import DeleteLeagueButton from '@/components/demo/deleteLeagueButton';
+import ManageLeagueSettings from '@/components/library/ManageLeagueSize';
+import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
+import DeleteLeagueButton from '@/components/library/deleteLeagueButton';
 import CustomHeader from '@/components/library/CustomHeader';
 import {
   getCurrentWeekMatchIds,

@@ -31,16 +31,14 @@ const FaceOffSetup = () => {
     createLeague(newLeague);
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, alignItems: 'center' }}>
       <View
         style={{
           flex: 1,
-          justifyContent: 'flex-start',
-          paddingHorizontal: 28,
-          marginTop: 36,
+          width: 300,
         }}
       >
-        <View style={{ gap: 24, width: '100%' }}>
+        <View style={{ gap: 24, width: '100%', marginTop: 30 }}>
           <View style={{ gap: 8 }}>
             <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
               FACEOFF NAME

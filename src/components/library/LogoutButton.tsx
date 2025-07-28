@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import React from 'react';
 import ButtonPrimary from '../elements/ButtonPrimary';
 import { useAuth } from '@clerk/clerk-expo';
+import { Button } from 'react-native-paper';
 
 const LogoutButton = () => {
   const { signOut } = useAuth();
@@ -13,9 +14,9 @@ const LogoutButton = () => {
     }
   };
   return (
-    <ButtonPrimary mode="contained" onPress={handleLogout}>
+    <Button mode="outlined" style={{ borderRadius: 8 }} onPress={handleLogout}>
       <Text>Log Out</Text>
-    </ButtonPrimary>
+    </Button>
   );
 };
 

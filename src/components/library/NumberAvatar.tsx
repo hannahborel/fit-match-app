@@ -29,7 +29,7 @@ const NumberAvatar: React.FC<NumberAvatarProps> = ({
   };
   return (
     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      <View style={{ flexDirection: 'row', gap: 20, marginTop: 10 }}>
+      <View style={{ flexDirection: 'row', gap: 16, marginTop: 10 }}>
         {numbers.map((num) => (
           <TouchableOpacity key={num} onPress={() => handleSelect(num)}>
             <Avatar.Text
