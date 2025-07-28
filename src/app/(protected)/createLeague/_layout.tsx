@@ -32,6 +32,14 @@ export default function AccountLayout() {
           headerLeft: () => <BackButton />,
         }}
       />
+      <Stack.Screen
+        name="inviteFriends"
+        options={{
+          headerShown: true,
+          title: 'Invite Friends',
+          headerLeft: () => <BackButton />,
+        }}
+      />
     </ThemedStack>
   );
 }

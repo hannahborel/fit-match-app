@@ -17,7 +17,9 @@ import {
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { Text, useTheme } from 'react-native-paper';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import { router } from 'expo-router';
 
 const Home = () => {
   const leagueData = useAtomValue(leagueAtom);
@@ -49,6 +51,11 @@ const Home = () => {
           <BaseCard title={'YOUR LEAGUE STARTS IN'}>
             <CountdownTimer targetTime={leagueData.startDate} />
           </BaseCard>
+          <ButtonPrimary
+            onPress={() => router.push('createLeague/inviteFriends')}
+          >
+            <Text>Invite Friends</Text>
+          </ButtonPrimary>
         </View>
       )}
     </>

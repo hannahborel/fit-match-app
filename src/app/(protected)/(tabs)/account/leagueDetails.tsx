@@ -7,7 +7,9 @@ import { Row } from '@/components/elements/Table/TableElements';
 import { useAtomValue } from 'jotai';
 import React from 'react';
 import { View } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { useTheme, Text } from 'react-native-paper';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import { router } from 'expo-router';
 
 const leagueDetails = () => {
   const theme = useTheme();
@@ -46,9 +48,13 @@ const leagueDetails = () => {
               />
             </View>
             <DeleteLeagueButton leagueId={leagueDetails.id} />
-
+            <ButtonPrimary
+              onPress={() => router.push('createLeague/inviteFriends')}
+            >
+              <Text>Invite Friends</Text>
+            </ButtonPrimary>
             <View>
-              {/* {leagueDetails.leaguesToUsers.map((user, index) => (
+              {/* {leagueDeta ils.leaguesToUsers.map((user, index) => (
                 <View
                   style={{
                     flexDirection: 'row',

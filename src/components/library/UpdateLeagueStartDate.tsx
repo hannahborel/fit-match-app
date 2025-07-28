@@ -56,10 +56,6 @@ export default function UpdateLeagueStartDateDemo({
     });
   };
 
-  const showbutton = startDate !== newStartDate;
-  console.log(newStartDate, startDate);
-  console.log(showbutton);
-
   return (
     <View style={{ alignItems: 'center' }}>
       <View
