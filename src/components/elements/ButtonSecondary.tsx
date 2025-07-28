@@ -6,13 +6,13 @@ interface ValidationCondition {
   errorMessage?: string;
 }
 
-interface ButtonPrimaryProps extends ButtonProps {
+interface ButtonSecondaryProps extends ButtonProps {
   conditions?: ValidationCondition[]; // Array of conditions with optional error messages
   loading?: boolean;
   showErrors?: boolean; // Whether to show error messages
 }
 
-const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
+const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
   conditions = [],
   loading = false,
   style,
@@ -37,18 +37,20 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
         {
           backgroundColor: isDisabled
             ? theme.colors.surfaceDisabled
-            : theme.colors.primary,
+            : theme.colors.background,
           paddingLeft: 18,
           paddingRight: 18,
           borderRadius: 12,
           width: '100%',
+          borderWidth: 1,
+          borderColor: theme.colors.primary,
         },
         style,
       ]}
       labelStyle={{
         color: isDisabled
           ? theme.colors.onSurfaceDisabled
-          : theme.colors.onPrimary,
+          : theme.colors.onSurface,
       }}
     >
       {otherProps.children}
@@ -56,4 +58,4 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   );
 };
 
-export default ButtonPrimary;
+export default ButtonSecondary;

@@ -52,7 +52,14 @@ const Home = () => {
             <CountdownTimer targetTime={leagueData.startDate} />
           </BaseCard>
           <ButtonPrimary
-            onPress={() => router.push('createLeague/inviteFriends')}
+            onPress={() =>
+              router.push({
+                pathname: 'createLeague/inviteFriends',
+                params: {
+                  slug: leagueData.slug,
+                },
+              })
+            }
           >
             <Text>Invite Friends</Text>
           </ButtonPrimary>
