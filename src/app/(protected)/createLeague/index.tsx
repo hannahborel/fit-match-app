@@ -1,13 +1,9 @@
+import DevModeDial from '@/components/demo/devModeOptions';
+import { useAuth, useUser } from '@clerk/clerk-expo';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
-import { Button } from 'react-native-paper';
-import { useAuth, useUser } from '@clerk/clerk-expo';
-import { useTheme } from 'react-native-paper';
-import BgView from '@/components/elements/BgView';
-import LogoutButton from '@/components/library/LogoutButton';
-import DevModeDial from '@/components/demo/devModeOptions';
-import { relative } from 'path';
+import { Text, View } from 'react-native';
+import { Button, useTheme } from 'react-native-paper';
 
 const createOrJoinLeague = () => {
   const theme = useTheme();
