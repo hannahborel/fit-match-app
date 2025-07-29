@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { FlatList } from 'react-native';
+import { Dimensions, FlatList } from 'react-native';
 
 import MatchWeek from './MatchWeek';
 import { WeeklyMatchups } from '@/helpers/matchesHelper';
@@ -14,6 +14,7 @@ const ScheduleFlatList = ({ weeks, page }: ScheduleFlatListProps) => {
   useEffect(() => {
     flatListRef.current?.scrollToIndex({ index: page, animated: true });
   }, [[page]]);
+  const ITEM_WIDTH = Dimensions.get('window').width;
   return (
     <FlatList
       ref={flatListRef}
@@ -23,6 +24,11 @@ const ScheduleFlatList = ({ weeks, page }: ScheduleFlatListProps) => {
       keyExtractor={(item) => item.week.toString()}
       renderItem={({ item }) => <MatchWeek week={item} />}
       contentContainerStyle={{ paddingBottom: 32 }}
+      getItemLayout={(data, index) => ({
+        length: ITEM_WIDTH, // <- replace with actual width of each item
+        offset: ITEM_WIDTH * index,
+        index,
+      })}
     />
   );
 };
