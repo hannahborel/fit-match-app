@@ -48,11 +48,7 @@ const leagueDetails = () => {
               />
             </View>
             <DeleteLeagueButton leagueId={leagueDetails.id} />
-            <ButtonPrimary
-              onPress={() => router.push('createLeague/inviteFriends')}
-            >
-              <Text>Invite Friends</Text>
-            </ButtonPrimary>
+
             <View>
               {/* {leagueDeta ils.leaguesToUsers.map((user, index) => (
                 <View

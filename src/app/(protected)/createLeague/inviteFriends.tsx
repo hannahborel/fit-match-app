@@ -1,41 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Share,
-  Alert,
-} from 'react-native';
-import * as Clipboard from 'expo-clipboard';
-import { useLocalSearchParams } from 'expo-router'; // or your navigation param system
-import { useAtomValue } from 'jotai';
-import { leagueAtom } from '@/atoms/leaugeAtom';
-import { IconButton, MD3Theme, useTheme } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import ButtonSecondary from '@/components/elements/ButtonSecondary';
-import BgView from '@/components/elements/BgView';
-import {
-  Check,
-  CheckCircle,
-  ChevronRight,
-  ClipboardCopy,
-  Copy,
-  CopyIcon,
-  Paperclip,
-  ShareIcon,
-} from 'lucide-react-native';
-import InputPrimary from '@/components/elements/InputPrimary';
+import * as Clipboard from 'expo-clipboard';
+import { useLocalSearchParams } from 'expo-router'; // or your navigation param system
+import { ChevronRight, CopyIcon, ShareIcon } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { Alert, Share, StyleSheet, Text, View } from 'react-native';
+import { MD3Theme, useTheme } from 'react-native-paper';
+import Toast from 'react-native-toast-message';
 
 const InviteFriends = () => {
   const params = useLocalSearchParams();
-  const [copyBtnClicked, setCopyBtnClicked] = useState<boolean>(false);
+  console.log(params);
 
   const inviteLink = `https://fit-match-web.vercel.app/join-league/${params.slug}`;
+  console.log(inviteLink);
 
   const copyToClipboard = async () => {
     Clipboard.setStringAsync(inviteLink);
-    setCopyBtnClicked(true);
+    console.log(inviteLink);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Link Copied!',
+      position: 'bottom',
+      visibilityTime: 2000,
+      topOffset: 60,
+    });
   };
 
   const shareInvite = async () => {
@@ -91,6 +81,7 @@ const InviteFriends = () => {
           </ButtonSecondary>
         </View>
       </View>
+      <Toast />
     </View>
   );
 };
