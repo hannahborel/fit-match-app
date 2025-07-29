@@ -12,7 +12,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   newArchEnabled: true,
   extra: {
     API_BASE_URL: process.env.API_BASE_URL,
-    API_BASE_IP: process.env.API_BASE_IP,
+
+    API_LOCAL_IP: process.env.API_LOCAL_IP,
   },
   splash: {
     image: './assets/splash.png',

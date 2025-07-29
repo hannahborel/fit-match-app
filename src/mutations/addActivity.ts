@@ -1,5 +1,5 @@
 import { ActivityType } from 'hustle-types';
-import { apiUrl } from '@/constants/auth';
+import { API_URL } from '@/lib/setApiUrl';
 export type LogActivityInput = {
   leagueId: string;
   matchId: string;
@@ -16,7 +16,7 @@ export const addActivity = async (
   activity: LogActivityInput,
   token: string | null,
 ) => {
-  const res = await fetch(`${apiUrl}/api/log-activity`, {
+  const res = await fetch(`${API_URL}/log-activity`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

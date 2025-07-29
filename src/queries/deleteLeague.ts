@@ -1,4 +1,4 @@
-import { apiUrl } from '@/constants/auth';
+import { API_URL } from '@/lib/setApiUrl';
 
 type DeleteLeagueArgs = {
   token: string;
@@ -6,7 +6,7 @@ type DeleteLeagueArgs = {
 };
 
 export const deleteLeague = async ({ token, leagueId }: DeleteLeagueArgs) => {
-  const res = await fetch(`${apiUrl}/api/delete-league`, {
+  const res = await fetch(`${API_URL}/delete-league`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

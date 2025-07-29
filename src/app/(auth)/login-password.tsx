@@ -19,6 +19,7 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
   const [, setLoading] = useState(false);
 
   const handleSignIn = async () => {
+    console.log('handleSignIn hit');
     if (!isLoaded) return;
     setLoading(true);
     try {
@@ -27,6 +28,7 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
         password,
       });
       if (signInAttempt.status === 'complete') {
+        console.log('signInStatus complete');
         await setActive({ session: signInAttempt.createdSessionId });
 
         router.replace('/');

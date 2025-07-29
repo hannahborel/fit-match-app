@@ -1,10 +1,10 @@
-import { apiUrl } from '@/constants/auth';
+import { API_URL } from '@/lib/setApiUrl';
 import { League } from 'hustle-types';
 
 export const fetchLeagueByUserId = async (
   token: string | null,
 ): Promise<League> => {
-  const res = await fetch(`${apiUrl}/api/league-by-user-id`, {
+  const res = await fetch(`${API_URL}/league-by-user-id`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   const data = await res.json();

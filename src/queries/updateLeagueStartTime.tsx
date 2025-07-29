@@ -1,5 +1,4 @@
-import { apiUrl } from '@/constants/auth';
-import { useMutation } from '@tanstack/react-query';
+import { API_URL } from '@/lib/setApiUrl';
 
 type updateLeagueStartTimeProps = {
   leagueId: string;
@@ -11,7 +10,7 @@ export const updateLeagueStartTime = async ({
   newStartDate,
   token,
 }: updateLeagueStartTimeProps) => {
-  const res = await fetch(`${apiUrl}/api/update-league`, {
+  const res = await fetch(`${API_URL}/update-league`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

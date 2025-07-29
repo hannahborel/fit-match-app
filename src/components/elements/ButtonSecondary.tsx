@@ -37,13 +37,14 @@ const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
         {
           backgroundColor: isDisabled
             ? theme.colors.surfaceDisabled
-            : theme.colors.background,
+            : 'rgba(0, 206, 184, 1)',
           paddingLeft: 18,
           paddingRight: 18,
           borderRadius: 12,
-          width: '100%',
+
           borderWidth: 1,
-          borderColor: theme.colors.primary,
+          borderColor: 'rgba(0, 206, 184, 1)',
+          flexShrink: 1,
         },
         style,
       ]}

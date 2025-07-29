@@ -1,4 +1,4 @@
-import { apiUrl } from '@/constants/auth';
+import { API_URL } from '@/lib/setApiUrl';
 
 type UpdateLeagueProps = {
   token: string;
@@ -6,7 +6,7 @@ type UpdateLeagueProps = {
 };
 
 export const updateLeague = async ({ token, updates }: UpdateLeagueProps) => {
-  const res = await fetch(`${apiUrl}/api/update-league`, {
+  const res = await fetch(`${API_URL}/update-league`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${token}`,

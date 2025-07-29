@@ -41,7 +41,8 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
           paddingLeft: 18,
           paddingRight: 18,
           borderRadius: 12,
-          width: '100%',
+
+          flexShrink: 1,
         },
         style,
       ]}

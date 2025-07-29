@@ -15,7 +15,7 @@ import {
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { leagueAtom } from '@/atoms/leaugeAtom';
-import { tokenCache } from '@/constants/auth';
+import { tokenCache } from '@/lib/auth';
 import { useGetLeague } from '@/hooks/useGetLeague';
 import { queryClient } from '@/lib/queryClient';
 

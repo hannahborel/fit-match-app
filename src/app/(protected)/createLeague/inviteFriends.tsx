@@ -15,19 +15,27 @@ import { IconButton, MD3Theme, useTheme } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import ButtonSecondary from '@/components/elements/ButtonSecondary';
 import BgView from '@/components/elements/BgView';
-import { ClipboardCopy, Copy, Paperclip, ShareIcon } from 'lucide-react-native';
+import {
+  Check,
+  CheckCircle,
+  ChevronRight,
+  ClipboardCopy,
+  Copy,
+  CopyIcon,
+  Paperclip,
+  ShareIcon,
+} from 'lucide-react-native';
 import InputPrimary from '@/components/elements/InputPrimary';
 
 const InviteFriends = () => {
   const params = useLocalSearchParams();
-  const [copyLinkText, setCopyLinkText] = useState<string>('Copy');
+  const [copyBtnClicked, setCopyBtnClicked] = useState<boolean>(false);
 
   const inviteLink = `https://fit-match-web.vercel.app/join-league/${params.slug}`;
 
   const copyToClipboard = async () => {
-    await Clipboard.setStringAsync(inviteLink);
-
-    setCopyLinkText('Link Copied!');
+    Clipboard.setStringAsync(inviteLink);
+    setCopyBtnClicked(true);
   };
 
   const shareInvite = async () => {
@@ -57,27 +65,28 @@ const InviteFriends = () => {
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.link}>
             {inviteLink}
           </Text>
+          <CopyIcon
+            size={18}
+            color={theme.colors.primary}
+            onPress={copyToClipboard}
+          />
         </View>
         <View
           style={{
-            flexDirection: 'row',
             gap: 8,
             justifyContent: 'space-between',
           }}
         >
-          <ButtonPrimary style={{ width: '50%' }} onPress={copyToClipboard}>
+          <ButtonPrimary onPress={shareInvite}>
             <View style={styles.buttonContent}>
-              <Paperclip color={theme.colors.onSurface} size={18} />
-              <Text style={{ color: theme.colors.onSurface }}>
-                {copyLinkText}
-              </Text>
+              <Text style={{ color: theme.colors.onSurface }}>Share Link</Text>
+              <ShareIcon size={18} color={theme.colors.onSurface} />
             </View>
           </ButtonPrimary>
-
-          <ButtonSecondary style={{ width: '50%' }} onPress={shareInvite}>
+          <ButtonSecondary>
             <View style={styles.buttonContent}>
-              <ShareIcon size={18} color={theme.colors.onSurface} />
-              <Text style={{ color: theme.colors.onSurface }}>Share Link</Text>
+              <Text style={{ fontWeight: 500 }}>I'll do this later</Text>
+              <ChevronRight size={18} />
             </View>
           </ButtonSecondary>
         </View>
@@ -121,6 +130,7 @@ const getStyles = (theme: MD3Theme) =>
       backgroundColor: theme.colors.background,
       paddingVertical: 12,
       paddingHorizontal: 18,
+      gap: 8,
     },
     buttonContent: {
       flexDirection: 'row',
@@ -131,5 +141,6 @@ const getStyles = (theme: MD3Theme) =>
 
     link: {
       color: theme.colors.onBackground,
+      flexShrink: 2,
     },
   });

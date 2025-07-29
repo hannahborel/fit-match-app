@@ -70,7 +70,7 @@ export default function Login() {
       console.error(JSON.stringify(err, null, 2));
     }
   };
-  console.log(setShowPassword);
+
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <View style={{ width: 300, alignSelf: 'center' }}>
@@ -134,14 +134,6 @@ export default function Login() {
             >
               Continue with Google
             </Button>
-            {/* <Button
-              icon="apple"
-              mode="outlined"
-              onPress={() => handleSSO('oauth_apple')}
-              style={{ marginTop: 8, borderRadius: 12 }}
-            >
-              Continue with Apple
-            </Button> */}
           </View>
         </View>
       </View>
