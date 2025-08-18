@@ -9,7 +9,7 @@ type BgViewProps = {
 const BgView = ({ padding, children }: BgViewProps) => {
   const theme = useTheme();
 
-  let paddingHorOverrride = padding ? padding : 16;
+  const paddingHorOverrride = padding ? padding : 16;
   return (
     <ScrollView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <View

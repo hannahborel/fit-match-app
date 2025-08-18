@@ -3,7 +3,7 @@ import CountdownTimer from '@/components/library/CountdownTimer';
 import InviteFriendsSection from '@/components/library/InviteFriendsSection';
 import CustomHeader from '@/components/library/CustomHeader';
 
-import { leagueAtom } from '@/atoms/leaugeAtom';
+import { leagueAtom } from '@/atoms/leagueAtom';
 import {
   allMatchupsWithPointsAtom,
   currentMatchAtom,

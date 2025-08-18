@@ -1,7 +1,6 @@
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import InputPrimary from '@/components/elements/InputPrimary';
 
-import { router, useLocalSearchParams } from 'expo-router';
 import React, { useState } from 'react';
 import { View, Text, Pressable, Alert } from 'react-native';
 import { TextInput } from 'react-native-paper';
@@ -30,8 +29,7 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
       if (signInAttempt.status === 'complete') {
         console.log('signInStatus complete');
         await setActive({ session: signInAttempt.createdSessionId });
-
-        router.replace('/');
+        // TODO: Add navigation logic here
       }
     } catch (err) {
       if (err instanceof ReferenceError) {
@@ -57,12 +55,9 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
       />
       <View style={{ alignSelf: 'flex-end' }}>
         <Pressable
-          onPress={() =>
-            router.push({
-              pathname: '/forgot-password',
-              params: { email },
-            })
-          }
+          onPress={() => {
+            // TODO: Add forgot password navigation logic
+          }}
           style={{ alignSelf: 'flex-end', marginTop: 8 }}
         >
           <Text

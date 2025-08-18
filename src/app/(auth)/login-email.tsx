@@ -51,7 +51,7 @@ export default function Login() {
       }
     }
   };
-  const handleSSO = async (strategy: string) => {
+  const handleSSO = async () => {
     try {
       const { createdSessionId, setActive, signIn, signUp } =
         await startSSOFlow({
@@ -129,7 +129,7 @@ export default function Login() {
             <Button
               icon="google"
               mode="outlined"
-              onPress={() => handleSSO('oauth_google')}
+              onPress={() => handleSSO()}
               style={{ borderRadius: 12 }}
             >
               Continue with Google

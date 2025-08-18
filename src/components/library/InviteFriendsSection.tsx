@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import { League } from '@/types/types';
+import InviteFriendsModal from './InviteFriendsModal';
 
 interface InviteFriendsSectionProps {
   league: League;
@@ -12,6 +13,7 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
   league,
 }) => {
   const theme = useTheme();
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Calculate how many more members are needed
   const currentMembers = league.leaguesToUsers.length;
@@ -44,10 +46,20 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
 
       {/* Action Buttons */}
       <View style={styles.buttonContainer}>
-        <ButtonPrimary style={styles.button} onPress={() => {}}>
+        <ButtonPrimary
+          style={styles.button}
+          onPress={() => setIsModalVisible(true)}
+        >
           Invite Members
         </ButtonPrimary>
       </View>
+
+      {/* Invite Friends Modal */}
+      <InviteFriendsModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        leagueId={league.id}
+      />
     </View>
   );
 };

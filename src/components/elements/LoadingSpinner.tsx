@@ -12,7 +12,12 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center' }}>
       <View
-        style={{ height: height, width: width, justifyContent: 'center', alignItems: 'center' }}
+        style={{
+          height: height,
+          width: width,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Text> Loading</Text>
       </View>

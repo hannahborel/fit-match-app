@@ -8,7 +8,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../../components/library/NumberScroll';
-import { leagueAtom } from '@/atoms/leaugeAtom';
+import { leagueAtom } from '@/atoms/leagueAtom';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
 import { useAtomValue } from 'jotai';

@@ -34,7 +34,7 @@ const SchedulePage = () => {
   };
 
   const handlePageRight = () => {
-    let currentPage = pageIndex + 1;
+    const currentPage = pageIndex + 1;
 
     if (currentPage == totalPages) {
       return;

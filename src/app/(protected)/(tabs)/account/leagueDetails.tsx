@@ -1,4 +1,4 @@
-import { leagueAtom } from '@/atoms/leaugeAtom';
+import { leagueAtom } from '@/atoms/leagueAtom';
 import BgView from '@/components/elements/BgView';
 import { Row } from '@/components/elements/Table/TableElements';
 import DeleteLeagueButton from '@/components/library/deleteLeagueButton';

@@ -17,9 +17,8 @@ export type League = {
   createdAt: string;
   updatedAt: string;
   leaguesToUsers: LeagueUser[];
-  loggedActivities: []; // need type
+  loggedActivities: LoggedActivity[];
   matches: Match[];
-  messages: []; // need type
 };
 export type CountdownTimerProps = {
   targetTime: string;
@@ -90,4 +89,21 @@ export type MatchUser = {
   matchId: string;
   userId: string;
   teamIndex: 0 | 1;
+};
+
+export type LoggedActivity = {
+  id: string;
+  leagueId: string;
+  matchId: string;
+  userId: string;
+  activityType: string;
+  duration: number;
+  sets: number;
+  reps: number;
+  cardioPoints: number;
+  strengthPoints: number;
+  photoUrl: string | null;
+  activityNote: string | null;
+  createdAt: string;
+  updatedAt: string;
 };
