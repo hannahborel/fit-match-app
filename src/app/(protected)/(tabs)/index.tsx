@@ -1,22 +1,21 @@
 import { BaseCard } from '@/components/elements/Card';
 import CountdownTimer from '@/components/library/CountdownTimer';
+import InviteFriendsSection from '@/components/library/InviteFriendsSection';
+import CustomHeader from '@/components/library/CustomHeader';
 
 import { leagueAtom } from '@/atoms/leaugeAtom';
 import {
   allMatchupsWithPointsAtom,
   currentMatchAtom,
 } from '@/atoms/matchesAtom';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import CustomHeader from '@/components/library/CustomHeader';
 import {
   getCurrentWeekMatchIds,
   transformLeagueToSchedule,
 } from '@/helpers/matchesHelper';
-import { router } from 'expo-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 
 const Home = () => {
   const leagueData = useAtomValue(leagueAtom);
@@ -48,18 +47,8 @@ const Home = () => {
           <BaseCard title={'YOUR LEAGUE STARTS IN'}>
             <CountdownTimer targetTime={leagueData.startDate} />
           </BaseCard>
-          <ButtonPrimary
-            onPress={() =>
-              router.push({
-                pathname: 'createLeague/inviteFriends',
-                params: {
-                  slug: leagueData.slug,
-                },
-              })
-            }
-          >
-            <Text>Invite Friends</Text>
-          </ButtonPrimary>
+
+          <InviteFriendsSection league={leagueData} />
         </View>
       )}
     </>
