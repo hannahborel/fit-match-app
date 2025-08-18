@@ -6,20 +6,17 @@ import {
   allMatchupsWithPointsAtom,
   currentMatchAtom,
 } from '@/atoms/matchesAtom';
-import ManageLeagueSettings from '@/components/library/ManageLeagueSize';
-import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
-import DeleteLeagueButton from '@/components/library/deleteLeagueButton';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import CustomHeader from '@/components/library/CustomHeader';
 import {
   getCurrentWeekMatchIds,
   transformLeagueToSchedule,
 } from '@/helpers/matchesHelper';
+import { router } from 'expo-router';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import { router } from 'expo-router';
 
 const Home = () => {
   const leagueData = useAtomValue(leagueAtom);

@@ -1,15 +1,13 @@
 import { leagueAtom } from '@/atoms/leaugeAtom';
+import BgView from '@/components/elements/BgView';
+import { Row } from '@/components/elements/Table/TableElements';
 import DeleteLeagueButton from '@/components/library/deleteLeagueButton';
 import ManageLeagueSize from '@/components/library/ManageLeagueSize';
 import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
-import BgView from '@/components/elements/BgView';
-import { Row } from '@/components/elements/Table/TableElements';
 import { useAtomValue } from 'jotai';
 import React from 'react';
 import { View } from 'react-native';
-import { useTheme, Text } from 'react-native-paper';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import { router } from 'expo-router';
+import { useTheme } from 'react-native-paper';
 
 const leagueDetails = () => {
   const theme = useTheme();

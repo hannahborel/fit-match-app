@@ -18,26 +18,45 @@ import { leagueAtom } from '@/atoms/leaugeAtom';
 import { tokenCache } from '@/lib/auth';
 import { useGetLeague } from '@/hooks/useGetLeague';
 import { queryClient } from '@/lib/queryClient';
+import DatabaseErrorView from '@/components/elements/DatabaseErrorView';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 import merge from 'deepmerge';
 import { useSetAtom } from 'jotai';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 import themeColors from '../theme/Colors';
 
 const InitialLayout = () => {
   const { isLoaded: isSignInLoading, isSignedIn } = useAuth();
-
   const segments = useSegments();
   const router = useRouter();
-  const { data, isLoading } = useGetLeague();
-
+  const { data, isLoading, error, refetch } = useGetLeague();
   const setLeague = useSetAtom(leagueAtom);
+  const [showError, setShowError] = useState(false);
+
   useReactQueryDevTools(queryClient);
 
   const inAuthGroup = segments[0] === '(auth)';
-  const isReadyToRedirect = isSignInLoading && !isLoading;
+  const inProtectedGroup = segments[0] === '(protected)';
+
+  // Only consider ready to redirect when we have a definitive result (success or error)
+  const hasDefinitiveResult =
+    !isLoading && (data !== undefined || error !== undefined);
+  const isReadyToRedirect = isSignInLoading && hasDefinitiveResult;
+
+  // Only show error after a delay to prevent flashing
+  useEffect(() => {
+    if (error && !inAuthGroup && isSignedIn) {
+      const timer = setTimeout(() => {
+        setShowError(true);
+      }, 1000); // Wait 1 second before showing error
+
+      return () => clearTimeout(timer);
+    } else {
+      setShowError(false);
+    }
+  }, [error, inAuthGroup, isSignedIn]);
 
   useEffect(() => {
     if (!isReadyToRedirect) return;
@@ -47,14 +66,44 @@ const InitialLayout = () => {
         router.replace('/login-email');
         return;
       }
+
+      // If we're in a protected route but have an error, don't navigate anywhere
+      if (inProtectedGroup && error) {
+        return;
+      }
+
       if (data) {
         setLeague(data);
         if (!inAuthGroup) router.replace('/(tabs)');
-      } else {
+      } else if (!error) {
+        // Only navigate to create league if there's no error
         if (!inAuthGroup) router.replace('/(protected)/createLeague');
       }
     }, 0);
-  }, [isSignInLoading, isSignedIn, data]);
+  }, [
+    isSignInLoading,
+    isSignedIn,
+    data,
+    error,
+    isReadyToRedirect,
+    inAuthGroup,
+    inProtectedGroup,
+    router,
+    setLeague,
+  ]);
+
+  // Handle database connection errors - show simple error screen
+  if (showError && error && !inAuthGroup && isSignedIn) {
+    return (
+      <DatabaseErrorView
+        error={error}
+        onRetry={() => {
+          setShowError(false);
+          refetch();
+        }}
+      />
+    );
+  }
 
   return <Slot />;
 };

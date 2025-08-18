@@ -6,13 +6,9 @@ import { deleteLeague } from '@/queries/deleteLeague';
 
 type DeleteLeagueButtonProps = {
   leagueId: string;
-  onSuccess?: () => void;
 };
 
-const DeleteLeagueButton = ({
-  leagueId,
-  onSuccess,
-}: DeleteLeagueButtonProps) => {
+const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
   const [loading, setLoading] = useState(false);
   const { getToken } = useAuth();
   const theme = useTheme();
@@ -34,9 +30,8 @@ const DeleteLeagueButton = ({
               if (!token) return;
 
               const result = await deleteLeague({ token, leagueId });
-
+              console.log(result);
               Alert.alert('Deleted', result.message || 'League deleted');
-              if (onSuccess) onSuccess();
             } catch (err: any) {
               Alert.alert('Error', err.message || 'Something went wrong');
             } finally {

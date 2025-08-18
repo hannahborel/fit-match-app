@@ -1,0 +1,14 @@
+{
+  "folders": [
+    {
+      "path": ".",
+    },
+    {
+      "path": "../fit-match-web",
+    },
+    {
+      "path": "../workspace-rules",
+    },
+  ],
+  "settings": {},
+}

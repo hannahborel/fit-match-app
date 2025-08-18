@@ -27,9 +27,6 @@ export default function LogWorkoutScreen() {
   const activityData = ActivityDefinitions[typeName as ActivityType];
   const formula = activityData?.activityFormula;
 
-  console.log(activityData);
-  console.log(formula);
-
   const mutation = useMutation({
     mutationFn: async (activity: LogActivityInput) => {
       const token = await getToken();

@@ -20,7 +20,10 @@ export const useGetLeague = (options = {}) => {
     staleTime: 1000 * 60 * 10,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-
+    // Disable automatic retries to prevent flashing
+    retry: false,
+    // Add timeout to prevent infinite loading
+    gcTime: 1000 * 60 * 5, // 5 minutes
     enabled: isLoaded && isSignedIn,
   });
 };
