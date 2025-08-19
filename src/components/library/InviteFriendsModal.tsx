@@ -1,7 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
-import { Copy, MessageSquare, Mail, Flag } from 'lucide-react-native';
+import { Flag } from 'lucide-react-native';
+import * as Clipboard from 'expo-clipboard';
+import * as Linking from 'expo-linking';
+import Toast from 'react-native-toast-message';
 import Modal from '@/components/elements/Modal';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import ButtonSecondary from '@/components/elements/ButtonSecondary';
@@ -21,39 +24,128 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
 
   const styles = getStyles(theme);
 
+  const generateInviteLink = () => {
+    // Generate invitation link with league ID
+    return `https://fitmatch.app/join/${leagueId}`;
+  };
+
   const handleCopyLink = async () => {
     try {
-      // TODO: Generate actual invitation link
-      const inviteLink = `https://fitmatch.app/join/${leagueId}`;
-      // TODO: Implement clipboard functionality
-      console.log('Copying link:', inviteLink);
-      // Show success feedback
+      const inviteLink = generateInviteLink();
+      await Clipboard.setStringAsync(inviteLink);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Link Copied!',
+        text2: 'Invitation link copied to clipboard',
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
     } catch (error) {
       console.error('Failed to copy link:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Copy Failed',
+        text2: 'Unable to copy link to clipboard',
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
     }
   };
 
-  const handleTextInvite = () => {
+  const handleTextInvite = async () => {
     try {
-      // TODO: Implement native text sharing
-      console.log('Opening text invite');
+      const inviteLink = generateInviteLink();
+      const message = `Join my FitMatch league! Click here: ${inviteLink}`;
+
+      // Try to open SMS app with pre-filled message
+      const smsUrl = `sms:?body=${encodeURIComponent(message)}`;
+      const canOpen = await Linking.canOpenURL(smsUrl);
+
+      if (canOpen) {
+        await Linking.openURL(smsUrl);
+      } else {
+        // Fallback: copy message to clipboard
+        await Clipboard.setStringAsync(message);
+        Toast.show({
+          type: 'info',
+          text1: 'Message Copied',
+          text2: 'SMS message copied to clipboard',
+          position: 'bottom',
+          visibilityTime: 3000,
+        });
+      }
     } catch (error) {
       console.error('Failed to open text invite:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Text Invite Failed',
+        text2: 'Unable to open SMS app',
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
     }
   };
 
-  const handleEmailInvite = () => {
+  const handleEmailInvite = async () => {
     try {
-      // TODO: Implement native email sharing
-      console.log('Opening email invite');
+      const inviteLink = generateInviteLink();
+      const subject = 'Join my FitMatch League!';
+      const body = `Hi there!
+
+I'd love for you to join my FitMatch league! It's a fun way to stay active and compete with friends.
+
+Click this link to join: ${inviteLink}
+
+See you on the leaderboard!
+`;
+
+      // Try to open email app with pre-filled content
+      const emailUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      const canOpen = await Linking.canOpenURL(emailUrl);
+
+      if (canOpen) {
+        await Linking.openURL(emailUrl);
+      } else {
+        // Fallback: copy email content to clipboard
+        const emailContent = `Subject: ${subject}\n\n${body}`;
+        await Clipboard.setStringAsync(emailContent);
+        Toast.show({
+          type: 'info',
+          text1: 'Email Content Copied',
+          text2: 'Email content copied to clipboard',
+          position: 'bottom',
+          visibilityTime: 3000,
+        });
+      }
     } catch (error) {
       console.error('Failed to open email invite:', error);
+      Toast.show({
+        type: 'error',
+        text1: 'Email Invite Failed',
+        text2: 'Unable to open email app',
+        position: 'bottom',
+        visibilityTime: 3000,
+      });
     }
   };
 
   const handleMoreOptions = () => {
-    // TODO: Implement more sharing options
-    console.log('More sharing options');
+    // Show alert with more sharing options
+    Alert.alert(
+      'More Sharing Options',
+      'Copy the invitation link to share through any app:',
+      [
+        {
+          text: 'Copy Link',
+          onPress: () => handleCopyLink(),
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ],
+    );
   };
 
   return (
@@ -63,14 +155,6 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
       title="Invite Friends"
       description="Fill your league to get started. Invite friends to play against."
     >
-      {/* Flag Icon */}
-      <View style={styles.flagContainer}>
-        <View style={styles.flagIcon}>
-          <Flag size={24} color="white" />
-        </View>
-        <Text style={styles.flagText}>Go!</Text>
-      </View>
-
       {/* Action Buttons */}
       <View style={styles.buttonContainer}>
         <ButtonPrimary

@@ -13,6 +13,12 @@ import {
   adaptNavigationTheme,
 } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast, {
+  BaseToast,
+  ErrorToast,
+  InfoToast,
+} from 'react-native-toast-message';
+import CustomToast from '@/components/elements/CustomToast';
 
 import { leagueAtom } from '@/atoms/leagueAtom';
 import { tokenCache } from '@/lib/auth';
@@ -123,6 +129,12 @@ export default function RootLayout() {
   const paperTheme =
     colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme;
 
+  const toastConfig = {
+    success: (props: any) => <CustomToast {...props} type="success" />,
+    error: (props: any) => <CustomToast {...props} type="error" />,
+    info: (props: any) => <CustomToast {...props} type="info" />,
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <ClerkProvider
@@ -132,6 +144,7 @@ export default function RootLayout() {
         <PaperProvider theme={paperTheme}>
           <SafeAreaProvider>
             <InitialLayout />
+            <Toast config={toastConfig} />
           </SafeAreaProvider>
         </PaperProvider>
       </ClerkProvider>

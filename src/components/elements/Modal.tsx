@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Modal as RNModal,
   View,
@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  Dimensions,
+  Animated,
+  Easing,
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { X } from 'lucide-react-native';
@@ -29,6 +30,22 @@ const Modal: React.FC<ModalProps> = ({
   showCloseButton = true,
 }) => {
   const theme = useTheme();
+  const slideAnim = useRef(new Animated.Value(300)).current;
+
+  useEffect(() => {
+    if (visible) {
+      // Animate from bottom to center with smooth, controlled movement
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+        easing: Easing.out(Easing.cubic),
+      }).start();
+    } else {
+      // Reset animation value
+      slideAnim.setValue(300);
+    }
+  }, [visible, slideAnim]);
 
   const styles = getStyles(theme);
 
@@ -36,13 +53,21 @@ const Modal: React.FC<ModalProps> = ({
     <RNModal
       visible={visible}
       transparent
-      animationType="fade"
+      animationType="none"
       onRequestClose={onClose}
     >
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.overlay}>
           <TouchableWithoutFeedback onPress={() => {}}>
-            <View style={styles.modalContent}>
+            <Animated.View
+              style={[
+                styles.modalContent,
+                {
+                  transform: [{ translateY: slideAnim }],
+                  opacity: 1, // Ensure full opacity
+                },
+              ]}
+            >
               {showCloseButton && (
                 <TouchableOpacity
                   style={styles.closeButton}
@@ -61,7 +86,7 @@ const Modal: React.FC<ModalProps> = ({
               </View>
 
               <View style={styles.content}>{children}</View>
-            </View>
+            </Animated.View>
           </TouchableWithoutFeedback>
         </View>
       </TouchableWithoutFeedback>
@@ -80,7 +105,7 @@ const getStyles = (theme: any) =>
     },
     modalContent: {
       backgroundColor: theme.colors.surface,
-      borderRadius: 16,
+      borderRadius: 20,
       padding: 24,
       width: '100%',
       maxWidth: 400,
