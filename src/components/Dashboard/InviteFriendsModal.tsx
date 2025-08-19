@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
-import { Flag } from 'lucide-react-native';
 import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
 import Toast from 'react-native-toast-message';
@@ -13,12 +12,14 @@ interface InviteFriendsModalProps {
   visible: boolean;
   onClose: () => void;
   leagueId: string;
+  ownerFirstName: string;
 }
 
 const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
   visible,
   onClose,
   leagueId,
+  ownerFirstName,
 }) => {
   const theme = useTheme();
 
@@ -56,7 +57,7 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
   const handleTextInvite = async () => {
     try {
       const inviteLink = generateInviteLink();
-      const message = `Join my FitMatch league! Click here: ${inviteLink}`;
+      const message = `${ownerFirstName} wants you to join their fitness league on Hustle! Click here: ${inviteLink}`;
 
       // Try to open SMS app with pre-filled message
       const smsUrl = `sms:?body=${encodeURIComponent(message)}`;
@@ -90,10 +91,10 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
   const handleEmailInvite = async () => {
     try {
       const inviteLink = generateInviteLink();
-      const subject = 'Join my FitMatch League!';
+      const subject = `${ownerFirstName} wants you to join their Fitness league on Hustle!`;
       const body = `Hi there!
 
-I'd love for you to join my FitMatch league! It's a fun way to stay active and compete with friends.
+${ownerFirstName} wants you to join their Fitness league on Hustle! It's a fun way to stay active and compete with friends.
 
 Click this link to join: ${inviteLink}
 

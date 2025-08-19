@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { useUser } from '@clerk/clerk-expo';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import { League } from '@/types/types';
 import InviteFriendsModal from './InviteFriendsModal';
@@ -13,12 +14,12 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
   league,
 }) => {
   const theme = useTheme();
+  const { user } = useUser();
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   // Calculate how many more members are needed
   const currentMembers = league.leaguesToUsers.length;
   const membersNeeded = league.size - currentMembers;
-  const isDraftReady = membersNeeded <= 0;
 
   // Format the start date
   const formatStartDate = (dateString: string) => {
@@ -59,6 +60,7 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         leagueId={league.id}
+        ownerFirstName={user?.firstName || 'League Manager'}
       />
     </View>
   );

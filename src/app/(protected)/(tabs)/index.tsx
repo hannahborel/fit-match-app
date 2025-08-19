@@ -1,6 +1,5 @@
 import { BaseCard } from '@/components/elements/Card';
-import CountdownTimer from '@/components/library/CountdownTimer';
-import InviteFriendsSection from '@/components/library/InviteFriendsSection';
+import { CountdownTimer, InviteFriendsSection } from '@/components/Dashboard';
 import CustomHeader from '@/components/library/CustomHeader';
 
 import { leagueAtom } from '@/atoms/leagueAtom';
