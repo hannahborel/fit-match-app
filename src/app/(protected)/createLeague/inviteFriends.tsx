@@ -7,12 +7,13 @@ import React, { useState } from 'react';
 import { Alert, Share, StyleSheet, Text, View } from 'react-native';
 import { MD3Theme, useTheme } from 'react-native-paper';
 import Toast from 'react-native-toast-message';
+import { generateJoinLeagueUrl } from '@/lib/getWebAppUrl';
 
 const InviteFriends = () => {
   const params = useLocalSearchParams();
   console.log(params);
 
-  const inviteLink = `https://fit-match-web.vercel.app/join-league/${params.slug}`;
+  const inviteLink = generateJoinLeagueUrl(params.slug);
   console.log(inviteLink);
 
   const copyToClipboard = async () => {

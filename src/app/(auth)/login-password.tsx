@@ -3,10 +3,9 @@ import InputPrimary from '@/components/elements/InputPrimary';
 
 import React, { useState } from 'react';
 import { View, Text, Pressable, Alert } from 'react-native';
-import { TextInput } from 'react-native-paper';
+import { TextInput, useTheme } from 'react-native-paper';
 import { isPasswordValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
-import theme from '@/theme';
 
 type LoginPasswordProps = {
   email: string;
@@ -16,6 +15,7 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const { isLoaded, signIn, setActive } = useSignIn();
   const [, setLoading] = useState(false);
+  const theme = useTheme();
 
   const handleSignIn = async () => {
     console.log('handleSignIn hit');
@@ -75,7 +75,7 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
           onPress={handleSignIn}
           disabled={!isPasswordValid(password)}
         >
-          <Text>SIGN IN</Text>
+          <Text style={{ color: theme.colors.onPrimary }}>SIGN IN</Text>
         </ButtonPrimary>
       </View>
     </View>

@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Button, Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import LoginPassword from './login-password';
 import * as AuthSession from 'expo-auth-session';
 
@@ -72,71 +73,73 @@ export default function Login() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <View style={{ width: 300, alignSelf: 'center' }}>
-        <View style={{ alignItems: 'center', marginBottom: 24 }}>
-          <Logo />
-        </View>
-        <View style={{ gap: 8 }}>
-          <InputPrimary
-            label="Email"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            right={
-              !showPassword && (
-                <TextInput.Icon
-                  color={
-                    isValidEmail
-                      ? theme.colors.primary
-                      : theme.colors.surfaceDisabled
-                  }
-                  icon="arrow-right-circle"
-                  onPress={handleContinue}
-                  disabled={!isValidEmail}
-                />
-              )
-            }
-          />
-          {showPassword && <LoginPassword email={email} />}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Divider
-              bold
-              style={{
-                backgroundColor: theme.colors.outline,
-                width: '40%',
-              }}
-            />
-
-            <Text>or</Text>
-
-            <Divider
-              bold
-              style={{
-                backgroundColor: theme.colors.outline,
-                width: '40%',
-              }}
-            />
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ width: 300, alignSelf: 'center' }}>
+          <View style={{ alignItems: 'center', marginBottom: 24 }}>
+            <Logo />
           </View>
-          <View>
-            <Button
-              icon="google"
-              mode="outlined"
-              onPress={() => handleSSO()}
-              style={{ borderRadius: 12 }}
+          <View style={{ gap: 8 }}>
+            <InputPrimary
+              label="Email"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              right={
+                !showPassword && (
+                  <TextInput.Icon
+                    color={
+                      isValidEmail
+                        ? theme.colors.primary
+                        : theme.colors.surfaceDisabled
+                    }
+                    icon="arrow-right-circle"
+                    onPress={handleContinue}
+                    disabled={!isValidEmail}
+                  />
+                )
+              }
+            />
+            {showPassword && <LoginPassword email={email} />}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
             >
-              Continue with Google
-            </Button>
+              <Divider
+                bold
+                style={{
+                  backgroundColor: theme.colors.outline,
+                  width: '40%',
+                }}
+              />
+
+              <Text style={{ color: theme.colors.onBackground }}>or</Text>
+
+              <Divider
+                bold
+                style={{
+                  backgroundColor: theme.colors.outline,
+                  width: '40%',
+                }}
+              />
+            </View>
+            <View>
+              <Button
+                icon="google"
+                mode="outlined"
+                onPress={() => handleSSO()}
+                style={{ borderRadius: 12 }}
+              >
+                Continue with Google
+              </Button>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -12,8 +12,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   newArchEnabled: true,
   extra: {
     API_BASE_URL: process.env.API_BASE_URL,
-
     API_LOCAL_IP: process.env.API_LOCAL_IP,
+    WEB_APP_URL: process.env.WEB_APP_URL || 'http://localhost:3000',
   },
   splash: {
     image: './assets/splash.png',
@@ -21,18 +21,35 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     backgroundColor: '#ffffff',
   },
   assetBundlePatterns: ['**/*'],
+  scheme: 'fit-match-web',
   ios: {
     supportsTablet: true,
+    bundleIdentifier: 'com.fitmatch.app',
+    associatedDomains: ['applinks:fitmatch.app'],
   },
   android: {
     adaptiveIcon: {
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#ffffff',
     },
+    package: 'com.fitmatch.app',
+    intentFilters: [
+      {
+        action: 'VIEW',
+        autoVerify: true,
+        data: [
+          {
+            scheme: 'https',
+            host: 'fitmatch.app',
+            pathPrefix: '/join',
+          },
+        ],
+        category: ['BROWSABLE', 'DEFAULT'],
+      },
+    ],
   },
   web: {
     favicon: './assets/favicon.png',
   },
-  scheme: 'fit-match-web',
   plugins: ['expo-router', 'expo-secure-store'],
 });

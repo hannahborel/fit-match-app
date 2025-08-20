@@ -23,6 +23,7 @@ import CustomToast from '@/components/elements/CustomToast';
 import { leagueAtom } from '@/atoms/leagueAtom';
 import { tokenCache } from '@/lib/auth';
 import { useGetLeague } from '@/hooks/useGetLeague';
+import { useDeepLinking } from '@/hooks/useDeepLinking';
 import { queryClient } from '@/lib/queryClient';
 import DatabaseErrorView from '@/components/elements/DatabaseErrorView';
 
@@ -38,6 +39,7 @@ const InitialLayout = () => {
   const segments = useSegments();
   const router = useRouter();
   const { data, isLoading, error, refetch } = useGetLeague();
+  const { pendingInvitation, handlePendingInvitation } = useDeepLinking();
   const setLeague = useSetAtom(leagueAtom);
   const [showError, setShowError] = useState(false);
 
@@ -45,6 +47,7 @@ const InitialLayout = () => {
 
   const inAuthGroup = segments[0] === '(auth)';
   const inProtectedGroup = segments[0] === '(protected)';
+  const inJoinPage = segments[0] === 'join';
 
   // Only consider ready to redirect when we have a definitive result (success or error)
   const hasDefinitiveResult =
@@ -68,7 +71,7 @@ const InitialLayout = () => {
     if (!isReadyToRedirect) return;
 
     setTimeout(() => {
-      if (!isSignedIn && !inAuthGroup) {
+      if (!isSignedIn && !inAuthGroup && !inJoinPage) {
         router.replace('/login-email');
         return;
       }
@@ -80,10 +83,18 @@ const InitialLayout = () => {
 
       if (data) {
         setLeague(data);
-        if (!inAuthGroup) router.replace('/(tabs)');
+        if (!inAuthGroup && !inJoinPage) {
+          // Check if there's a pending invitation to handle
+          if (pendingInvitation) {
+            handlePendingInvitation();
+          } else {
+            router.replace('/(tabs)');
+          }
+        }
       } else if (!error) {
         // Only navigate to create league if there's no error
-        if (!inAuthGroup) router.replace('/(protected)/createLeague');
+        if (!inAuthGroup && !inJoinPage)
+          router.replace('/(protected)/createLeague');
       }
     }, 0);
   }, [
@@ -100,6 +111,9 @@ const InitialLayout = () => {
 
   // Handle database connection errors - show simple error screen
   if (showError && error && !inAuthGroup && isSignedIn) {
+    console.log('showError', showError);
+    console.log('error', error);
+
     return (
       <DatabaseErrorView
         error={error}

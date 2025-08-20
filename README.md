@@ -1,3 +1,58 @@
+# FitMatch Mobile App
+
+## Environment Variables
+
+### Web App URL Configuration
+
+The app uses environment variables to determine the correct web app URL for invitation links. This allows you to use different URLs for development and production.
+
+#### Setting Up Environment Variables
+
+1. **Create a `.env` file** in the root directory:
+
+```bash
+# Development
+WEB_APP_URL=http://localhost:3000
+
+# Or for Expo development with tunnel
+WEB_APP_URL=exp://192.168.1.100:8081
+
+# Production (when you have the correct domain)
+WEB_APP_URL=https://yourdomain.com
+```
+
+2. **Environment-specific URLs**:
+
+- **Development**: `http://localhost:3000` or your local Expo dev server
+- **Staging**: `https://staging.yourdomain.com`
+- **Production**: `https://yourdomain.com`
+
+#### How It Works
+
+The app automatically detects the environment and uses the appropriate URL:
+
+- **Development**: Uses `localhost:3000` or your configured dev URL
+- **Production**: Uses the `WEB_APP_URL` from your environment variables
+- **Fallback**: If no environment variable is set, defaults to `localhost:3000` in development
+
+#### Testing Invitation Links
+
+1. **Set your development URL** in `.env`:
+
+   ```bash
+   WEB_APP_URL=http://localhost:3000
+   ```
+
+2. **Test the copy functionality** in your app:
+   - Open the Invite Friends modal
+   - Tap "Copy Invite Link"
+   - The generated URL will use your configured `WEB_APP_URL`
+
+3. **When you get your production domain**:
+   - Update `WEB_APP_URL=https://yourdomain.com`
+   - Restart your development server
+   - All invitation links will now use the production URL
+
 # Fit Match Web
 
 A React Native application built with Expo and TypeScript.

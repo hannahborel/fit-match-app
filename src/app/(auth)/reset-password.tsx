@@ -3,6 +3,7 @@ import { View, Pressable, Text as RNText } from 'react-native';
 import { useSignIn } from '@clerk/clerk-expo';
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import InputPrimary from '@/components/elements/InputPrimary';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import Logo from '@/assets/Logo';
@@ -67,7 +68,13 @@ export default function ResetPassword() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        justifyContent: 'center',
+      }}
+    >
       <View style={{ width: 300, alignSelf: 'center' }}>
         <View style={{ alignItems: 'center', marginBottom: 24 }}>
           <Logo />
@@ -117,7 +124,9 @@ export default function ResetPassword() {
             loading={loading}
             disabled={loading}
           >
-            <Text>RESET PASSWORD</Text>
+            <Text style={{ color: theme.colors.onPrimary }}>
+              RESET PASSWORD
+            </Text>
           </ButtonPrimary>
         </View>
         <Pressable
@@ -125,7 +134,9 @@ export default function ResetPassword() {
           style={{ marginTop: 16, alignItems: 'center' }}
         >
           <View style={{ flexDirection: 'row' }}>
-            <Text>Remember your password? </Text>
+            <Text style={{ color: theme.colors.onBackground }}>
+              Remember your password?{' '}
+            </Text>
             <RNText
               style={{
                 color: theme.colors.primary,
@@ -137,6 +148,6 @@ export default function ResetPassword() {
           </View>
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

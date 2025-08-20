@@ -1,10 +1,20 @@
 import { ActivityIndicator, View } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const StartPage = () => {
+  const theme = useTheme();
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center' }}>
-      <ActivityIndicator size="large" color="#0000ff" />
-    </View>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        justifyContent: 'center',
+      }}
+    >
+      <ActivityIndicator size="large" color={theme.colors.primary} />
+    </SafeAreaView>
   );
 };
 

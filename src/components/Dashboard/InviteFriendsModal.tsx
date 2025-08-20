@@ -7,6 +7,7 @@ import Toast from 'react-native-toast-message';
 import Modal from '@/components/elements/Modal';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import ButtonSecondary from '@/components/elements/ButtonSecondary';
+import { generateJoinLeagueUrl } from '@/lib/getWebAppUrl';
 
 interface InviteFriendsModalProps {
   visible: boolean;
@@ -26,8 +27,8 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
   const styles = getStyles(theme);
 
   const generateInviteLink = () => {
-    // Generate invitation link with league ID
-    return `https://fitmatch.app/join/${leagueId}`;
+    // Generate invitation link with league ID using environment-aware URL
+    return generateJoinLeagueUrl(leagueId);
   };
 
   const handleCopyLink = async () => {

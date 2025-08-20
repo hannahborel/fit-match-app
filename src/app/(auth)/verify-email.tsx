@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
 import InputPrimary from '@/components/elements/InputPrimary';
@@ -35,9 +36,10 @@ export default function VerifyEmail() {
   };
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
+        backgroundColor: theme.colors.background,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
@@ -62,10 +64,10 @@ export default function VerifyEmail() {
         />
         <View style={{ marginTop: 24 }}>
           <ButtonPrimary onPress={onPressVerify}>
-            <Text>Verify Email</Text>
+            <Text style={{ color: theme.colors.onPrimary }}>Verify Email</Text>
           </ButtonPrimary>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -56,7 +56,13 @@ const signUp = () => {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        justifyContent: 'center',
+      }}
+    >
       <View style={{ width: 300, alignSelf: 'center' }}>
         <View style={{ gap: 12 }}>
           <StyledInput
@@ -106,7 +112,7 @@ const signUp = () => {
             disabled={disableSignUp}
             loading={loading}
           >
-            <Text>SIGN UP</Text>
+            <Text style={{ color: theme.colors.onPrimary }}>SIGN UP</Text>
           </ButtonPrimary>
         </View>
         <Pressable
@@ -114,7 +120,9 @@ const signUp = () => {
           style={{ marginTop: 16, alignItems: 'center' }}
         >
           <View style={{ flexDirection: 'row' }}>
-            <Text>Already have an account? </Text>
+            <Text style={{ color: theme.colors.onBackground }}>
+              Already have an account?{' '}
+            </Text>
             <RNText
               style={{
                 color: theme.colors.primary,
