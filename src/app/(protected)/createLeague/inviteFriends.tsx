@@ -13,7 +13,9 @@ const InviteFriends = () => {
   const params = useLocalSearchParams();
   console.log(params);
 
-  const inviteLink = generateJoinLeagueUrl(params.slug);
+  const inviteLink = generateJoinLeagueUrl(
+    Array.isArray(params.slug) ? params.slug[0] : params.slug,
+  );
   console.log(inviteLink);
 
   const copyToClipboard = async () => {
