@@ -1,14 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable,
-} from 'react-native';
-import React, { Dispatch } from 'react';
-import { Avatar, MD3Theme, useTheme } from 'react-native-paper';
-import { SetStateAction } from 'jotai';
 import { getAvatarByIndex } from '@/assets/avatar';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Avatar, MD3Theme, useTheme } from 'react-native-paper';
 
 type expandedRowsProps = {
   player: any;
@@ -35,7 +28,6 @@ const ExpandedRows = ({
       return next;
     });
   };
-
   const styles = getStyles(theme);
   return (
     <View
@@ -51,7 +43,7 @@ const ExpandedRows = ({
       >
         <View style={styles.listItem_left}>
           <Avatar.Image size={40} source={getAvatarByIndex(index)} />
-          <Text style={styles.text_characters}>Johnny</Text>
+          <Text style={styles.text_characters}>{player.name}</Text>
         </View>
         <Text style={styles.text_numbers}>{player.totalPoints}</Text>
       </TouchableOpacity>
