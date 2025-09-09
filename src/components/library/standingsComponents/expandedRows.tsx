@@ -43,7 +43,7 @@ const ExpandedRows = ({
       >
         <View style={styles.listItem_left}>
           <Avatar.Image size={40} source={getAvatarByIndex(index)} />
-          <Text style={styles.text_characters}>{player.name}</Text>
+          <Text style={styles.text_characters}>{player.firstName}</Text>
         </View>
         <Text style={styles.text_numbers}>{player.totalPoints}</Text>
       </TouchableOpacity>

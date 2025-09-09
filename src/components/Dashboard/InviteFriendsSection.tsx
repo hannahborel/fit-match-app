@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useUser } from '@clerk/clerk-expo';
+import { useAuth } from '@clerk/clerk-expo';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import { League } from '@/types/types';
 import InviteFriendsModal from './InviteFriendsModal';
@@ -14,8 +14,15 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
   league,
 }) => {
   const theme = useTheme();
-  const { user } = useUser();
+  const { userId } = useAuth();
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  // Check if current user is the league manager
+  const isLeagueManager = league.ownerId === userId;
+
+  console.log('InviteFriendsSection - userId:', userId);
+  console.log('InviteFriendsSection - league.ownerId:', league.ownerId);
+  console.log('InviteFriendsSection - isLeagueManager:', isLeagueManager);
 
   // Calculate how many more members are needed
   const currentMembers = league.leaguesToUsers.length;
@@ -31,6 +38,11 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
   };
 
   const styles = getStyles(theme);
+
+  // Only render if user is the league manager
+  if (!isLeagueManager) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>
@@ -60,7 +72,7 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         leagueId={league.id}
-        ownerFirstName={user?.firstName || 'League Manager'}
+        ownerFirstName="League Manager"
       />
     </View>
   );

@@ -36,6 +36,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
           >
             {matchup.map((team, teamIndex) => (
               <View
+                key={`${teamIndex} - ${index}`}
                 style={[
                   styles.teamContainer,
                   {
@@ -74,7 +75,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
                             ellipsizeMode={'clip'}
                             style={{ color: theme.colors.onSurface }}
                           >
-                            Player {index}
+                            {player.name || `User ${player.userId.slice(-4)}`}
                           </Text>
                         </View>
                       );
@@ -88,7 +89,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
                             ellipsizeMode={'clip'}
                             style={{ color: theme.colors.onSurface }}
                           >
-                            Player {index}
+                            {player.name || `User ${player.userId.slice(-4)}`}
                           </Text>
                           <Avatar.Image
                             size={AVATAR_SIZE}

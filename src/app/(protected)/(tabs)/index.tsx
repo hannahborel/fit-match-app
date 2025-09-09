@@ -11,6 +11,7 @@ import {
   getCurrentWeekMatchIds,
   transformLeagueToSchedule,
 } from '@/helpers/matchesHelper';
+import { enrichScheduleWithUsers } from '@/helpers/enrichScheduleWithUsers';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
@@ -25,7 +26,17 @@ const Home = () => {
       const currentMatch = getCurrentWeekMatchIds(leagueData);
       const allMatches = transformLeagueToSchedule(leagueData);
       setCurrentMatchId(currentMatch);
-      setSchedule(allMatches);
+
+      // Enrich schedule with user names
+      enrichScheduleWithUsers(allMatches, leagueData).then(
+        (enrichedSchedule) => {
+          console.log(
+            'Enriched schedule:',
+            JSON.stringify(enrichedSchedule, null, 2),
+          );
+          setSchedule(enrichedSchedule);
+        },
+      );
     }
   }, [leagueData]);
   const theme = useTheme();

@@ -61,7 +61,7 @@ export default function Login() {
         });
       if (createdSessionId) {
         setActive!({ session: createdSessionId });
-        router.push('/');
+        router.replace('/(tabs)');
       } else {
         console.log('signIn: ', signIn, signIn?.status);
 

@@ -6,6 +6,7 @@ import { View, Text, Pressable, Alert } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import { isPasswordValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
+import { useRouter } from 'expo-router';
 
 type LoginPasswordProps = {
   email: string;
@@ -16,6 +17,7 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
   const { isLoaded, signIn, setActive } = useSignIn();
   const [, setLoading] = useState(false);
   const theme = useTheme();
+  const router = useRouter();
 
   const handleSignIn = async () => {
     console.log('handleSignIn hit');
@@ -29,7 +31,8 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
       if (signInAttempt.status === 'complete') {
         console.log('signInStatus complete');
         await setActive({ session: signInAttempt.createdSessionId });
-        // TODO: Add navigation logic here
+        // Navigate to the main app after successful sign-in
+        router.replace('/(tabs)');
       }
     } catch (err) {
       if (err instanceof ReferenceError) {
