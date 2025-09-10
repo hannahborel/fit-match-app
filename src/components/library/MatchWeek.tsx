@@ -27,6 +27,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
       >
         {week.matchups.map((matchup, index) => (
           <View
+            key={`${index}`}
             style={[
               styles.matchContainer,
               {

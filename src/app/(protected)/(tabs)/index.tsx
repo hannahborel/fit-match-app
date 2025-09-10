@@ -12,6 +12,7 @@ import {
   transformLeagueToSchedule,
 } from '@/helpers/matchesHelper';
 import { enrichScheduleWithUsers } from '@/helpers/enrichScheduleWithUsers';
+import { shouldShowSchedule } from '@/helpers/leagueStatus';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
@@ -23,20 +24,27 @@ const Home = () => {
   const [, setSchedule] = useAtom(allMatchupsWithPointsAtom);
   useEffect(() => {
     if (leagueData) {
-      const currentMatch = getCurrentWeekMatchIds(leagueData);
-      const allMatches = transformLeagueToSchedule(leagueData);
-      setCurrentMatchId(currentMatch);
+      // Only generate schedule if it should be shown
+      if (shouldShowSchedule(leagueData)) {
+        const currentMatch = getCurrentWeekMatchIds(leagueData);
+        const allMatches = transformLeagueToSchedule(leagueData);
+        setCurrentMatchId(currentMatch);
 
-      // Enrich schedule with user names
-      enrichScheduleWithUsers(allMatches, leagueData).then(
-        (enrichedSchedule) => {
-          console.log(
-            'Enriched schedule:',
-            JSON.stringify(enrichedSchedule, null, 2),
-          );
-          setSchedule(enrichedSchedule);
-        },
-      );
+        // Enrich schedule with user names
+        enrichScheduleWithUsers(allMatches, leagueData).then(
+          (enrichedSchedule) => {
+            console.log(
+              'Enriched schedule:',
+              JSON.stringify(enrichedSchedule, null, 2),
+            );
+            setSchedule(enrichedSchedule);
+          },
+        );
+      } else {
+        // Clear schedule data when it shouldn't be shown
+        setCurrentMatchId(null);
+        setSchedule(undefined);
+      }
     }
   }, [leagueData]);
   const theme = useTheme();

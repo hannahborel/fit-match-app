@@ -2,7 +2,14 @@ import {
   currentMatchAtom,
   allMatchupsWithPointsAtom,
 } from '@/atoms/matchesAtom';
+import { leagueAtom } from '@/atoms/leagueAtom';
 import ScheduleFlatList from '@/components/library/ScheduleFlatList';
+import SchedulePlaceholder from '@/components/elements/SchedulePlaceholder';
+import {
+  shouldShowSchedule,
+  getMembersNeeded,
+  hasLeagueStarted,
+} from '@/helpers/leagueStatus';
 
 import { useAtomValue } from 'jotai';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
@@ -14,10 +21,16 @@ import { IconButton, Text, useTheme } from 'react-native-paper';
 const SchedulePage = () => {
   const matchupScheduleAtom = useAtomValue(allMatchupsWithPointsAtom);
   const currentWeek = useAtomValue(currentMatchAtom);
+  const leagueData = useAtomValue(leagueAtom);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const totalPages = matchupScheduleAtom?.leagueSchedule.length;
 
   const isReady = matchupScheduleAtom && currentWeek;
+
+  // Check if schedule should be shown
+  const showSchedule = leagueData ? shouldShowSchedule(leagueData) : false;
+  const membersNeeded = leagueData ? getMembersNeeded(leagueData) : 0;
+  const leagueHasStarted = leagueData ? hasLeagueStarted(leagueData) : false;
 
   useEffect(() => {
     if (matchupScheduleAtom && currentWeek) {
@@ -43,11 +56,23 @@ const SchedulePage = () => {
     }
   };
 
-  if (!isReady) {
+  // Show placeholder if schedule shouldn't be displayed
+  if (!showSchedule) {
     return (
-      <View>
-        <Text>You Fucked Up</Text>
-      </View>
+      <SchedulePlaceholder
+        membersNeeded={membersNeeded}
+        hasStarted={leagueHasStarted}
+      />
+    );
+  }
+
+  if (!isReady) {
+    // If we don't have schedule data, show the placeholder
+    return (
+      <SchedulePlaceholder
+        membersNeeded={membersNeeded}
+        hasStarted={leagueHasStarted}
+      />
     );
   }
 
