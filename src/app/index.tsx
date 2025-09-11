@@ -15,11 +15,6 @@ const StartPage = () => {
   const { data: league, isLoading: isLeagueLoading } = useGetLeague();
   const [, setLeagueAtom] = useAtom(leagueAtom);
   const router = useRouter();
-  console.log('league', league);
-  console.log('isSignedIn', isSignedIn);
-  console.log('user', userId);
-  console.log('isLeagueLoading', isLeagueLoading);
-  console.log('isNavigationReady', isNavigationReady);
 
   // Update the league atom whenever league data changes
   useEffect(() => {

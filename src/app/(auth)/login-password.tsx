@@ -20,7 +20,6 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
   const router = useRouter();
 
   const handleSignIn = async () => {
-    console.log('handleSignIn hit');
     if (!isLoaded) return;
     setLoading(true);
     try {
@@ -29,14 +28,12 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
         password,
       });
       if (signInAttempt.status === 'complete') {
-        console.log('signInStatus complete');
         await setActive({ session: signInAttempt.createdSessionId });
         // Navigate to the main app after successful sign-in
         router.replace('/(tabs)');
       }
     } catch (err) {
       if (err instanceof ReferenceError) {
-        console.log(err);
         Alert.alert('Password is incorrect');
       }
     }

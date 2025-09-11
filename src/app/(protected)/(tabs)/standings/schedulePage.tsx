@@ -80,7 +80,6 @@ const SchedulePage = () => {
   const atPageBeginning = pageIndex == 0;
 
   const theme = useTheme();
-  // console.log(JSON.stringify(matchupsArr, null, 2));
 
   return (
     <View style={{ gap: 16, flex: 1, alignItems: 'center' }}>

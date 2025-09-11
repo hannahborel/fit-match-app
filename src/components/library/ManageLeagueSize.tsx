@@ -23,7 +23,7 @@ const ManageLeagueSize = ({
 
   const handleUpdate = async () => {
     const token = await getToken();
-    if (!token) return console.log('notoken');
+    if (!token) return;
 
     mutation.mutate({
       token,

@@ -10,7 +10,6 @@ const LogoutButton = () => {
     try {
       await signOut();
     } catch (error) {
-      console.error('Error signing out:', error);
     }
   };
   return (

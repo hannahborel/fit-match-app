@@ -11,8 +11,6 @@ export const useGetLeague = (options = {}) => {
     queryKey: ['league', userId],
     queryFn: async () => {
       const token = await getToken();
-      console.log('🔑 Token received:', token ? 'Present' : 'Missing');
-      console.log('🔑 Token length:', token?.length || 0);
       return fetchLeagueByUserId(token);
     },
     placeholderData: () => {

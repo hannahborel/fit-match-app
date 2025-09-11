@@ -45,14 +45,13 @@ const signUp = () => {
       await signUp.prepareVerification({ strategy: 'email_code' });
       router.push('/verify-email');
     } catch (err) {
-      console.error('Signup error:', err);
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
-    return console.log;
+    return null;
   }
 
   return (

@@ -39,7 +39,6 @@ export const fetchUsersForLeague = async (
       isBot: false,
     }));
   } catch (error) {
-    console.error('Failed to fetch users for league:', error);
     // Fallback to placeholder data if API fails
     return userIds.map((userId) => ({
       userId,

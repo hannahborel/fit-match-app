@@ -21,10 +21,8 @@ const StandingsTab = () => {
         setLoading(true);
         try {
           const userData = await fetchUsersForLeague(leagueData);
-          console.log('Fetched users:', JSON.stringify(userData, null, 2));
           setUsers(userData);
         } catch (error) {
-          console.error('Failed to fetch users:', error);
         } finally {
           setLoading(false);
         }
@@ -35,8 +33,6 @@ const StandingsTab = () => {
 
   const standingsList = leagueData ? getLeagueStandings(leagueData, users) : [];
 
-  // console.log(JSON.stringify(leagueData, null, 3));
-  console.log('Standings List:', JSON.stringify(standingsList, null, 2));
 
   if (loading) {
     return (

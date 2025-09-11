@@ -7,9 +7,7 @@ export const handleLogout = async (
   try {
     await signOut();
     router.replace('/login-email');
-  } catch (error) {
-    console.error('Error signing out:', error);
-  }
+  } catch (error) {}
 };
 
 export const calculateTimeLeft = (targetTime: string) => {

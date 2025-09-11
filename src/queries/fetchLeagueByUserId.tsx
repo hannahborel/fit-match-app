@@ -25,10 +25,6 @@ export const fetchLeagueByUserId = async (
 
     const data = await res.json();
 
-    if (!res.ok) {
-      console.error('Server returned error status', res.status, data);
-    }
-
     return data?.league ?? null;
   } catch (error) {
     clearTimeout(timeoutId);

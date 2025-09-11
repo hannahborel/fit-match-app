@@ -19,7 +19,6 @@ export const useCreateLeague = () => {
     onSuccess: async (newLeague: League) => {
       // Update the atom immediately with the new league data
       setLeagueAtom(newLeague);
-      console.log('✅ League created successfully, updated atom:', newLeague);
 
       // Also invalidate the query cache for consistency
       queryClient.invalidateQueries({ queryKey: ['league', userId] });

@@ -45,10 +45,6 @@ export default function ForgotPassword() {
       }
     } catch (err) {
       if (err instanceof ReferenceError) {
-        console.error(
-          'Error requesting password reset:',
-          JSON.stringify(err, null, 2),
-        );
         setError('An error occurred while sending the reset code');
       }
     } finally {

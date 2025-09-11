@@ -11,16 +11,12 @@ import { generateJoinLeagueUrl } from '@/lib/getWebAppUrl';
 
 const InviteFriends = () => {
   const params = useLocalSearchParams();
-  console.log(params);
-
   const inviteLink = generateJoinLeagueUrl(
     Array.isArray(params.slug) ? params.slug[0] : params.slug,
   );
-  console.log(inviteLink);
 
   const copyToClipboard = async () => {
     Clipboard.setStringAsync(inviteLink);
-    console.log(inviteLink);
 
     Toast.show({
       type: 'success',

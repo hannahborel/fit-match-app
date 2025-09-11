@@ -28,10 +28,7 @@ export default function VerifyEmail() {
       // }
     } catch (err) {
       if (err instanceof ReferenceError) {
-        console.log('ERROR: ', err);
       }
-      // console.log(err);
-      // console.log(err.errors[0].message);
     }
   };
 

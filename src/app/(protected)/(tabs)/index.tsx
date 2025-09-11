@@ -21,7 +21,6 @@ import { useTheme } from 'react-native-paper';
 const Home = () => {
   // Use the atom which is now updated by the main loading page
   const leagueData = useAtomValue(leagueAtom);
-  console.log('Dashboard league data:', leagueData);
   const setCurrentMatchId = useSetAtom(currentMatchAtom);
   const [, setSchedule] = useAtom(allMatchupsWithPointsAtom);
   useEffect(() => {
@@ -35,10 +34,6 @@ const Home = () => {
         // Enrich schedule with user names
         enrichScheduleWithUsers(allMatches, leagueData).then(
           (enrichedSchedule) => {
-            console.log(
-              'Enriched schedule:',
-              JSON.stringify(enrichedSchedule, null, 2),
-            );
             setSchedule(enrichedSchedule);
           },
         );

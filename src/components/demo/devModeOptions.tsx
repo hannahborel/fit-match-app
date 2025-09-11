@@ -11,9 +11,7 @@ const SpeedDial = () => {
   const handleLogout = async () => {
     try {
       await signOut();
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
+    } catch (error) {}
   };
   return (
     <Portal>

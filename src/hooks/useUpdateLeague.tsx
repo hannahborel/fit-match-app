@@ -6,12 +6,9 @@ export const useUpdateLeague = (onSuccessMsg?: string) => {
     mutationFn: updateLeague,
     onSuccess: () => {
       if (onSuccessMsg) {
-        console.log(onSuccessMsg);
       }
     },
-    onError: (err: Error) => {
-      console.error('League update error:', err.message);
-    },
+    onError: (err: Error) => {},
   });
 
   return mutation;

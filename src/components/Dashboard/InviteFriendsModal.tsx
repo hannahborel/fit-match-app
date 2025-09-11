@@ -44,7 +44,6 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
         visibilityTime: 3000,
       });
     } catch (error) {
-      console.error('Failed to copy link:', error);
       Toast.show({
         type: 'error',
         text1: 'Copy Failed',
@@ -78,7 +77,6 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
         });
       }
     } catch (error) {
-      console.error('Failed to open text invite:', error);
       Toast.show({
         type: 'error',
         text1: 'Text Invite Failed',
@@ -121,7 +119,6 @@ See you on the leaderboard!
         });
       }
     } catch (error) {
-      console.error('Failed to open email invite:', error);
       Toast.show({
         type: 'error',
         text1: 'Email Invite Failed',

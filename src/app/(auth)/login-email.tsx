@@ -28,10 +28,6 @@ export default function Login() {
         const emailCheck = await signIn.create({
           identifier: email,
         });
-        console.log(
-          'After create call - emailCheck status:',
-          emailCheck.status,
-        );
 
         if (emailCheck.status === 'needs_first_factor') {
           //has account, needs to enter password
@@ -47,7 +43,7 @@ export default function Login() {
             params: { emailParam: email },
           });
         }
-        console.error('Unexpected error:', error);
+
         return false;
       }
     }

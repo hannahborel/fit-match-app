@@ -45,7 +45,6 @@ export default function UpdateLeagueStartDateDemo({
     if (token) {
       mutate({ leagueId, newStartDate, token });
     } else {
-      console.log('no token found');
     }
   };
 

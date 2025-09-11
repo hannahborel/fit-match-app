@@ -30,7 +30,6 @@ const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
               if (!token) return;
 
               const result = await deleteLeague({ token, leagueId });
-              console.log(result);
               Alert.alert('Deleted', result.message || 'League deleted');
             } catch (err: any) {
               Alert.alert('Error', err.message || 'Something went wrong');

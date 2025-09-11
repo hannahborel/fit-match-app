@@ -20,10 +20,6 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
   // Check if current user is the league manager
   const isLeagueManager = league.ownerId === userId;
 
-  console.log('InviteFriendsSection - userId:', userId);
-  console.log('InviteFriendsSection - league.ownerId:', league.ownerId);
-  console.log('InviteFriendsSection - isLeagueManager:', isLeagueManager);
-
   // Calculate how many more members are needed
   // Note: leaguesToUsers might not be included in the league data from API
   const currentMembers = league.leaguesToUsers?.length || 1; // Default to 1 (the owner)

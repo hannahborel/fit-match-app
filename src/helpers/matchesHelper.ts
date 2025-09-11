@@ -10,7 +10,6 @@ export const getCurrentWeekMatchIds = (
 
   const match = leagueData.matches.find((match) => match.week === currentWeek);
 
-  console.log(match);
   if (match) {
     return { week: currentWeek, id: match.id };
   } else {

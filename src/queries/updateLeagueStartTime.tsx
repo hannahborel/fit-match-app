@@ -25,7 +25,6 @@ export const updateLeagueStartTime = async ({
   const data = await res.json();
   if (!res.ok) {
     const errorData = data;
-    console.log(errorData);
     throw new Error(errorData.message || 'Update failed');
   }
   return data;
