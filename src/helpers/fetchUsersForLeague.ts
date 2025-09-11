@@ -10,7 +10,7 @@ export const fetchUsersForLeague = async (
   league: League,
 ): Promise<UserData[]> => {
   // Get all user IDs from the league
-  const userIds = league.leaguesToUsers
+  const userIds = (league.leaguesToUsers || [])
     .filter((entry) => !entry.isBot)
     .map((entry) => entry.userId);
 

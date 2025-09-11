@@ -4,14 +4,15 @@ import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 import { queryClient } from '@/lib/queryClient';
 
 export const useGetLeague = (options = {}) => {
-  const { getToken, isLoaded, isSignedIn } = useAuth();
-  const userId = useAuth();
+  const { getToken, isLoaded, isSignedIn, userId } = useAuth();
 
   return useQuery({
     // Use unique queryKey to avoid caching conflicts
-    queryKey: ['league', [userId]],
+    queryKey: ['league', userId],
     queryFn: async () => {
       const token = await getToken();
+      console.log('🔑 Token received:', token ? 'Present' : 'Missing');
+      console.log('🔑 Token length:', token?.length || 0);
       return fetchLeagueByUserId(token);
     },
     placeholderData: () => {
@@ -25,5 +26,6 @@ export const useGetLeague = (options = {}) => {
     // Add timeout to prevent infinite loading
     gcTime: 1000 * 60 * 5, // 5 minutes
     enabled: isLoaded && isSignedIn,
+    ...options,
   });
 };

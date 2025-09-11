@@ -15,11 +15,13 @@ import { enrichScheduleWithUsers } from '@/helpers/enrichScheduleWithUsers';
 import { shouldShowSchedule } from '@/helpers/leagueStatus';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 const Home = () => {
+  // Use the atom which is now updated by the main loading page
   const leagueData = useAtomValue(leagueAtom);
+  console.log('Dashboard league data:', leagueData);
   const setCurrentMatchId = useSetAtom(currentMatchAtom);
   const [, setSchedule] = useAtom(allMatchupsWithPointsAtom);
   useEffect(() => {

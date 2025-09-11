@@ -25,7 +25,8 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
   console.log('InviteFriendsSection - isLeagueManager:', isLeagueManager);
 
   // Calculate how many more members are needed
-  const currentMembers = league.leaguesToUsers.length;
+  // Note: leaguesToUsers might not be included in the league data from API
+  const currentMembers = league.leaguesToUsers?.length || 1; // Default to 1 (the owner)
   const membersNeeded = league.size - currentMembers;
 
   // Format the start date

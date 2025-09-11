@@ -16,9 +16,9 @@ export type League = {
   slug: string;
   createdAt: string;
   updatedAt: string;
-  leaguesToUsers: LeagueUser[];
-  loggedActivities: LoggedActivity[];
-  matches: Match[];
+  leaguesToUsers?: LeagueUser[];
+  loggedActivities?: LoggedActivity[];
+  matches?: Match[];
 };
 export type CountdownTimerProps = {
   targetTime: string;

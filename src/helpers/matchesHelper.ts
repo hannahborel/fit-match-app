@@ -57,7 +57,7 @@ export function calculatePointsForUser(
 
 export function transformLeagueToSchedule(data: League): LeagueSchedule {
   const userMap = new Map<string, Player>(
-    data.leaguesToUsers
+    (data.leaguesToUsers || [])
       .filter((user: any) => user.userId && user.id) // Ensures required fields are present
       .map((user: any) => [
         user.userId,

@@ -40,7 +40,7 @@ export function getLeagueStandings(
   }
 
   // Build standings list from leaguesToUsers
-  const standings = league.leaguesToUsers.map((entry: any) => {
+  const standings = (league.leaguesToUsers || []).map((entry: any) => {
     const user = users.find((u) => u.userId === entry.userId);
     return {
       userId: entry.userId,
