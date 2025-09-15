@@ -34,13 +34,15 @@ const StartPage = () => {
     if (!isNavigationReady) return;
 
     if (isSignedIn) {
-      if (league == null) {
+      // Check if league data is explicitly null (no league) vs undefined (still loading)
+      if (league === null) {
         // User is signed in but has no league - send to create/join
         router.replace('/(protected)/createLeague');
-      } else {
+      } else if (league) {
         // User has a league - send to dashboard
         router.replace('/(protected)/(tabs)');
       }
+      // If league is undefined, we're still loading, so don't navigate yet
     } else if (!isSignedIn) {
       // User not signed in - send to login
       router.replace('/(auth)/login-email');
