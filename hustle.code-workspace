@@ -1,17 +1,20 @@
 {
   "folders": [
-	{
-		"path": "."
-	},
-	{
-		"path": "../fit-match-web"
-	},
-	{
-		"path": "../workspace-rules"
-	},
-	{
-		"path": "../documentation"
-	}
-],
+    {
+      "path": ".",
+    },
+    {
+      "path": "../fit-match-web",
+    },
+    {
+      "path": "../workspace-rules",
+    },
+    {
+      "path": "../documentation",
+    },
+    {
+      "path": "../hustle-types",
+    },
+  ],
   "settings": {},
 }
