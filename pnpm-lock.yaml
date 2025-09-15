@@ -81,8 +81,8 @@ importers:
         specifier: ~14.2.0
         version: 14.2.0(expo@53.0.22(@babel/core@7.28.4)(@expo/metro-runtime@5.0.4(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.1.12)(react@19.0.0)))(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.1.12)(react@19.0.0))(react@19.0.0))(react-native@0.79.5(@babel/core@7.28.4)(@types/react@19.1.12)(react@19.0.0))
       hustle-types:
-        specifier: github:hannahborel/hustle-types
-        version: https://codeload.github.com/hannahborel/hustle-types/tar.gz/ef49aaae3162aaf0cb340d31641731c000dd5e23
+        specifier: file:../hustle-types
+        version: file:../hustle-types
       install:
         specifier: ^0.13.0
         version: 0.13.0
@@ -3123,9 +3123,8 @@ packages:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
     engines: {node: '>=10.17.0'}
 
-  hustle-types@https://codeload.github.com/hannahborel/hustle-types/tar.gz/ef49aaae3162aaf0cb340d31641731c000dd5e23:
-    resolution: {tarball: https://codeload.github.com/hannahborel/hustle-types/tar.gz/ef49aaae3162aaf0cb340d31641731c000dd5e23}
-    version: 1.0.0
+  hustle-types@file:../hustle-types:
+    resolution: {directory: ../hustle-types, type: directory}
 
   hyphenate-style-name@1.1.0:
     resolution: {integrity: sha512-WDC/ui2VVRrz3jOVi+XtjqkDjiVjTtFaAGiW37k6b+ohyQ5wYDOGkvCZa8+H0nx3gyvv0+BST9xuOgIyGQ00gw==}
@@ -9382,7 +9381,7 @@ snapshots:
 
   human-signals@2.1.0: {}
 
-  hustle-types@https://codeload.github.com/hannahborel/hustle-types/tar.gz/ef49aaae3162aaf0cb340d31641731c000dd5e23: {}
+  hustle-types@file:../hustle-types: {}
 
   hyphenate-style-name@1.1.0: {}
 
