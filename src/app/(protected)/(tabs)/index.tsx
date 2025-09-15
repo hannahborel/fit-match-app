@@ -11,7 +11,7 @@ import {
   getCurrentWeekMatchIds,
   transformLeagueToSchedule,
 } from '@/helpers/matchesHelper';
-import { enrichScheduleWithUsers } from '@/helpers/enrichScheduleWithUsers';
+
 import { shouldShowSchedule } from '@/helpers/leagueStatus';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
@@ -32,11 +32,6 @@ const Home = () => {
         setCurrentMatchId(currentMatch);
 
         // Enrich schedule with user names
-        enrichScheduleWithUsers(allMatches, leagueData).then(
-          (enrichedSchedule) => {
-            setSchedule(enrichedSchedule);
-          },
-        );
       } else {
         // Clear schedule data when it shouldn't be shown
         setCurrentMatchId(null);

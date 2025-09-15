@@ -1,51 +1,14 @@
 import ExpandedRows from '@/components/library/standingsComponents/expandedRows';
 
-import { getLeagueStandings } from '@/helpers/getLeagueStandings';
-import { fetchUsersForLeague, UserData } from '@/helpers/fetchUsersForLeague';
-import { useGetLeague } from '@/hooks/useGetLeague';
-
 import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 
 const StandingsTab = () => {
-  const { data: leagueData } = useGetLeague();
-  const [expandedIndexes, setExpandedIndexes] = useState<Set<number>>(
-    new Set(),
-  );
-  const [users, setUsers] = useState<UserData[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (leagueData) {
-      const fetchUsers = async () => {
-        setLoading(true);
-        try {
-          const userData = await fetchUsersForLeague(leagueData);
-          setUsers(userData);
-        } catch (error) {
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchUsers();
-    }
-  }, [leagueData]);
-
-  const standingsList = leagueData ? getLeagueStandings(leagueData, users) : [];
-
-
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading standings...</Text>
-      </View>
-    );
-  }
-
   return (
     <ScrollView>
       <View style={{ gap: 16, padding: 16 }}>
-        {leagueData &&
+        <Text>Standings</Text>
+        {/* {leagueData &&
           standingsList.map((player, index) => {
             const isExpanded = expandedIndexes.has(index);
             return (
@@ -57,7 +20,7 @@ const StandingsTab = () => {
                 isExpanded={isExpanded}
               />
             );
-          })}
+          })} */}
       </View>
     </ScrollView>
   );
