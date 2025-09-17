@@ -1,4 +1,4 @@
-import { CreateLeagueInput } from '@/types/types';
+import { CreateLeagueInput } from 'hustle-types';
 import { createLeague } from '@/mutations/createLeague';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '@clerk/clerk-expo';

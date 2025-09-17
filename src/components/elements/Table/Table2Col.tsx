@@ -1,9 +1,14 @@
-import { Table } from '@/types/types';
 import { useUser } from '@clerk/clerk-expo';
 import React from 'react';
 import { View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import SectionHeader from '../Headers/SectionHeader';
+
+// Local UI type for two-column table data
+type Table = Array<{
+  col1: string;
+  col2: string | number | undefined;
+}>;
 type TTableProps = {
   tableData: Table;
 };

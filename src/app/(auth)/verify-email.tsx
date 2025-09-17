@@ -6,6 +6,7 @@ import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
 import InputPrimary from '@/components/elements/InputPrimary';
 import { useSignUp } from '@clerk/clerk-expo';
+import { router } from 'expo-router';
 
 export default function VerifyEmail() {
   const theme = useTheme();
@@ -14,6 +15,7 @@ export default function VerifyEmail() {
   const [, setLoading] = useState(false);
   const { isLoaded, signUp, setActive } = useSignUp();
   const onPressVerify = async () => {
+    console.log('onPressVerify');
     if (!isLoaded) return;
     setLoading(true);
     try {
@@ -21,11 +23,10 @@ export default function VerifyEmail() {
         code,
       });
       await setActive({ session: completeSignUp.createdSessionId });
-      // if (leagueStatus) {
-      //   router.replace('/(protected)/home');
-      // } else {
-      //   router.replace('/leagueEntry');
-      // }
+
+      if (completeSignUp.status === 'complete') {
+        router.replace('/(protected)/(tabs)');
+      }
     } catch (err) {
       if (err instanceof ReferenceError) {
       }

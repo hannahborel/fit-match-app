@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import { League } from '@/types/types';
+import { League } from 'hustle-types';
 import InviteFriendsModal from './InviteFriendsModal';
 
 interface InviteFriendsSectionProps {

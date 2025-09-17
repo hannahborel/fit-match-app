@@ -4,7 +4,11 @@ import { TouchableOpacity, View } from 'react-native';
 import Table2Col from '@/components/elements/Table/Table2Col';
 import BgView from '@/components/elements/BgView';
 
-import { Table } from '@/types/types';
+// Local UI type for two-column table data
+type Table = Array<{
+  col1: string;
+  col2: string | number | undefined;
+}>;
 import { useUser } from '@clerk/clerk-expo';
 import { ChevronRight, UserIcon } from 'lucide-react-native';
 import { Text, useTheme } from 'react-native-paper';

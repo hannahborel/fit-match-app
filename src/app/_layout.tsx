@@ -1,16 +1,36 @@
 import CustomToast from '@/components/elements/CustomToast';
-import { ClerkProvider } from '@clerk/clerk-expo';
+import { ClerkProvider, useAuth } from '@clerk/clerk-expo';
 import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
 import { tokenCache } from '@/lib/auth';
 import { queryClient } from '@/lib/queryClient';
-
 import { CombinedDarkTheme, CombinedDefaultTheme } from '@/theme/globalTheme';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useColorScheme } from 'react-native';
-import { Slot } from 'expo-router';
+import { Slot, useRouter, useSegments } from 'expo-router';
+import { useEffect } from 'react';
+
+const InitialLayout = () => {
+  const { isLoaded, isSignedIn } = useAuth();
+  const segments = useSegments();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    const inTabsGroup = segments[0] === '(auth)';
+
+    if (isSignedIn && !inTabsGroup) {
+      router.replace('/(protected)/(tabs)');
+    } else if (!isSignedIn) {
+      router.replace('/(auth)/login-email');
+    }
+  }, [isSignedIn]);
+
+  return <Slot />;
+};
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -31,7 +51,7 @@ export default function RootLayout() {
       >
         <PaperProvider theme={paperTheme}>
           <SafeAreaProvider>
-            <Slot />
+            <InitialLayout />
             <Toast config={toastConfig} />
           </SafeAreaProvider>
         </PaperProvider>

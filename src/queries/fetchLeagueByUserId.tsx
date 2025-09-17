@@ -25,7 +25,7 @@ export const fetchLeagueByUserId = async (
 
     const data = await res.json();
 
-    return data?.league ?? null;
+    return data;
   } catch (error) {
     clearTimeout(timeoutId);
 

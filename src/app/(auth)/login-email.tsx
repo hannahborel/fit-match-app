@@ -50,18 +50,13 @@ export default function Login() {
   };
   const handleSSO = async () => {
     try {
-      const { createdSessionId, setActive, signIn, signUp } =
-        await startSSOFlow({
-          strategy: 'oauth_google',
-          redirectUrl: AuthSession.makeRedirectUri(),
-        });
+      const { createdSessionId, setActive } = await startSSOFlow({
+        strategy: 'oauth_google',
+        redirectUrl: AuthSession.makeRedirectUri(),
+      });
       if (createdSessionId) {
         setActive!({ session: createdSessionId });
         router.replace('/(tabs)');
-      } else {
-        console.log('signIn: ', signIn, signIn?.status);
-
-        console.log('sign up', signUp, signUp?.missingFields);
       }
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));

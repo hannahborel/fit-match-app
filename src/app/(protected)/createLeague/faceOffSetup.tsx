@@ -1,7 +1,8 @@
 import NumberAvatar from '@/components/library/NumberAvatar';
 
 import { useCreateLeague } from '@/hooks/useCrateLeague';
-import { CreateLeagueInput } from '@/types/types';
+import { CreateLeagueInput } from 'hustle-types';
+
 import { useUser } from '@clerk/clerk-expo';
 import React, { useState, useEffect } from 'react';
 import { View, Platform } from 'react-native';
@@ -64,21 +65,29 @@ const FaceOffSetup = () => {
     !selectedDate;
 
   const handleCreateLeague = () => {
+    console.log('Starting league creation process...');
+    console.log('User:', user?.id);
+
     const newLeague: CreateLeagueInput = {
       name: leagueName,
       size: leagueSize,
       weeks: regularWeeks,
       description: 'Test Face off 1',
-      startDate: selectedDate,
+      startDate: selectedDate.toISOString(),
     };
+
+    console.log('League data to be created:', newLeague);
+
     createLeague(newLeague, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        console.log('League created successfully:', data);
         // Use a longer timeout to ensure all state updates are complete
         setTimeout(() => {
           router.replace('/(protected)/(tabs)');
         }, 500);
       },
-      onError: () => {
+      onError: (error) => {
+        console.error('League creation failed:', error);
         // Show error state
         setShowError(true);
       },
@@ -123,7 +132,8 @@ const FaceOffSetup = () => {
             textAlign: 'center',
           }}
         >
-          Please try again or contact support if the problem persists.
+          {error?.message ||
+            'Please try again or contact support if the problem persists.'}
         </Text>
         <Button
           mode="contained"
