@@ -8,7 +8,7 @@ import { Button, Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import LoginPassword from './login-password';
+import LoginPassword from '@/components/auth/login-password';
 import * as AuthSession from 'expo-auth-session';
 
 export default function Login() {
@@ -54,9 +54,10 @@ export default function Login() {
         strategy: 'oauth_google',
         redirectUrl: AuthSession.makeRedirectUri(),
       });
+
       if (createdSessionId) {
-        setActive!({ session: createdSessionId });
-        router.replace('/(tabs)');
+        await setActive!({ session: createdSessionId });
+        // Don't manually navigate - let the auth state change trigger navigation
       }
     } catch (err) {
       console.error(JSON.stringify(err, null, 2));

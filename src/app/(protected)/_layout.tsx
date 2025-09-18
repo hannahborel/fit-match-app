@@ -1,11 +1,12 @@
-import ThemedSafeAreaView from '@/components/elements/Stack/ThemedSafeAreaView';
 import ThemedStack from '@/components/elements/Stack/ThemedStack';
-import { Stack } from 'expo-router';
-import { useTheme } from 'react-native-paper';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '@clerk/clerk-expo';
+import { Redirect, Stack } from 'expo-router';
 
 export default function ProtectedLayout() {
-  const theme = useTheme();
+  const { isSignedIn } = useAuth();
+  if (!isSignedIn) {
+    return <Redirect href="/(auth)/login-email" />;
+  }
 
   return (
     <ThemedStack>
