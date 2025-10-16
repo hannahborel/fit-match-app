@@ -3,9 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '@clerk/clerk-expo';
 import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 import { cacheLeagueState } from '@/lib/authCache';
+import { leagueAtom } from '@/atoms/leagueAtom';
+import { useSetAtom } from 'jotai';
 
 export const useGetLeague = (options = {}) => {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
+  const setLeague = useSetAtom(leagueAtom);
 
   return useQuery({
     queryKey: ['league', userId],
@@ -18,7 +21,11 @@ export const useGetLeague = (options = {}) => {
         hasLeague: !!league?.id,
         leagueId: league?.id || null,
       });
-
+      if (league) {
+        setLeague(league);
+      } else {
+        throw new Error('League atom not set');
+      }
       return league;
     },
     staleTime: 1000 * 60 * 5, // 5 minutes

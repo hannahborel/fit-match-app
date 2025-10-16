@@ -18,17 +18,16 @@ import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
+import { useGetLeague } from '@/hooks/useGetLeague';
 
 const Home = () => {
   // Use the atom which is now updated by the main loading page
-  const leagueData = useAtomValue(leagueAtom);
+  const { data: leagueData } = useGetLeague();
   const setCurrentMatchId = useSetAtom(currentMatchAtom);
   const [, setSchedule] = useAtom(allMatchupsWithPointsAtom);
-  const router = useRouter();
 
   // Safety check: if user somehow gets to dashboard withouct a league, redirect them
 
-  console.log('leagueData', leagueData);
   useEffect(() => {
     if (leagueData) {
       // Only generate schedule if it should be shown
