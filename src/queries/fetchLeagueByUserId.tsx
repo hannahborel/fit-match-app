@@ -1,9 +1,10 @@
+// src/queries/fetchLeagueByUserId.tsx
 import { API_URL } from '@/lib/setApiUrl';
 import { League } from 'hustle-types';
 
 export const fetchLeagueByUserId = async (
   token: string | null,
-): Promise<League> => {
+): Promise<League | null> => {
   // Check if API_URL is configured
   if (!API_URL) {
     throw new Error(
@@ -25,7 +26,9 @@ export const fetchLeagueByUserId = async (
 
     const data = await res.json();
 
-    return data;
+    // ✅ FIX: Return the league property, not the whole response
+    // API returns { league: {...} } or null
+    return data?.league || null;
   } catch (error) {
     clearTimeout(timeoutId);
 

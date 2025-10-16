@@ -15,19 +15,6 @@ const createOrJoinLeague = () => {
   const league = useAtomValue(leagueAtom);
   const firstName = user?.firstName || 'there';
 
-  useEffect(() => {
-    if (!isSignedIn) {
-      router.replace('/login-email');
-    }
-  }, [isSignedIn]);
-
-  useEffect(() => {
-    // If user already has a league, redirect them to their league
-    if (league) {
-      router.replace('/(protected)/(tabs)');
-    }
-  }, [league]);
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <View style={{ flex: 1, alignItems: 'center' }}>

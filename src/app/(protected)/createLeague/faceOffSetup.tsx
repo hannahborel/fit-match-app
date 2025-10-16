@@ -11,6 +11,7 @@ import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import LoadingScreen from '@/components/elements/LoadingScreen';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
+import { useAuthCache } from '@/hooks/useAuthCashe';
 
 import InputPrimary from '@/components/elements/InputPrimary';
 
@@ -21,6 +22,7 @@ const FaceOffSetup = () => {
   const [leagueName, setLeagueName] = useState('');
   const [leagueSize, setLeagueSize] = useState<number>(0);
   const [regularWeeks, setRegularWeeks] = useState<number>(0);
+  const { updateLeagueCache } = useAuthCache();
 
   // Date picker state
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -76,11 +78,9 @@ const FaceOffSetup = () => {
       startDate: selectedDate.toISOString(),
     };
 
-    console.log('League data to be created:', newLeague);
-
     createLeague(newLeague, {
-      onSuccess: (data) => {
-        console.log('League created successfully:', data);
+      onSuccess: async (data) => {
+        await updateLeagueCache(true, data.id);
         // Use a longer timeout to ensure all state updates are complete
         setTimeout(() => {
           router.replace('/(protected)/(tabs)');

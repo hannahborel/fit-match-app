@@ -26,13 +26,9 @@ const Home = () => {
   const [, setSchedule] = useAtom(allMatchupsWithPointsAtom);
   const router = useRouter();
 
-  // Safety check: if user somehow gets to dashboard without a league, redirect them
-  useEffect(() => {
-    if (leagueData === null) {
-      router.replace('/(protected)/createLeague');
-    }
-  }, [leagueData, router]);
+  // Safety check: if user somehow gets to dashboard withouct a league, redirect them
 
+  console.log('leagueData', leagueData);
   useEffect(() => {
     if (leagueData) {
       // Only generate schedule if it should be shown

@@ -1,13 +1,12 @@
+// src/app/(protected)/_layout.tsx
 import ThemedStack from '@/components/elements/Stack/ThemedStack';
-import { useAuth } from '@clerk/clerk-expo';
-import { Redirect, Stack } from 'expo-router';
+import { Stack } from 'expo-router';
 
+/**
+ * Protected layout - NO navigation logic here
+ * All navigation is handled by index.tsx
+ */
 export default function ProtectedLayout() {
-  const { isSignedIn } = useAuth();
-  if (!isSignedIn) {
-    return <Redirect href="/(auth)/login-email" />;
-  }
-
   return (
     <ThemedStack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

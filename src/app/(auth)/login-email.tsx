@@ -1,7 +1,8 @@
+// src/app/(auth)/login-email.tsx
 import Logo from '@/assets/Logo';
 import InputPrimary from '@/components/elements/InputPrimary';
 import { isEmailValid } from '@/helpers/validationHandlers';
-import { useSignIn, useSSO } from '@clerk/clerk-expo';
+import { useAuth, useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Button, Divider, Text } from 'react-native-paper';
@@ -9,16 +10,16 @@ import { View } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LoginPassword from '@/components/auth/login-password';
-import * as AuthSession from 'expo-auth-session';
+import { cacheAuthState } from '@/lib/authCache';
 
 export default function Login() {
   const { signIn } = useSignIn();
+  const { userId } = useAuth();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
   const [email, setEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { startSSOFlow } = useSSO();
 
   const isValidEmail = isEmailValid(email);
 
@@ -30,38 +31,41 @@ export default function Login() {
         });
 
         if (emailCheck.status === 'needs_first_factor') {
-          //has account, needs to enter password
+          // Has account, needs to enter password
           setShowPassword(true);
         }
       } catch (err) {
         if (err) {
           console.log(err);
-          setError('Clerk Could not Find the user by email');
-          // Clerk could not find the user by email.
+          setError('Could not find user with this email');
+          // Clerk could not find the user by email - go to signup
           router.push({
             pathname: '/sign-up',
             params: { emailParam: email },
           });
         }
-
         return false;
       }
     }
   };
-  const handleSSO = async () => {
-    try {
-      const { createdSessionId, setActive } = await startSSOFlow({
-        strategy: 'oauth_google',
-        redirectUrl: AuthSession.makeRedirectUri(),
-      });
 
-      if (createdSessionId) {
-        await setActive!({ session: createdSessionId });
-        // Don't manually navigate - let the auth state change trigger navigation
-      }
-    } catch (err) {
-      console.error(JSON.stringify(err, null, 2));
+  /**
+   * Called by LoginPassword component after successful login
+   */
+  const handleLoginSuccess = async () => {
+    // Cache auth state immediately
+
+    if (userId) {
+      await cacheAuthState({
+        isSignedIn: true,
+        userId: userId,
+      });
+    } else {
+      throw new Error('User not found');
     }
+
+    // Navigate to root - index.tsx will handle the rest
+    router.replace('/');
   };
 
   return (
@@ -84,52 +88,36 @@ export default function Login() {
                     color={
                       isValidEmail
                         ? theme.colors.primary
-                        : theme.colors.surfaceDisabled
+                        : theme.colors.onBackground
                     }
-                    icon="arrow-right-circle"
-                    onPress={handleContinue}
-                    disabled={!isValidEmail}
+                    icon="check"
                   />
                 )
               }
             />
-            {showPassword && <LoginPassword email={email} />}
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Divider
-                bold
-                style={{
-                  backgroundColor: theme.colors.outline,
-                  width: '40%',
-                }}
+            {showPassword && (
+              <LoginPassword
+                email={email}
+                onLoginSuccess={handleLoginSuccess}
               />
-
-              <Text style={{ color: theme.colors.onBackground }}>or</Text>
-
-              <Divider
-                bold
-                style={{
-                  backgroundColor: theme.colors.outline,
-                  width: '40%',
-                }}
-              />
-            </View>
-            <View>
+            )}
+          </View>
+          {!showPassword && (
+            <View style={{ marginTop: 24 }}>
               <Button
-                icon="google"
-                mode="outlined"
-                onPress={() => handleSSO()}
-                style={{ borderRadius: 12 }}
+                mode="contained"
+                onPress={handleContinue}
+                disabled={!isValidEmail}
               >
-                Continue with Google
+                Continue
               </Button>
             </View>
-          </View>
+          )}
+          {error && (
+            <Text style={{ color: theme.colors.error, marginTop: 8 }}>
+              {error}
+            </Text>
+          )}
         </View>
       </View>
     </SafeAreaView>

@@ -1,51 +1,64 @@
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import InputPrimary from '@/components/elements/InputPrimary';
-
-import React, { useState } from 'react';
-import { View, Text, Pressable, Alert } from 'react-native';
-import { TextInput, useTheme } from 'react-native-paper';
-import { isPasswordValid } from '@/helpers/validationHandlers';
+// src/components/auth/login-password.tsx
+import { useState } from 'react';
+import { View } from 'react-native';
+import { Button, Text, TextInput, useTheme } from 'react-native-paper';
 import { useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
+import InputPrimary from '@/components/elements/InputPrimary';
 
-type LoginPasswordProps = {
+interface LoginPasswordProps {
   email: string;
-};
-const LoginPassword = ({ email }: LoginPasswordProps) => {
+  onLoginSuccess: () => Promise<void>;
+}
+
+export default function LoginPassword({
+  email,
+  onLoginSuccess,
+}: LoginPasswordProps) {
+  const { signIn, setActive } = useSignIn();
+  const router = useRouter();
+  const theme = useTheme();
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { isLoaded, signIn, setActive } = useSignIn();
-  const [, setLoading] = useState(false);
-  const theme = useTheme();
-  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSignIn = async () => {
-    if (!isLoaded) return;
+  const handleLogin = async () => {
+    if (!signIn) return;
+
     setLoading(true);
+    setError(null);
+
     try {
-      const signInAttempt = await signIn.create({
-        identifier: email,
-        password,
+      const result = await signIn.attemptFirstFactor({
+        strategy: 'password',
+        password: password,
       });
-      if (signInAttempt.status === 'complete') {
-        await setActive({ session: signInAttempt.createdSessionId });
-        // Navigate to the main app after successful sign-in
-        router.replace('/(tabs)');
+
+      if (result.status === 'complete') {
+        await setActive({ session: result.createdSessionId });
+
+        // Call success callback - parent will get userId from useAuth()
+        await onLoginSuccess();
+      } else {
+        setError('Login incomplete. Please try again.');
       }
-    } catch (err) {
-      if (err instanceof ReferenceError) {
-        Alert.alert('Password is incorrect');
-      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError(err?.errors?.[0]?.message || 'Invalid password');
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <View style={{ width: 300 }}>
+    <View style={{ gap: 8 }}>
       <InputPrimary
         label="Password"
         value={password}
-        onChangeText={(text) => setPassword(text)}
+        onChangeText={setPassword}
         secureTextEntry={!showPassword}
+        autoCapitalize="none"
         right={
           <TextInput.Icon
             icon={showPassword ? 'eye-off' : 'eye'}
@@ -53,33 +66,28 @@ const LoginPassword = ({ email }: LoginPasswordProps) => {
           />
         }
       />
-      <View style={{ alignSelf: 'flex-end' }}>
-        <Pressable
-          onPress={() => {
-            // TODO: Add forgot password navigation logic
-          }}
-          style={{ alignSelf: 'flex-end', marginTop: 8 }}
-        >
-          <Text
-            style={{
-              color: theme.colors.primary,
-              textDecorationLine: 'underline',
-            }}
-          >
-            Forgot Password?
-          </Text>
-        </Pressable>
-      </View>
-      <View style={{ marginTop: 24 }}>
-        <ButtonPrimary
-          onPress={handleSignIn}
-          disabled={!isPasswordValid(password)}
-        >
-          <Text style={{ color: theme.colors.onPrimary }}>SIGN IN</Text>
-        </ButtonPrimary>
-      </View>
+
+      {error && (
+        <Text style={{ color: theme.colors.error, fontSize: 12 }}>{error}</Text>
+      )}
+
+      <Button
+        mode="contained"
+        onPress={handleLogin}
+        disabled={!password || loading}
+        loading={loading}
+        style={{ marginTop: 8 }}
+      >
+        {loading ? 'Logging in...' : 'Log In'}
+      </Button>
+
+      <Button
+        mode="text"
+        onPress={() => router.push('/forgot-password')}
+        style={{ marginTop: 4 }}
+      >
+        Forgot password?
+      </Button>
     </View>
   );
-};
-
-export default LoginPassword;
+}
