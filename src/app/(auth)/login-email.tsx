@@ -30,13 +30,17 @@ export default function Login() {
           identifier: email,
         });
 
+        console.log('Email check result:', emailCheck);
+        console.log('Status:', emailCheck.status);
+
         if (emailCheck.status === 'needs_first_factor') {
           // Has account, needs to enter password
           setShowPassword(true);
         }
-      } catch (err) {
+      } catch (err: any) {
         if (err) {
-          console.log(err);
+          console.log('Email check error:', err);
+          console.log('Full error:', JSON.stringify(err, null, 2));
           setError('Could not find user with this email');
           // Clerk could not find the user by email - go to signup
           router.push({

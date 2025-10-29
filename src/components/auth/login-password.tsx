@@ -1,10 +1,11 @@
 // src/components/auth/login-password.tsx
 import { useState } from 'react';
-import { View } from 'react-native';
-import { Button, Text, TextInput, useTheme } from 'react-native-paper';
+import { View, Text, Pressable } from 'react-native';
+import { Button, TextInput, useTheme } from 'react-native-paper';
 import { useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/elements/InputPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
 interface LoginPasswordProps {
   email: string;
@@ -38,14 +39,22 @@ export default function LoginPassword({
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
 
-        // Call success callback - parent will get userId from useAuth()
+        // ✅ Call success callback - parent will handle cache and navigation
         await onLoginSuccess();
       } else {
         setError('Login incomplete. Please try again.');
       }
     } catch (err: any) {
       console.error('Login error:', err);
-      setError(err?.errors?.[0]?.message || 'Invalid password');
+      console.error('Full error object:', JSON.stringify(err, null, 2));
+
+      // Get the actual error message from Clerk
+      const errorMessage = err?.errors?.[0]?.longMessage ||
+                          err?.errors?.[0]?.message ||
+                          err?.message ||
+                          'Unable to log in. Please try again.';
+
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -71,23 +80,33 @@ export default function LoginPassword({
         <Text style={{ color: theme.colors.error, fontSize: 12 }}>{error}</Text>
       )}
 
-      <Button
-        mode="contained"
-        onPress={handleLogin}
-        disabled={!password || loading}
-        loading={loading}
-        style={{ marginTop: 8 }}
-      >
-        {loading ? 'Logging in...' : 'Log In'}
-      </Button>
+      <View style={{ alignSelf: 'flex-end' }}>
+        <Pressable
+          onPress={() => router.push('/forgot-password')}
+          style={{ alignSelf: 'flex-end', marginTop: 8 }}
+        >
+          <Text
+            style={{
+              color: theme.colors.primary,
+              textDecorationLine: 'underline',
+            }}
+          >
+            Forgot Password?
+          </Text>
+        </Pressable>
+      </View>
 
-      <Button
-        mode="text"
-        onPress={() => router.push('/forgot-password')}
-        style={{ marginTop: 4 }}
-      >
-        Forgot password?
-      </Button>
+      <View style={{ marginTop: 16 }}>
+        <ButtonPrimary
+          onPress={handleLogin}
+          disabled={!password || loading}
+          loading={loading}
+        >
+          <Text style={{ color: theme.colors.onPrimary }}>
+            {loading ? 'Logging in...' : 'LOG IN'}
+          </Text>
+        </ButtonPrimary>
+      </View>
     </View>
   );
 }

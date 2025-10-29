@@ -1,3 +1,4 @@
+// src/app/(auth)/reset-password.tsx
 import { useState } from 'react';
 import { View, Pressable, Text as RNText } from 'react-native';
 import { useSignIn } from '@clerk/clerk-expo';
@@ -26,7 +27,7 @@ export default function ResetPassword() {
     setError(null);
     try {
       const result = await signIn.attemptFirstFactor({
-        strategy: 'reset_password_phone_code',
+        strategy: 'reset_password_email_code',
         code,
         password: newPassword,
       });
@@ -39,9 +40,10 @@ export default function ResetPassword() {
       }
       setLoading(false);
     } catch (err) {
-      if (err instanceof ReferenceError) {
-        setLoading(false);
+      if (err instanceof Error) {
+        setError(err.message || 'Failed to reset password');
       }
+      setLoading(false);
     }
   };
 
@@ -108,7 +110,7 @@ export default function ResetPassword() {
           </ButtonPrimary>
         </View>
         <Pressable
-          onPress={() => router.push('/login')}
+          onPress={() => router.push('/login-email')}
           style={{ marginTop: 16, alignItems: 'center' }}
         >
           <View style={{ flexDirection: 'row' }}>
