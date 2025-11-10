@@ -1,8 +1,6 @@
 import { useCallback } from 'react';
 import { useAuth } from '@clerk/clerk-expo';
-
-const API_BASE_URL =
-  process.env.EXPO_PUBLIC_API_URL || 'https://your-api-domain.com';
+import { API_URL } from '@/lib/setApiUrl';
 
 export function useUserSync() {
   const { getToken } = useAuth();
@@ -11,7 +9,7 @@ export function useUserSync() {
     try {
       const token = await getToken();
 
-      const response = await fetch(`${API_BASE_URL}/api/sync-user`, {
+      const response = await fetch(`${API_URL}/sync-user`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -19,11 +17,15 @@ export function useUserSync() {
         },
       });
 
+      const responseText = await response.text();
+      console.log('Response status:', response.status);
+      console.log('Response text:', responseText);
+
       if (!response.ok) {
-        throw new Error('Failed to sync user');
+        throw new Error(`Failed to sync user: ${response.status} - ${responseText.substring(0, 200)}`);
       }
 
-      const data = await response.json();
+      const data = JSON.parse(responseText);
       console.log('User synced:', data);
       return data;
     } catch (error) {
