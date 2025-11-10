@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { View, Pressable, Text as RNText } from 'react-native';
 import { useSignIn } from '@clerk/clerk-expo';
 import { Text, useTheme } from 'react-native-paper';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import InputPrimary from '@/components/elements/InputPrimary';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
@@ -14,7 +14,8 @@ export default function ForgotPassword() {
   const { isLoaded, signIn } = useSignIn();
   const router = useRouter();
   const theme = useTheme();
-  const [email, setEmail] = useState('');
+  const { emailParam } = useLocalSearchParams<{ emailParam?: string }>();
+  const [email, setEmail] = useState(emailParam || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 

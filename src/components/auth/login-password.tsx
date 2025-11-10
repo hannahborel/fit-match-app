@@ -82,7 +82,10 @@ export default function LoginPassword({
 
       <View style={{ alignSelf: 'flex-end' }}>
         <Pressable
-          onPress={() => router.push('/forgot-password')}
+          onPress={() => router.push({
+            pathname: '/forgot-password',
+            params: { emailParam: email },
+          })}
           style={{ alignSelf: 'flex-end', marginTop: 8 }}
         >
           <Text

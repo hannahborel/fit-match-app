@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/hannahborel/Developer/FitMatch/fit-match-web/drizzle/meta/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

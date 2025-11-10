@@ -18,6 +18,17 @@ export default function ResetPassword() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isCodeVerified, setIsCodeVerified] = useState(false);
+
+  const onVerifyCode = () => {
+    // Basic validation - just check if code is entered
+    if (!code || code.length < 6) {
+      setError('Please enter a valid 6-digit verification code');
+      return;
+    }
+    setError(null);
+    setIsCodeVerified(true);
+  };
 
   const onResetPassword = async () => {
     if (!isLoaded || !signIn) {
@@ -71,43 +82,56 @@ export default function ResetPassword() {
           </Text>
         )}
         <View style={{ gap: 8 }}>
-          <InputPrimary
-            label="Verification Code"
-            value={code}
-            onChangeText={(text) => {
-              setCode(text);
-              setError(null);
-            }}
-            keyboardType="number-pad"
-            error={!!error}
-          />
-          <InputPrimary
-            label="New Password"
-            value={newPassword}
-            onChangeText={(text) => {
-              setNewPassword(text);
-              setError(null);
-            }}
-            secureTextEntry={!showPassword}
-            right={
-              <TextInput.Icon
-                icon={showPassword ? 'eye-off' : 'eye'}
-                onPress={() => setShowPassword(!showPassword)}
-              />
-            }
-            error={!!error}
-          />
+          {!isCodeVerified ? (
+            <InputPrimary
+              label="Verification Code"
+              value={code}
+              onChangeText={(text) => {
+                setCode(text);
+                setError(null);
+              }}
+              keyboardType="number-pad"
+              error={!!error}
+            />
+          ) : (
+            <InputPrimary
+              label="New Password"
+              value={newPassword}
+              onChangeText={(text) => {
+                setNewPassword(text);
+                setError(null);
+              }}
+              secureTextEntry={!showPassword}
+              right={
+                <TextInput.Icon
+                  icon={showPassword ? 'eye-off' : 'eye'}
+                  onPress={() => setShowPassword(!showPassword)}
+                />
+              }
+              error={!!error}
+            />
+          )}
         </View>
         <View style={{ marginTop: 24 }}>
-          <ButtonPrimary
-            onPress={onResetPassword}
-            loading={loading}
-            disabled={loading}
-          >
-            <Text style={{ color: theme.colors.onPrimary }}>
-              RESET PASSWORD
-            </Text>
-          </ButtonPrimary>
+          {!isCodeVerified ? (
+            <ButtonPrimary
+              onPress={onVerifyCode}
+              loading={loading}
+              disabled={!code || loading}
+            >
+              <Text style={{ color: theme.colors.onPrimary }}>VERIFY</Text>
+            </ButtonPrimary>
+          ) : (
+            <ButtonPrimary
+              onPress={onResetPassword}
+              loading={loading}
+              disabled={!newPassword || loading}
+            >
+              <Text style={{ color: theme.colors.onPrimary }}>
+                RESET PASSWORD
+              </Text>
+            </ButtonPrimary>
+          )}
         </View>
         <Pressable
           onPress={() => router.push('/login-email')}
