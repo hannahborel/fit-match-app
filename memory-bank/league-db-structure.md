@@ -29,16 +29,27 @@ A league is the main container for a fitness competition. It holds metadata abou
 
 Represents each user (or bot) participating in the league.
 
+**⚠️ UPDATED SCHEMA** - Now includes user names for performance optimization
+
 ```ts
 {
   id: string;
   leagueId: string;
   userId: string; // Clerk user ID or bot ID
+  firstName: string; // Cached user first name (populated at join time)
+  lastName: string | null; // Cached user last name (populated at join time)
   isBot: boolean;
   wins: number;
   losses: number;
 }
 ```
+
+**Design Rationale:**
+- Names are "snapshotted" when users join the league for consistency
+- Eliminates need for separate user lookups when displaying standings/schedules
+- Prevents confusion if users update their profile names mid-season
+- Single source of truth for league participant information
+- Significantly improves performance by reducing database queries
 
 ## 🔁 Matches
 
@@ -123,9 +134,9 @@ These multipliers are applied to duration or sets/reps to calculate points.
 
 ## 📅 Data Flow Summary
 
-1. **User joins/creates a league** → stored in `leaguesToUsers`
+1. **User joins/creates a league** → stored in `leaguesToUsers` with firstName/lastName captured from users/bots table
 2. **Weekly matches generated** → stored in `matches`, tied to users via `matchesToUsers`
 3. **User logs activities** → stored in `loggedActivities`, with point calculations
-4. **Standings + match views** use this data to compute and display scores
+4. **Standings + match views** → directly use firstName/lastName from `leaguesToUsers` (no additional queries needed)
 
 _This schema powers the social, competitive, and goal-driven aspects of the FitMatch app. Keep it tight, keep it sweaty, and always outscore your friends._ 💪
