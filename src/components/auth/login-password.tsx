@@ -1,15 +1,15 @@
 // src/components/auth/login-password.tsx
 import { useState } from 'react';
 import { View, Text, Pressable } from 'react-native';
-import { Button, TextInput, useTheme } from 'react-native-paper';
-import { useSignIn } from '@clerk/clerk-expo';
+import { TextInput, useTheme } from 'react-native-paper';
+import { useSignIn, useClerk } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import InputPrimary from '@/components/elements/InputPrimary';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
 interface LoginPasswordProps {
   email: string;
-  onLoginSuccess: () => Promise<void>;
+  onLoginSuccess: (userId: string) => Promise<void>;
 }
 
 export default function LoginPassword({
@@ -17,6 +17,7 @@ export default function LoginPassword({
   onLoginSuccess,
 }: LoginPasswordProps) {
   const { signIn, setActive } = useSignIn();
+  const clerk = useClerk();
   const router = useRouter();
   const theme = useTheme();
   const [password, setPassword] = useState('');
@@ -39,8 +40,21 @@ export default function LoginPassword({
       if (result.status === 'complete') {
         await setActive({ session: result.createdSessionId });
 
+        // Wait for clerk to update and get userId
+        let userId: string | null = null;
+        let attempts = 0;
+        while (!userId && attempts < 10) {
+          await new Promise(resolve => setTimeout(resolve, 50));
+          userId = clerk.user?.id || null;
+          attempts++;
+        }
+
+        if (!userId) {
+          throw new Error('User ID not found after login');
+        }
+
         // ✅ Call success callback - parent will handle cache and navigation
-        await onLoginSuccess();
+        await onLoginSuccess(userId);
       } else {
         setError('Login incomplete. Please try again.');
       }

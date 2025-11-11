@@ -12,7 +12,7 @@ const InputPrimary: React.FC<TextInputProps> = (props) => {
         width: '100%',
         borderRadius: 12,
         backgroundColor: theme.colors.background,
-        height: 45,
+        height: 52,
       }}
       {...props}
     />
