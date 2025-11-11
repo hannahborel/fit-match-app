@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Read(//Users/hannahborel/Developer/FitMatch/fit-match-web/drizzle/meta/**)"
+      "Read(//Users/hannahborel/Developer/FitMatch/fit-match-web/drizzle/meta/**)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

@@ -57,7 +57,6 @@ const StandingsTab = () => {
   return (
     <ScrollView>
       <View style={{ gap: 16, padding: 16 }}>
-        <SyncUserButton />
         {standings.map((player, index) => {
           const isExpanded = expandedIndexes.has(index);
           return (
