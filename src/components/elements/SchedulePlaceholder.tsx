@@ -14,28 +14,13 @@ const SchedulePlaceholder: React.FC<SchedulePlaceholderProps> = ({
 }) => {
   const theme = useTheme();
 
-  if (hasStarted) {
-    return (
-      <View style={styles.container}>
-        <BaseCard title="Schedule Coming Soon">
-          <View style={styles.content}>
-            <Text variant="bodyLarge" style={styles.message}>
-              The league has started! The schedule will be available once all
-              members have joined.
-            </Text>
-          </View>
-        </BaseCard>
-      </View>
-    );
-  }
-
   return (
     <View style={styles.container}>
       <BaseCard title="Waiting for Members">
         <View style={styles.content}>
           <Text variant="bodyLarge" style={styles.message}>
-            There are {membersNeeded} member{membersNeeded !== 1 ? 's' : ''} of
-            your league left to join
+            {membersNeeded} more {membersNeeded !== 1 ? 'members' : 'member'}{' '}
+            needed to start
           </Text>
           <Text
             variant="bodyMedium"
@@ -44,8 +29,19 @@ const SchedulePlaceholder: React.FC<SchedulePlaceholderProps> = ({
               { color: theme.colors.onSurfaceVariant },
             ]}
           >
-            The schedule will be visible once the league is full or starts
+            The schedule will be generated once the league is full
           </Text>
+          {hasStarted && (
+            <Text
+              variant="bodySmall"
+              style={[
+                styles.subMessage,
+                { color: theme.colors.error, marginTop: 8 },
+              ]}
+            >
+              League start date has passed. Waiting for remaining members...
+            </Text>
+          )}
         </View>
       </BaseCard>
     </View>

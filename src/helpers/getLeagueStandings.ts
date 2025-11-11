@@ -7,6 +7,7 @@ export type StandingEntry = {
   cardioPoints: number;
   strengthPoints: number;
   isBot: boolean;
+  isPlaceholder?: boolean;
 };
 
 export function getLeagueStandings(league: League): StandingEntry[] {
@@ -38,13 +39,30 @@ export function getLeagueStandings(league: League): StandingEntry[] {
       userId: entry.userId,
       firstName: entry.firstName,
       isBot: entry.isBot,
+      isPlaceholder: false,
       cardioPoints: cardio,
       strengthPoints: strength,
       totalPoints: cardio + strength,
     };
   });
 
-  // Sort descending by totalPoints
+  // Add virtual placeholders for remaining slots
+  const currentCount = league.leaguesToUsers?.length || 0;
+  const placeholdersNeeded = league.size - currentCount;
+
+  for (let i = 1; i <= placeholdersNeeded; i++) {
+    standings.push({
+      userId: `placeholder-${currentCount + i}`,
+      firstName: `Player ${currentCount + i}`,
+      isBot: false,
+      isPlaceholder: true,
+      cardioPoints: 0,
+      strengthPoints: 0,
+      totalPoints: 0,
+    });
+  }
+
+  // Sort descending by totalPoints (placeholders will naturally be at bottom with 0 points)
   standings.sort((a, b) => b.totalPoints - a.totalPoints);
 
   return standings;

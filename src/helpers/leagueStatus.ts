@@ -27,8 +27,8 @@ export const getMembersNeeded = (league: League): number => {
 
 /**
  * Determines if the schedule should be visible
- * Schedule is visible when league is full OR league has started
+ * Schedule is only visible when league is full (has matches generated)
  */
 export const shouldShowSchedule = (league: League): boolean => {
-  return isLeagueFull(league) || hasLeagueStarted(league);
+  return isLeagueFull(league);
 };

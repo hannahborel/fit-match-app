@@ -1,10 +1,25 @@
-import { League } from 'hustle-types';
+import { League, LeagueToUser } from 'hustle-types';
 import {
   isLeagueFull,
   hasLeagueStarted,
   getMembersNeeded,
   shouldShowSchedule,
 } from '../leagueStatus';
+
+// Helper to create mock league users
+const createMockLeagueUser = (
+  userId: string,
+  index: number
+): LeagueToUser => ({
+  id: index.toString(),
+  leagueId: '1',
+  userId,
+  firstName: `User${index}`,
+  lastName: `Last${index}`,
+  isBot: false,
+  wins: 0,
+  losses: 0,
+});
 
 // Mock league data for testing
 const createMockLeague = (overrides: Partial<League> = {}): League => ({
@@ -30,38 +45,10 @@ describe('leagueStatus', () => {
       const league = createMockLeague({
         size: 4,
         leaguesToUsers: [
-          {
-            id: '1',
-            leagueId: '1',
-            userId: 'user1',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-          {
-            id: '2',
-            leagueId: '1',
-            userId: 'user2',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-          {
-            id: '3',
-            leagueId: '1',
-            userId: 'user3',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-          {
-            id: '4',
-            leagueId: '1',
-            userId: 'user4',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
+          createMockLeagueUser('user1', 1),
+          createMockLeagueUser('user2', 2),
+          createMockLeagueUser('user3', 3),
+          createMockLeagueUser('user4', 4),
         ],
       });
       expect(isLeagueFull(league)).toBe(true);
@@ -71,22 +58,8 @@ describe('leagueStatus', () => {
       const league = createMockLeague({
         size: 4,
         leaguesToUsers: [
-          {
-            id: '1',
-            leagueId: '1',
-            userId: 'user1',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-          {
-            id: '2',
-            leagueId: '1',
-            userId: 'user2',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
+          createMockLeagueUser('user1', 1),
+          createMockLeagueUser('user2', 2),
         ],
       });
       expect(isLeagueFull(league)).toBe(false);
@@ -118,22 +91,8 @@ describe('leagueStatus', () => {
       const league = createMockLeague({
         size: 4,
         leaguesToUsers: [
-          {
-            id: '1',
-            leagueId: '1',
-            userId: 'user1',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-          {
-            id: '2',
-            leagueId: '1',
-            userId: 'user2',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
+          createMockLeagueUser('user1', 1),
+          createMockLeagueUser('user2', 2),
         ],
       });
       expect(getMembersNeeded(league)).toBe(2);
@@ -143,22 +102,8 @@ describe('leagueStatus', () => {
       const league = createMockLeague({
         size: 2,
         leaguesToUsers: [
-          {
-            id: '1',
-            leagueId: '1',
-            userId: 'user1',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-          {
-            id: '2',
-            leagueId: '1',
-            userId: 'user2',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
+          createMockLeagueUser('user1', 1),
+          createMockLeagueUser('user2', 2),
         ],
       });
       expect(getMembersNeeded(league)).toBe(0);
@@ -170,42 +115,34 @@ describe('leagueStatus', () => {
       const league = createMockLeague({
         size: 2,
         leaguesToUsers: [
-          {
-            id: '1',
-            leagueId: '1',
-            userId: 'user1',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-          {
-            id: '2',
-            leagueId: '1',
-            userId: 'user2',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
+          createMockLeagueUser('user1', 1),
+          createMockLeagueUser('user2', 2),
         ],
         startDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
       });
       expect(shouldShowSchedule(league)).toBe(true);
     });
 
-    it('should return true when league has started', () => {
+    it('should return false when league has started but not full', () => {
+      const league = createMockLeague({
+        size: 4,
+        leaguesToUsers: [createMockLeagueUser('user1', 1)],
+        startDate: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+      });
+      // Schedule only shows when league is full, not just started
+      expect(shouldShowSchedule(league)).toBe(false);
+    });
+
+    it('should return true when league is exactly full', () => {
       const league = createMockLeague({
         size: 4,
         leaguesToUsers: [
-          {
-            id: '1',
-            leagueId: '1',
-            userId: 'user1',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
+          createMockLeagueUser('user1', 1),
+          createMockLeagueUser('user2', 2),
+          createMockLeagueUser('user3', 3),
+          createMockLeagueUser('user4', 4),
         ],
-        startDate: new Date(Date.now() - 86400000).toISOString(), // Yesterday
+        startDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
       });
       expect(shouldShowSchedule(league)).toBe(true);
     });
@@ -213,16 +150,7 @@ describe('leagueStatus', () => {
     it('should return false when league is not full and has not started', () => {
       const league = createMockLeague({
         size: 4,
-        leaguesToUsers: [
-          {
-            id: '1',
-            leagueId: '1',
-            userId: 'user1',
-            isBot: false,
-            wins: 0,
-            losses: 0,
-          },
-        ],
+        leaguesToUsers: [createMockLeagueUser('user1', 1)],
         startDate: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
       });
       expect(shouldShowSchedule(league)).toBe(false);

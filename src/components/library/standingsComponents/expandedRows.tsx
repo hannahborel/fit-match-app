@@ -1,6 +1,6 @@
 import { getAvatarByIndex } from '@/assets/avatar';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Avatar, MD3Theme, useTheme } from 'react-native-paper';
 
 type expandedRowsProps = {
@@ -16,8 +16,12 @@ const ExpandedRows = ({
   index,
 }: expandedRowsProps) => {
   const theme = useTheme();
+  const isPlaceholder = player.isPlaceholder || false;
 
   const toggleExpanded = (index: number) => {
+    // Don't allow expanding placeholders
+    if (isPlaceholder) return;
+
     setIsExpanded((prev) => {
       const next = new Set(prev);
       if (next.has(index)) {
@@ -28,26 +32,33 @@ const ExpandedRows = ({
       return next;
     });
   };
-  const styles = getStyles(theme);
+  const styles = getStyles(theme, isPlaceholder);
   return (
     <View
       key={index}
       style={{
-        backgroundColor: theme.colors.surface,
+        backgroundColor: isPlaceholder
+          ? theme.colors.surfaceDisabled
+          : theme.colors.surface,
         borderRadius: 6,
+        opacity: isPlaceholder ? 0.6 : 1,
       }}
     >
-      <TouchableOpacity
-        onPress={() => toggleExpanded(index)}
-        style={styles.listItem}
-      >
+      <View style={styles.listItem}>
         <View style={styles.listItem_left}>
-          <Avatar.Image size={40} source={getAvatarByIndex(index)} />
-          <Text style={styles.text_characters}>{player.firstName}</Text>
+          <Avatar.Image
+            size={40}
+            source={getAvatarByIndex(index)}
+            style={{ opacity: isPlaceholder ? 0.4 : 1 }}
+          />
+          <Text style={styles.text_characters}>
+            {player.firstName}
+            {isPlaceholder && ' (Waiting)'}
+          </Text>
         </View>
         <Text style={styles.text_numbers}>{player.totalPoints}</Text>
-      </TouchableOpacity>
-      {isExpanded && (
+      </View>
+      {isExpanded && !isPlaceholder && (
         <>
           <View style={styles.listItem}>
             <View style={styles.listItem_left}>
@@ -71,7 +82,7 @@ const ExpandedRows = ({
 
 export default ExpandedRows;
 
-const getStyles = (theme: MD3Theme) =>
+const getStyles = (theme: MD3Theme, isPlaceholder: boolean) =>
   StyleSheet.create({
     listItem: {
       flexDirection: 'row',
@@ -84,13 +95,18 @@ const getStyles = (theme: MD3Theme) =>
       paddingHorizontal: 16,
     },
     text_characters: {
-      color: theme.colors.onSurface,
+      color: isPlaceholder
+        ? theme.colors.onSurfaceDisabled
+        : theme.colors.onSurface,
       fontWeight: 500,
       fontSize: 16,
       letterSpacing: 0,
+      fontStyle: isPlaceholder ? 'italic' : 'normal',
     },
     text_numbers: {
-      color: theme.colors.onSurface,
+      color: isPlaceholder
+        ? theme.colors.onSurfaceDisabled
+        : theme.colors.onSurface,
       fontSize: 18,
       fontWeight: 600,
     },
