@@ -46,7 +46,6 @@ export default function LoginPassword({
       }
     } catch (err: any) {
       console.error('Login error:', err);
-      console.error('Full error object:', JSON.stringify(err, null, 2));
 
       // Get the actual error message from Clerk
       const errorMessage = err?.errors?.[0]?.longMessage ||
