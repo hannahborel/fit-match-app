@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { ActivityIndicator, Dimensions, View } from 'react-native';
 import { Text } from 'react-native-paper';
 
 interface LoadingSpinnerProps {
@@ -19,6 +19,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = () => {
           alignItems: 'center',
         }}
       >
+        <ActivityIndicator size="large" />
         <Text> Loading</Text>
       </View>
     </View>
