@@ -3,8 +3,8 @@ import { ExpoConfig, ConfigContext } from '@expo/config';
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: 'fit-match-web',
-  slug: 'fit-match-web',
+  name: 'hustle-mobile',
+  slug: 'hustle-mobile',
   version: '1.0.0',
   orientation: 'portrait',
   icon: './assets/icon.png',
@@ -14,6 +14,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     API_BASE_URL: process.env.API_BASE_URL,
     API_LOCAL_IP: process.env.API_LOCAL_IP,
     WEB_APP_URL: process.env.WEB_APP_URL || 'http://localhost:3000',
+    eas: {
+      projectId: 'cb4b4372-0a5a-4f98-a232-0d2b1c98d3e7',
+    },
   },
   splash: {
     image: './assets/splash.png',
@@ -21,10 +24,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     backgroundColor: '#ffffff',
   },
   assetBundlePatterns: ['**/*'],
-  scheme: 'fit-match-web',
+  scheme: 'hustle-mobile',
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'com.fitmatch.app',
+    bundleIdentifier: 'com.hannahborel.hustlemobile',
     associatedDomains: ['applinks:fitmatch.app'],
   },
   android: {

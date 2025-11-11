@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store';
 import { getWebAppUrl } from './getWebAppUrl';
 
 // Deep link scheme for the app
-export const APP_SCHEME = 'fit-match-web';
+export const APP_SCHEME = 'hustle-mobile';
 
 // Web app URL - now dynamically determined
 export const WEB_APP_URL = getWebAppUrl();
