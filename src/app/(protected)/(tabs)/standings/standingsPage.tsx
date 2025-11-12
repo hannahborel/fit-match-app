@@ -59,6 +59,7 @@ const StandingsTab = () => {
       <View style={{ gap: 16, padding: 16 }}>
         {standings.map((player, index) => {
           const isExpanded = expandedIndexes.has(index);
+
           return (
             <ExpandedRows
               key={player.userId}

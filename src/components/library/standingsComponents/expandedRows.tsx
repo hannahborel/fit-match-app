@@ -1,6 +1,6 @@
 import { getAvatarByIndex } from '@/assets/avatar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Avatar, MD3Theme, useTheme } from 'react-native-paper';
 
 type expandedRowsProps = {
@@ -32,9 +32,12 @@ const ExpandedRows = ({
       return next;
     });
   };
-  const styles = getStyles(theme, isPlaceholder);
+  const styles = getStyles(theme, isPlaceholder, isExpanded);
   return (
-    <View
+    <TouchableOpacity
+      disabled={isPlaceholder}
+      activeOpacity={1}
+      onPress={() => toggleExpanded(index)}
       key={index}
       style={{
         backgroundColor: isPlaceholder
@@ -44,52 +47,58 @@ const ExpandedRows = ({
         opacity: isPlaceholder ? 0.6 : 1,
       }}
     >
-      <View style={styles.listItem}>
-        <View style={styles.listItem_left}>
-          <Avatar.Image
-            size={40}
-            source={getAvatarByIndex(index)}
-            style={{ opacity: isPlaceholder ? 0.4 : 1 }}
-          />
-          <Text style={styles.text_characters}>
-            {player.firstName}
-            {isPlaceholder && ' (Waiting)'}
-          </Text>
+      <View>
+        <View style={styles.listItem}>
+          <View style={styles.listItem_left}>
+            <Avatar.Image
+              size={40}
+              source={getAvatarByIndex(index)}
+              style={{ opacity: isPlaceholder ? 0.4 : 1 }}
+            />
+            <Text style={styles.text_characters}>
+              {player.firstName}
+              {isPlaceholder && ' (Waiting)'}
+            </Text>
+          </View>
+          <Text style={styles.text_numbers}>{player.totalPoints}</Text>
         </View>
-        <Text style={styles.text_numbers}>{player.totalPoints}</Text>
+        {isExpanded && !isPlaceholder && (
+          <>
+            <View style={styles.listItem}>
+              <View style={styles.listItem_left}>
+                <View style={{ width: 40, height: 40 }} />
+                <Text style={styles.text_characters}>STRENGTH</Text>
+              </View>
+              <Text style={styles.text_numbers}>{player.strengthPoints}</Text>
+            </View>
+            <View style={styles.listItem}>
+              <View style={styles.listItem_left}>
+                <View style={{ width: 40, height: 40 }} />
+                <Text style={styles.text_characters}>CARDIO</Text>
+              </View>
+              <Text style={styles.text_numbers}>{player.cardioPoints}</Text>
+            </View>
+          </>
+        )}
       </View>
-      {isExpanded && !isPlaceholder && (
-        <>
-          <View style={styles.listItem}>
-            <View style={styles.listItem_left}>
-              <View style={{ width: 40, height: 40 }} />
-              <Text style={styles.text_characters}>STRENGTH</Text>
-            </View>
-            <Text style={styles.text_numbers}>{player.strengthPoints}</Text>
-          </View>
-          <View style={styles.listItem}>
-            <View style={styles.listItem_left}>
-              <View style={{ width: 40, height: 40 }} />
-              <Text style={styles.text_characters}>CARDIO</Text>
-            </View>
-            <Text style={styles.text_numbers}>{player.cardioPoints}</Text>
-          </View>
-        </>
-      )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
 export default ExpandedRows;
 
-const getStyles = (theme: MD3Theme, isPlaceholder: boolean) =>
+const getStyles = (
+  theme: MD3Theme,
+  isPlaceholder: boolean,
+  isExpanded: boolean,
+) =>
   StyleSheet.create({
     listItem: {
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
       color: theme.colors.onSurface,
-      borderBottomColor: 'rgba(51, 60, 78, 0.53)',
+      borderBottomColor: isExpanded ? 'rgba(66, 71, 81, 0.53)' : 'transparent',
       borderBottomWidth: 1,
       padding: 8,
       paddingHorizontal: 16,

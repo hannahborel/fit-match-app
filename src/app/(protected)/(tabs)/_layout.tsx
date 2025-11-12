@@ -37,11 +37,11 @@ export default function HomeTabs() {
       icon: ({ color }) => <Plus color={color} />,
       route: 'logActivity',
     },
-    {
-      title: 'Calendar',
-      icon: ({ color }) => <Calendar color={color} />,
-      route: 'calendar',
-    },
+    // {
+    //   title: 'Calendar',
+    //   icon: ({ color }) => <Calendar color={color} />,
+    //   route: 'calendar',
+    // },
     {
       title: 'Account',
       icon: ({ color }) => <CircleUser color={color} />,

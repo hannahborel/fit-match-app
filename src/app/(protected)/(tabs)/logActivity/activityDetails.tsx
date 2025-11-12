@@ -5,20 +5,20 @@ import { addActivity, LogActivityInput } from '@/mutations/addActivity';
 import { useAuth } from '@clerk/clerk-expo';
 import { useMutation } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
-import { ActivityDefinitions, ActivityType } from 'hustle-types';
+import { ActivityDefinitions, ActivityType, League } from 'hustle-types';
 import { Image, StickyNote } from 'lucide-react-native';
 import NumberScroll from '../../../../components/library/NumberScroll';
 import { leagueAtom } from '@/atoms/leagueAtom';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
 import { useAtomValue } from 'jotai';
+import { hasLeagueStarted } from '@/helpers/leagueStatus';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
   const [sets, setSets] = useState(4);
   const [reps, setReps] = useState(12);
 
-  const theme = useTheme();
   const { typeName } = useLocalSearchParams();
   const { userId, getToken } = useAuth();
   const league = useAtomValue(leagueAtom);
@@ -98,7 +98,7 @@ export default function LogWorkoutScreen() {
           mode="contained"
           onPress={handleLogWorkout}
           loading={mutation.isPending}
-          disabled={mutation.isPending}
+          disabled={mutation.isPending || !hasLeagueStarted(league as League)}
           style={{ width: '60%' }}
         >
           <Text>Log Workout</Text>
