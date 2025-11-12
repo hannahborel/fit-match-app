@@ -68,9 +68,9 @@ export default function Login() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <View style={{ width: 300, alignSelf: 'center', marginTop: -60 }}>
-          <View style={{ alignItems: 'center', marginBottom: 32 }}>
+      <View style={{ flex: 1 }}>
+        <View style={{ width: 300, alignSelf: 'center' }}>
+          <View style={{ alignItems: 'center' }}>
             <View style={{ transform: [{ scale: 0.75 }] }}>
               <Logo />
             </View>

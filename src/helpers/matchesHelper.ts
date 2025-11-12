@@ -3,24 +3,11 @@ import { ActivityType, League, LoggedActivity, Match } from 'hustle-types';
 import { getCurrentWeek } from './getCurrentWeekHelper';
 import { ActivityDefinitions } from 'hustle-types';
 
-export const getCurrentWeekMatchIds = (
-  leagueData: League,
-): TCurrentMatchIdAtom => {
-  const currentWeek = getCurrentWeek(leagueData.startDate);
-
-  const match = leagueData.matches.find((match) => match.week === currentWeek);
-
-  if (match) {
-    return { week: currentWeek, id: match.id };
-  } else {
-    return null;
-  }
-};
-
 export type Player = {
   name?: string;
   userId: string;
   id: string;
+  isPlaceholder?: boolean;
 };
 
 export type Team = {
@@ -39,6 +26,19 @@ export type WeeklyMatchups = {
 export type LeagueSchedule = {
   leagueId: string;
   leagueSchedule: WeeklyMatchups[];
+};
+export const getCurrentWeekMatchIds = (
+  leagueData: League,
+): TCurrentMatchIdAtom => {
+  const currentWeek = getCurrentWeek(leagueData.startDate);
+
+  const match = leagueData.matches.find((match) => match.week === currentWeek);
+
+  if (match) {
+    return { week: currentWeek, id: match.id };
+  } else {
+    return null;
+  }
 };
 
 export function calculatePointsForUser(
@@ -67,11 +67,25 @@ export function transformLeagueToSchedule(data: League): LeagueSchedule {
         },
       ]),
   );
-  const weeksMap = new Map<number, Matchup[]>();
+  const weeksMap = new Map<number, Map<string, Map<number, Player[]>>>();
 
   data.matches.forEach((match: any) => {
-    const teamsMap = new Map<number, Player[]>();
+    const week = match.week;
+    const matchId = match.id;
 
+    // Get or create the week's matches map
+    if (!weeksMap.has(week)) {
+      weeksMap.set(week, new Map());
+    }
+    const weekMatches = weeksMap.get(week)!;
+
+    // Get or create the match's teams map
+    if (!weekMatches.has(matchId)) {
+      weekMatches.set(matchId, new Map());
+    }
+    const teamsMap = weekMatches.get(matchId)!;
+
+    // Group players by team index within this match
     match.matchesToUsers.forEach((entry: any) => {
       const team = teamsMap.get(entry.teamIndex) || [];
       const player = userMap.get(entry.userId);
@@ -80,30 +94,31 @@ export function transformLeagueToSchedule(data: League): LeagueSchedule {
       }
       teamsMap.set(entry.teamIndex, team);
     });
-
-    const matchup: Matchup = Array.from(teamsMap.entries()).map(
-      ([teamIndex, players]) => {
-        const totalPoints = players.reduce(
-          (sum, player) =>
-            sum + calculatePointsForUser(player.userId, data.loggedActivities),
-          0,
-        );
-
-        return {
-          teamIndex,
-          players,
-          totalPoints,
-        };
-      },
-    );
-
-    const weekMatchups = weeksMap.get(match.week) || [];
-    weekMatchups.push(matchup);
-    weeksMap.set(match.week, weekMatchups);
   });
 
+  // Transform the nested maps into the final structure
   const leagueSchedule: WeeklyMatchups[] = Array.from(weeksMap.entries())
-    .map(([week, matchups]) => ({ week, matchups }))
+    .map(([week, matchesMap]) => {
+      const matchups: Matchup[] = Array.from(matchesMap.values()).map((teamsMap) => {
+        return Array.from(teamsMap.entries())
+          .sort(([teamIndexA], [teamIndexB]) => teamIndexA - teamIndexB)
+          .map(([teamIndex, players]) => {
+            const totalPoints = players.reduce(
+              (sum, player) =>
+                sum + calculatePointsForUser(player.userId, data.loggedActivities),
+              0,
+            );
+
+            return {
+              teamIndex,
+              players,
+              totalPoints,
+            };
+          });
+      });
+
+      return { week, matchups };
+    })
     .sort((a, b) => a.week - b.week);
 
   return {

@@ -1,3 +1,4 @@
+// src/components/library/MatchWeek.tsx
 import { getAvatarByIndex } from '@/assets/avatar';
 import { Team, WeeklyMatchups } from '@/helpers/matchesHelper';
 import React from 'react';
@@ -6,16 +7,17 @@ import { Avatar, useTheme } from 'react-native-paper';
 
 export type MatchListProps = {
   week: WeeklyMatchups;
+  isPreview?: boolean; // Add this prop
 };
 
 let avatarIndex = 0;
 
-const MatchWeek = ({ week }: MatchListProps) => {
+const MatchWeek = ({ week, isPreview = false }: MatchListProps) => {
   const theme = useTheme();
   const PAGE_WIDTH = Dimensions.get('window').width;
-  const AVATAR_SIZE = 32;
+  const AVATAR_SIZE = 24;
 
-  if (week.matchups)
+  if (week.matchups) {
     return (
       <ScrollView
         contentContainerStyle={[
@@ -32,6 +34,7 @@ const MatchWeek = ({ week }: MatchListProps) => {
               styles.matchContainer,
               {
                 backgroundColor: 'rgb(32, 38, 52)',
+                opacity: isPreview ? 0.7 : 1, // Dim preview matches
               },
             ]}
           >
@@ -45,12 +48,12 @@ const MatchWeek = ({ week }: MatchListProps) => {
                   },
                 ]}
               >
-                {teamIndex == 1 && (
+                {teamIndex === 1 && (
                   <View style={styles.points}>
                     <Text
                       style={{
                         color: theme.colors.onSurface,
-                        fontWeight: 700,
+                        fontWeight: '700',
                         fontSize: 18,
                       }}
                     >
@@ -59,22 +62,42 @@ const MatchWeek = ({ week }: MatchListProps) => {
                   </View>
                 )}
                 <View style={styles.playerContainer}>
-                  {team.players.map((player, index) => {
+                  {team.players.map((player, playerIdx) => {
                     avatarIndex += 1;
-                    if (teamIndex == 0) {
-                      //renders a left aligned container or a right aligned container
+                    const isPlaceholder = player.isPlaceholder || false;
+
+                    if (teamIndex === 0) {
                       return (
                         <View
-                          key={`${player} - ${index}`}
+                          key={`${player.userId} - ${playerIdx}`}
                           style={styles.player}
                         >
-                          <Avatar.Image
-                            size={AVATAR_SIZE}
-                            source={getAvatarByIndex(avatarIndex)}
-                          />
+                          {isPreview ? (
+                            <View
+                              style={{
+                                width: AVATAR_SIZE,
+                                height: AVATAR_SIZE,
+                                borderRadius: AVATAR_SIZE / 2,
+                                backgroundColor: theme.colors.primary,
+                                opacity: 0.7,
+                              }}
+                            />
+                          ) : (
+                            <Avatar.Image
+                              size={AVATAR_SIZE}
+                              source={getAvatarByIndex(avatarIndex)}
+                              style={{
+                                opacity: isPlaceholder ? 0.3 : 1,
+                              }}
+                            />
+                          )}
                           <Text
                             ellipsizeMode={'clip'}
-                            style={{ color: theme.colors.onSurface }}
+                            style={{
+                              color: theme.colors.onSurface,
+                              opacity: 1,
+                              fontStyle: isPlaceholder && !isPreview ? 'italic' : 'normal',
+                            }}
                           >
                             {player.name || `User ${player.userId.slice(-4)}`}
                           </Text>
@@ -83,30 +106,49 @@ const MatchWeek = ({ week }: MatchListProps) => {
                     } else {
                       return (
                         <View
-                          key={`${player} - ${index}`}
+                          key={`${player.userId} - ${playerIdx}`}
                           style={styles.player}
                         >
                           <Text
                             ellipsizeMode={'clip'}
-                            style={{ color: theme.colors.onSurface }}
+                            style={{
+                              color: theme.colors.onSurface,
+                              opacity: 1,
+                              fontStyle: isPlaceholder && !isPreview ? 'italic' : 'normal',
+                            }}
                           >
                             {player.name || `User ${player.userId.slice(-4)}`}
                           </Text>
-                          <Avatar.Image
-                            size={AVATAR_SIZE}
-                            source={getAvatarByIndex(avatarIndex)}
-                          />
+                          {isPreview ? (
+                            <View
+                              style={{
+                                width: AVATAR_SIZE,
+                                height: AVATAR_SIZE,
+                                borderRadius: AVATAR_SIZE / 2,
+                                backgroundColor: theme.colors.primary,
+                                opacity: 0.7,
+                              }}
+                            />
+                          ) : (
+                            <Avatar.Image
+                              size={AVATAR_SIZE}
+                              source={getAvatarByIndex(avatarIndex)}
+                              style={{
+                                opacity: isPlaceholder ? 0.3 : 1,
+                              }}
+                            />
+                          )}
                         </View>
                       );
                     }
                   })}
                 </View>
-                {teamIndex == 0 && (
+                {teamIndex === 0 && (
                   <View style={styles.points}>
                     <Text
                       style={{
                         color: theme.colors.onSurface,
-                        fontWeight: 700,
+                        fontWeight: '700',
                         fontSize: 18,
                       }}
                     >
@@ -120,10 +162,12 @@ const MatchWeek = ({ week }: MatchListProps) => {
         ))}
       </ScrollView>
     );
+  }
 };
 
 export default MatchWeek;
 
+// ... styles remain the same
 const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
@@ -141,7 +185,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 6,
-    padding: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
 
   playerContainer: {
