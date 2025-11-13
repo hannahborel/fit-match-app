@@ -59,27 +59,41 @@ const signUp = () => {
       style={{
         flex: 1,
         backgroundColor: theme.colors.background,
-        justifyContent: 'center',
       }}
     >
       <View style={{ width: 300, alignSelf: 'center' }}>
+        <Text
+          style={{
+            color: theme.colors.onBackground,
+            fontSize: 14,
+            fontWeight: 'medium',
+            textAlign: 'center',
+            margin: 24,
+          }}
+        >
+          CREATE ACCOUNT
+        </Text>
         <View style={{ gap: 12 }}>
-          <StyledInput
-            autoCapitalize="words"
-            placeholder="First"
-            value={firstName}
-            onChangeText={(text) => {
-              setFirstName(text);
-            }}
-          />
-          <StyledInput
-            autoCapitalize="words"
-            placeholder="Last"
-            value={lastName}
-            onChangeText={(text) => {
-              setLastName(text);
-            }}
-          />
+          <View style={{ gap: 8 }}>
+            <StyledInput
+              autoCapitalize="words"
+              placeholder="First"
+              value={firstName}
+              onChangeText={(text) => {
+                setFirstName(text);
+              }}
+              style={{ height: 44 }}
+            />
+            <StyledInput
+              autoCapitalize="words"
+              placeholder="Last"
+              value={lastName}
+              onChangeText={(text) => {
+                setLastName(text);
+              }}
+              style={{ height: 44 }}
+            />
+          </View>
 
           <StyledInput
             autoCapitalize="none"
@@ -87,6 +101,7 @@ const signUp = () => {
             value={email}
             onChangeText={setEmail}
             keyboardType="email-address"
+            style={{ height: 44 }}
           />
           <StyledInput
             autoCapitalize="none"
@@ -102,6 +117,7 @@ const signUp = () => {
                 onPress={() => setShowPassword(!showPassword)}
               />
             }
+            style={{ height: 44 }}
           />
           <PasswordVerification password={password} />
         </View>

@@ -1,6 +1,6 @@
 //---------------EMAIL
 export const isEmailValid = (email: string) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
   return emailRegex.test(email);
 };
 //---------------PASSWORD
