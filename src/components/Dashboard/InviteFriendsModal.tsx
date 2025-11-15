@@ -157,7 +157,7 @@ See you on the leaderboard!
       {/* Action Buttons */}
       <View style={styles.buttonContainer}>
         <ButtonPrimary
-          style={styles.copyButton}
+          style={{ marginHorizontal: 0 }}
           onPress={handleCopyLink}
           icon="content-copy"
         >
