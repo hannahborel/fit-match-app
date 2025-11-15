@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
   SafeAreaView,
 } from 'react-native';
-import { Text, TextInput, useTheme, Button } from 'react-native-paper';
+import { Text, TextInput, useTheme } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
@@ -21,7 +21,7 @@ import InputPrimary from '@/components/elements/InputPrimary';
 
 const FaceOffSetup = () => {
   const { user } = useUser();
-  const { mutate: createLeague, isError, error } = useCreateLeague();
+  const { mutate: createLeague } = useCreateLeague();
   const theme = useTheme();
   const [leagueName, setLeagueName] = useState('');
   const [leagueSize, setLeagueSize] = useState<number>(0);
@@ -34,8 +34,8 @@ const FaceOffSetup = () => {
   const [dateText, setDateText] = useState('');
 
   // UI state
-  const [showError, setShowError] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   // Initialize date text on component mount
   useEffect(() => {
@@ -91,64 +91,12 @@ const FaceOffSetup = () => {
         router.replace('/(protected)/(tabs)');
       },
       onError: (error) => {
-        console.error('League creation failed:', error);
-        // Show error state and reset creating state
+        // Show error message and reset creating state
         setIsCreating(false);
-        setShowError(true);
+        setErrorMessage(error?.message || 'An error occurred while creating your league. Please try again.');
       },
     });
   };
-
-  const handleRetry = () => {
-    setShowError(false);
-  };
-
-  // Error state
-  if (showError || isError) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 20,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: theme.colors.error,
-            marginBottom: 16,
-            textAlign: 'center',
-          }}
-        >
-          There was an error creating your league
-        </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            color: theme.colors.onBackground,
-            marginBottom: 24,
-            textAlign: 'center',
-          }}
-        >
-          {error?.message ||
-            'Please try again or contact support if the problem persists.'}
-        </Text>
-        <Button
-          mode="contained"
-          onPress={handleRetry}
-          style={{ marginBottom: 12 }}
-        >
-          Try Again
-        </Button>
-        <Button mode="outlined" onPress={() => router.back()}>
-          Go Back
-        </Button>
-      </View>
-    );
-  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>

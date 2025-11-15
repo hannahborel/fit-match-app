@@ -1,15 +1,20 @@
-import BgView from '@/components/elements/BgView';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import LogoutButton from '@/components/library/LogoutButton';
-import { useAuth } from '@clerk/clerk-expo';
-import React from 'react';
-import { Text } from 'react-native';
+import DeleteAccountButton from '@/components/DeleteAccountBtn';
+import LoadingScreen from '@/components/elements/LoadingScreen';
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 const accountSettings = () => {
+  const theme = useTheme();
+  const [actionInProgress, setActionInProgress] = useState<boolean>(false);
   return (
-    <BgView>
-      <LogoutButton />
-    </BgView>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      {actionInProgress ? (
+        <LoadingScreen message="Deleting account..." />
+      ) : (
+        <DeleteAccountButton setActionInProgress={setActionInProgress} />
+      )}
+    </SafeAreaView>
   );
 };
 

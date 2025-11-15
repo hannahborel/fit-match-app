@@ -36,8 +36,19 @@ export const createLeague = async (
   console.log('API Response:', response);
 
   if (!res.ok) {
-    const errorMessage =
-      response?.error || response?.message || 'Failed to create league';
+    // Handle error object properly - check if it's an empty object
+    let errorMessage = 'Failed to create league';
+
+    if (typeof response?.error === 'string' && response.error) {
+      errorMessage = response.error;
+    } else if (typeof response?.message === 'string' && response.message) {
+      errorMessage = response.message;
+    } else if (response?.error && typeof response.error === 'object') {
+      errorMessage = response.error.message || `Server error (${res.status})`;
+    } else {
+      errorMessage = `Server error (${res.status})`;
+    }
+
     console.error('Create league failed:', errorMessage);
     throw new Error(errorMessage);
   }

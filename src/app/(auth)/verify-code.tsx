@@ -4,7 +4,7 @@ import InputPrimary from '@/components/elements/InputPrimary';
 import { useHandleLogin } from '@/hooks/useHandleLogin';
 import { useSignIn } from '@clerk/clerk-expo';
 import { router, useLocalSearchParams } from 'expo-router';
-import { InfoIcon } from 'lucide-react-native';
+import { CheckIcon, InfoIcon } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
@@ -21,23 +21,71 @@ export default function VerifyCode() {
   const email = (params.emailParam || params.email) as string;
   const isNewUser = params.isNewUser === 'true';
   const [code, setCode] = useState('');
-  const { sendEmailCode, isSending, verifyEmailCode, isVerifying } =
-    useHandleLogin();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+  const [verifyError, setVerifyError] = useState<string | null>(null);
+  const [resendError, setResendError] = useState<string | null>(null);
+  const { sendEmailCode, verifyEmailCode } = useHandleLogin();
+
+  console.log('VerifyCode component - isLoaded:', isLoaded, 'setActive:', !!setActive, 'email:', email, 'isNewUser:', isNewUser);
 
   const onVerifyCode = async () => {
-    const result = await verifyEmailCode(code, isNewUser);
-    if (result.ok && result.createdSessionId) {
-      if (!isLoaded || !setActive) return;
-      await setActive({ session: result.createdSessionId });
-      // Navigate to root index - it will check league status and route accordingly
-      router.replace('/');
+    console.log('Starting verification with code:', code);
+
+    setIsSubmitting(true);
+    setVerifyError(null);
+    try {
+      const result = await verifyEmailCode(code, isNewUser);
+      console.log('Verification result:', result);
+
+      // Handle successful verification
+      if (result.ok && result.createdSessionId) {
+        console.log('Activating session with ID:', result.createdSessionId);
+        if (!isLoaded || !setActive) {
+          console.log('Clerk not loaded or setActive not available');
+          return;
+        }
+        await setActive({ session: result.createdSessionId });
+        console.log('Session activated successfully');
+
+        // Redirect based on user type
+        if (isNewUser) {
+          console.log('New user signup complete, redirecting to add-user-profile-details');
+          router.replace('/(auth)/add-user-profile-details');
+        } else {
+          console.log('Existing user signin complete, redirecting to home');
+          router.replace('/');
+        }
+      } else if (result.error) {
+        console.log('Verification failed with error:', result.error);
+        setVerifyError(result.error);
+      }
+    } catch (error: any) {
+      console.error('Exception during verification:', error);
+      setVerifyError(error?.message || 'Failed to verify code');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const onResendCode = async () => {
-    await sendEmailCode(email, isNewUser);
+    setIsResending(true);
+    setResendError(null);
+    try {
+      const result = await sendEmailCode(email, isNewUser);
+      if (!result.ok && result.error) {
+        setResendError(result.error);
+      }
+    } catch (error: any) {
+      setResendError(error?.message || 'Failed to resend code');
+    } finally {
+      setIsResending(false);
+    }
   };
 
+  // Check if code is valid: exactly 6 digits, all numbers
+  const isValidCode = code.length === 6 && /^\d{6}$/.test(code);
+  const validateCode = isValidCode ? 'check' : undefined;
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <KeyboardAvoidingView
@@ -70,10 +118,15 @@ export default function VerifyCode() {
               <View style={{ gap: 8 }}>
                 <InputPrimary
                   value={code}
-                  onChangeText={setCode}
+                  onChangeText={(text) => {
+                    // Only allow numeric characters
+                    const numericOnly = text.replace(/[^0-9]/g, '');
+                    setCode(numericOnly);
+                  }}
                   placeholder="Enter 6-digit code"
                   keyboardType="number-pad"
                   maxLength={6}
+                  rightIcon={validateCode}
                 />
                 <View
                   style={{
@@ -101,14 +154,18 @@ export default function VerifyCode() {
             <View style={{ gap: 12 }}>
               <ButtonPrimary
                 onPress={onVerifyCode}
-                disabled={isVerifying || code.length !== 6}
+                disabled={isSubmitting || !isValidCode}
+                loading={isSubmitting}
+                replaceTextWithSpinner={true}
               >
                 Submit Code
               </ButtonPrimary>
               <ButtonPrimary
                 style={{ backgroundColor: theme.colors.background }}
                 onPress={onResendCode}
-                loading={isVerifying}
+                loading={isResending}
+                disabled={isResending}
+                replaceTextWithSpinner={true}
               >
                 Resend Code
               </ButtonPrimary>

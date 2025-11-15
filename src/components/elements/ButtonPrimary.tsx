@@ -5,6 +5,7 @@ import {
   useTheme,
 } from 'react-native-paper';
 import { View, Text } from 'react-native';
+import { useEffect, useState, useRef } from 'react';
 
 interface ValidationCondition {
   isValid: boolean;
@@ -16,6 +17,7 @@ interface ButtonPrimaryProps extends ButtonProps {
   loading?: boolean;
   showErrors?: boolean; // Whether to show error messages
   replaceTextWithSpinner?: boolean; // When true, hides label and shows spinner while loading
+  minLoadingDuration?: number; // Minimum loading duration in milliseconds (default: 3000ms)
 }
 
 const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
@@ -25,12 +27,49 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   disabled,
   showErrors = false,
   replaceTextWithSpinner = false,
+  minLoadingDuration = 3000,
   ...otherProps
 }) => {
   const theme = useTheme();
+  const [isLoading, setIsLoading] = useState(false);
+  const loadingStartTimeRef = useRef<number | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Handle minimum loading duration
+  useEffect(() => {
+    if (loading && !isLoading) {
+      // Loading just started
+      setIsLoading(true);
+      loadingStartTimeRef.current = Date.now();
+    } else if (!loading && isLoading) {
+      // Loading just finished - enforce minimum duration
+      const startTime = loadingStartTimeRef.current;
+      if (startTime !== null) {
+        const elapsed = Date.now() - startTime;
+        const remaining = minLoadingDuration - elapsed;
+
+        if (remaining > 0) {
+          timerRef.current = setTimeout(() => {
+            setIsLoading(false);
+            loadingStartTimeRef.current = null;
+          }, remaining);
+        } else {
+          setIsLoading(false);
+          loadingStartTimeRef.current = null;
+        }
+      }
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [loading, isLoading, minLoadingDuration]);
 
   const isDisabled =
-    conditions.some((condition) => !condition.isValid) || disabled || loading;
+    conditions.some((condition) => !condition.isValid) || disabled || isLoading;
   const failedConditions = conditions.filter(
     (condition) => !condition.isValid && condition.errorMessage,
   );
@@ -39,8 +78,8 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   const labelColor = isDisabledWithoutLoading
     ? theme.colors.onSurfaceDisabled
     : theme.colors.onPrimary;
-  const shouldShowSpinnerOnly = Boolean(loading && replaceTextWithSpinner);
-  const buttonLoading = Boolean(loading && !replaceTextWithSpinner);
+  const shouldShowSpinnerOnly = Boolean(isLoading && replaceTextWithSpinner);
+  const buttonLoading = Boolean(isLoading && !replaceTextWithSpinner);
 
   return (
     <Button
@@ -66,7 +105,7 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
       }}
     >
       {shouldShowSpinnerOnly ? (
-        <ActivityIndicator color={labelColor} size="small" />
+        <ActivityIndicator color={labelColor} size={20} />
       ) : (
         otherProps.children
       )}

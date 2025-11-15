@@ -44,7 +44,10 @@ export default function Login() {
           // Check if it's the specific "user not found" error
           if (err.errors?.[0]?.code === 'form_identifier_not_found') {
             // New user - send to sign up flow
-            router.push({ pathname: '/email-code', params: { email: email, isNewUser: 'true' } });
+            router.push({
+              pathname: '/email-code',
+              params: { email: email, isNewUser: 'true' },
+            });
           } else {
             // Other error - show error message
             setError(err.errors?.[0]?.message || 'An error occurred');
@@ -55,7 +58,6 @@ export default function Login() {
       }
     }
   };
-
 
   const checkIcon = isValidEmail ? 'check' : undefined;
 
@@ -108,48 +110,3 @@ export default function Login() {
     </SafeAreaView>
   );
 }
-
-// <View style={{ gap: 8 }}>
-// <InputPrimary
-//   value={email}
-//   onChangeText={(text) => setEmail(text)}
-//   autoCapitalize="none"
-//   keyboardType="email-address"
-//   placeholder="Email"
-//   leftIcon="email-outline"
-//   rightIcon={checkIcon}
-// />
-// {showPassword && (
-//   <LoginPassword
-//     email={email}
-//     onLoginSuccess={handleLoginSuccess}
-//   />
-// )}
-// </View>
-
-///error
-
-// {error && (
-//   <Text style={{ color: theme.colors.error, marginTop: 8 }}>
-//     {error}
-//   </Text>
-// )}
-
-// <View style={{ transform: [{ scale: 0.75 }] }}>
-//               <Logo />
-//               </View>
-
-// "clerkError": true,
-// "code": "api_response_error",
-// "status": 422,
-// "errors": [
-//   {
-//     "code": "form_identifier_not_found",
-//     "message": "Couldn't find your account.",
-//     "longMessage": "Couldn't find your account.",
-//     "meta": {
-//       "paramName": "identifier"
-//     }
-//   }
-// ]
-// }

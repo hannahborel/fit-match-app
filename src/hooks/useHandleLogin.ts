@@ -144,13 +144,19 @@ export function useHandleLogin() {
             code,
           });
 
-          if (result.status === 'complete') {
+          console.log('Sign up verification result:', {
+            status: result.status,
+            createdSessionId: result.createdSessionId,
+          });
+
+          if (result.status === 'complete' && result.createdSessionId) {
             return {
               ok: true,
               status: result.status ?? undefined,
               createdSessionId: result.createdSessionId ?? undefined,
             };
           }
+
           return {
             ok: false,
             status: result.status ?? undefined,

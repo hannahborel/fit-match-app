@@ -1,6 +1,6 @@
 // src/app/index.tsx
 import { useEffect, useState, useRef } from 'react';
-import { useAuth } from '@clerk/clerk-expo';
+import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import SplashScreen from '@/components/elements/SplashScreen';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@/lib/authCache';
 import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 
-type AppState = 'loading' | 'auth' | 'onboarding' | 'app';
+type AppState = 'loading' | 'auth' | 'profile' | 'onboarding' | 'app';
 
 /**
  * Central navigation controller - Single source of truth for routing
@@ -22,13 +22,14 @@ type AppState = 'loading' | 'auth' | 'onboarding' | 'app';
  */
 export default function Index() {
   const { isLoaded: clerkLoaded, isSignedIn, userId, getToken } = useAuth();
+  const { user } = useUser();
   const router = useRouter();
   const [appState, setAppState] = useState<AppState>('loading');
   const hasNavigatedRef = useRef(false); // ✅ Use ref instead of state
 
   useEffect(() => {
     initializeApp();
-  }, [clerkLoaded, isSignedIn, userId]);
+  }, [clerkLoaded, isSignedIn, userId, user]);
 
   /**
    * Initialize app with cache-first approach
@@ -54,6 +55,14 @@ export default function Index() {
         console.log('❌ Not signed in, going to login');
         setAppState('auth');
         navigateTo('/(auth)/login-email');
+        return;
+      }
+
+      // Check if user has completed profile (firstName and lastName)
+      if (!user?.firstName || !user?.lastName) {
+        console.log('❌ Profile incomplete, going to add-user-profile-details');
+        setAppState('profile');
+        navigateTo('/(auth)/add-user-profile-details');
         return;
       }
 
