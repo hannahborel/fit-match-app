@@ -13,17 +13,19 @@ export default function EmailCode() {
   const params = useLocalSearchParams<{
     emailParam?: string;
     email?: string;
+    isNewUser?: string;
   }>();
   const email = (params.emailParam || params.email) as string;
+  const isNewUser = params.isNewUser === 'true';
 
   const { sendEmailCode, isSending, sendError } = useHandleLogin();
 
   const onPressSendCode = async () => {
-    const res = await sendEmailCode(email);
+    const res = await sendEmailCode(email, isNewUser);
     if (res.ok) {
       router.push({
         pathname: '/verify-code',
-        params: { emailParam: email },
+        params: { emailParam: email, isNewUser: String(isNewUser) },
       });
     }
   };
@@ -49,12 +51,14 @@ export default function EmailCode() {
                   textAlign: 'center',
                 }}
               >
-                Finish signing in with a single-use code
+                {isNewUser ? 'Create a Hustle account' : 'Finish signing in with a single-use code'}
               </Text>
             </View>
             <View style={{ gap: 8, paddingHorizontal: 8 }}>
               <Text style={{ fontSize: 14, fontWeight: 600 }}>
-                We will send a single-use code to your email
+                {isNewUser
+                  ? "We'll create your account with the email above"
+                  : 'We will send a single-use code to your email'}
               </Text>
               <View
                 style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}

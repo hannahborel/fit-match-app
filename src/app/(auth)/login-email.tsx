@@ -1,16 +1,13 @@
 // src/app/(auth)/login-email.tsx
-import Logo from '@/assets/Logo';
 import InputPrimary from '@/components/elements/InputPrimary';
 import { isEmailValid } from '@/helpers/validationHandlers';
-import { useSignIn, useSignUp } from '@clerk/clerk-expo';
+import { useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Button, Divider, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import LoginPassword from '@/components/auth/login-password';
-import { cacheAuthState } from '@/lib/authCache';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
 export default function Login() {
@@ -19,7 +16,6 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const theme = useTheme();
   const [email, setEmail] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const isValidEmail = isEmailValid(email);
@@ -36,7 +32,7 @@ export default function Login() {
         if (emailCheck.status === 'needs_first_factor') {
           router.push({
             pathname: '/email-code',
-            params: { emailParam: email },
+            params: { emailParam: email, isNewUser: 'false' },
           });
           setLoading(false);
         }
@@ -44,33 +40,22 @@ export default function Login() {
         if (err) {
           console.log('Email check error:', err);
           console.log('Full error:', JSON.stringify(err, null, 2));
-          setError('Could not find user with this email');
-          // Clerk could not find the user by email - go to signup
-          // router.push({
-          //   pathname: '/sign-up',
-          //   params: { emailParam: email },
-          // });
 
-          router.push({ pathname: '/email-code', params: { email: email } });
+          // Check if it's the specific "user not found" error
+          if (err.errors?.[0]?.code === 'form_identifier_not_found') {
+            // New user - send to sign up flow
+            router.push({ pathname: '/email-code', params: { email: email, isNewUser: 'true' } });
+          } else {
+            // Other error - show error message
+            setError(err.errors?.[0]?.message || 'An error occurred');
+          }
         }
+        setLoading(false);
         return false;
       }
     }
   };
 
-  /**
-   * Called by LoginPassword component after successful login
-   */
-  const handleLoginSuccess = async (loggedInUserId: string) => {
-    // Cache auth state immediately
-    await cacheAuthState({
-      isSignedIn: true,
-      userId: loggedInUserId,
-    });
-
-    // Navigate to root - index.tsx will handle the rest
-    router.replace('/');
-  };
 
   const checkIcon = isValidEmail ? 'check' : undefined;
 

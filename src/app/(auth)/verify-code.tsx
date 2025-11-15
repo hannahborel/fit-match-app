@@ -16,23 +16,26 @@ export default function VerifyCode() {
   const params = useLocalSearchParams<{
     emailParam?: string;
     email?: string;
+    isNewUser?: string;
   }>();
   const email = (params.emailParam || params.email) as string;
+  const isNewUser = params.isNewUser === 'true';
   const [code, setCode] = useState('');
   const { sendEmailCode, isSending, verifyEmailCode, isVerifying } =
     useHandleLogin();
 
   const onVerifyCode = async () => {
-    const result = await verifyEmailCode(code);
+    const result = await verifyEmailCode(code, isNewUser);
     if (result.ok && result.createdSessionId) {
       if (!isLoaded || !setActive) return;
       await setActive({ session: result.createdSessionId });
-      router.replace('/(tabs)');
+      // Navigate to root index - it will check league status and route accordingly
+      router.replace('/');
     }
   };
 
   const onResendCode = async () => {
-    await sendEmailCode(email);
+    await sendEmailCode(email, isNewUser);
   };
 
   return (
