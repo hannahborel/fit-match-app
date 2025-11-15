@@ -17,7 +17,7 @@ export const Row = ({ col1, col2, lastRow }: TRowProps) => {
         width: '100%',
         padding: 12,
         borderBottomWidth: 1,
-        borderColor: lastRow ? 'transparent' : theme.colors.surfaceVariant,
+        borderColor: lastRow ? 'transparent' : theme.colors.outline,
       }}
     >
       <View style={{ width: '40%' }}>

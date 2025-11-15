@@ -45,7 +45,7 @@ const ManageLeagueSize = ({
             width: '100%',
             padding: 12,
             borderBottomWidth: 1,
-            borderColor: theme.colors.surfaceVariant,
+            borderColor: theme.colors.outline,
           }}
         >
           <View style={{ width: '40%' }}>

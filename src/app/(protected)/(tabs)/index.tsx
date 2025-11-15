@@ -15,7 +15,7 @@ import {
 import { shouldShowSchedule } from '@/helpers/leagueStatus';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { useGetLeague } from '@/hooks/useGetLeague';
@@ -60,9 +60,8 @@ const Home = () => {
             alignItems: 'center',
           }}
         >
-          <Text style={{ color: theme.colors.onBackground }}>
-            Loading your league...
-          </Text>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+          <Text style={{ color: theme.colors.onBackground }}>Welcome Back</Text>
         </View>
       </>
     );

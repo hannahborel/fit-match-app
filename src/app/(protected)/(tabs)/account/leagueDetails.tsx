@@ -22,7 +22,7 @@ const leagueDetails = () => {
             <View
               style={{
                 backgroundColor: theme.colors.surface,
-                borderRadius: 6,
+                borderRadius: 8,
               }}
             >
               <Row col1={'League Name'} col2={leagueDetails.name} />
