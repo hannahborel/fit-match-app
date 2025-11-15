@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 import Table2Col from '@/components/elements/Table/Table2Col';
@@ -14,9 +14,11 @@ import { ChevronRight, UserIcon } from 'lucide-react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import LogoutButton from '@/components/library/LogoutButton';
+import LeagueDetailsBottomSheet from '@/components/library/LeagueDetailsBottomSheet';
 
 const Account = () => {
   const router = useRouter();
+  const [isLeagueDetailsVisible, setIsLeagueDetailsVisible] = useState(false);
 
   const theme = useTheme();
 
@@ -32,10 +34,11 @@ const Account = () => {
     {
       label: 'Account Settings',
       route: 'account/accountSettings',
+      action: () => router.push('account/accountSettings'),
     },
     {
       label: 'View League Details',
-      route: 'account/leagueDetails',
+      action: () => setIsLeagueDetailsVisible(true),
     },
   ];
   return (
@@ -77,7 +80,7 @@ const Account = () => {
           {settings.map((item, index) => (
             <TouchableOpacity
               key={index}
-              onPress={() => router.push(item.route)}
+              onPress={item.action}
             >
               <View
                 style={{
@@ -104,6 +107,11 @@ const Account = () => {
         <Table2Col tableData={personalInfo} />
         <LogoutButton />
       </View>
+
+      <LeagueDetailsBottomSheet
+        visible={isLeagueDetailsVisible}
+        onClose={() => setIsLeagueDetailsVisible(false)}
+      />
     </BgView>
   );
 };

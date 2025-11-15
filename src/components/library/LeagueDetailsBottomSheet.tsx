@@ -1,5 +1,5 @@
 import { leagueAtom } from '@/atoms/leagueAtom';
-import BgView from '@/components/elements/BgView';
+import BottomSheet from '@/components/elements/BottomSheet';
 import { Row } from '@/components/elements/Table/TableElements';
 import DeleteLeagueButton from '@/components/library/deleteLeagueButton';
 import ManageLeagueSize from '@/components/library/ManageLeagueSize';
@@ -9,13 +9,25 @@ import React from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-const leagueDetails = () => {
-  const theme = useTheme();
+interface LeagueDetailsBottomSheetProps {
+  visible: boolean;
+  onClose: () => void;
+}
 
+const LeagueDetailsBottomSheet: React.FC<LeagueDetailsBottomSheetProps> = ({
+  visible,
+  onClose,
+}) => {
+  const theme = useTheme();
   const leagueDetails = useAtomValue(leagueAtom);
 
   return (
-    <BgView>
+    <BottomSheet
+      visible={visible}
+      size="lg"
+      title="League Details"
+      onClose={onClose}
+    >
       <View style={{ gap: 12 }}>
         {leagueDetails && (
           <>
@@ -48,7 +60,7 @@ const leagueDetails = () => {
             <DeleteLeagueButton leagueId={leagueDetails.id} />
 
             <View>
-              {/* {leagueDeta ils.leaguesToUsers.map((user, index) => (
+              {/* {leagueDetails.leaguesToUsers.map((user, index) => (
                 <View
                   style={{
                     flexDirection: 'row',
@@ -74,8 +86,8 @@ const leagueDetails = () => {
           </>
         )}
       </View>
-    </BgView>
+    </BottomSheet>
   );
 };
 
-export default leagueDetails;
+export default LeagueDetailsBottomSheet;
