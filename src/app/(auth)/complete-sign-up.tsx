@@ -43,7 +43,7 @@ const signUp = () => {
       });
 
       await signUp.prepareVerification({ strategy: 'email_code' });
-      router.push('/verify-email');
+      router.push('/email-code');
     } catch (err) {
     } finally {
       setLoading(false);

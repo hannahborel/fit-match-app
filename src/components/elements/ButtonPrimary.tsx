@@ -1,4 +1,9 @@
-import { Button, ButtonProps, useTheme } from 'react-native-paper';
+import {
+  ActivityIndicator,
+  Button,
+  ButtonProps,
+  useTheme,
+} from 'react-native-paper';
 import { View, Text } from 'react-native';
 
 interface ValidationCondition {
@@ -10,6 +15,7 @@ interface ButtonPrimaryProps extends ButtonProps {
   conditions?: ValidationCondition[]; // Array of conditions with optional error messages
   loading?: boolean;
   showErrors?: boolean; // Whether to show error messages
+  replaceTextWithSpinner?: boolean; // When true, hides label and shows spinner while loading
 }
 
 const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
@@ -18,6 +24,7 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   style,
   disabled,
   showErrors = false,
+  replaceTextWithSpinner = false,
   ...otherProps
 }) => {
   const theme = useTheme();
@@ -27,32 +34,40 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   const failedConditions = conditions.filter(
     (condition) => !condition.isValid && condition.errorMessage,
   );
+  const labelColor = isDisabled
+    ? theme.colors.onSurfaceDisabled
+    : theme.colors.onPrimary;
+  const shouldShowSpinnerOnly = Boolean(loading && replaceTextWithSpinner);
+  const buttonLoading = Boolean(loading && !replaceTextWithSpinner);
 
   return (
     <Button
       {...otherProps}
       disabled={isDisabled}
-      loading={loading}
+      loading={buttonLoading}
       style={[
         {
           backgroundColor: isDisabled
             ? theme.colors.surfaceDisabled
             : theme.colors.primary,
-          paddingLeft: 18,
-          paddingRight: 18,
-          borderRadius: 12,
-
+          paddingHorizontal: 18,
+          paddingVertical: 4,
+          borderRadius: 100,
+          marginHorizontal: 24,
           flexShrink: 1,
         },
         style,
       ]}
       labelStyle={{
-        color: isDisabled
-          ? theme.colors.onSurfaceDisabled
-          : theme.colors.onPrimary,
+        color: labelColor,
+        fontSize: 16,
       }}
     >
-      {otherProps.children}
+      {shouldShowSpinnerOnly ? (
+        <ActivityIndicator color={labelColor} size="small" />
+      ) : (
+        otherProps.children
+      )}
     </Button>
   );
 };

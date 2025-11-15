@@ -13,6 +13,7 @@ export default function ThemedStack(props: React.ComponentProps<typeof Stack>) {
         headerStyle: {
           backgroundColor: theme.colors.background,
         },
+        headerBackVisible: false,
         headerTitleStyle: {
           color: theme.colors.onBackground,
         },

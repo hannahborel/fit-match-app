@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { View, Pressable, Text as RNText } from 'react-native';
 import { useSignIn } from '@clerk/clerk-expo';
-import { Text, TextInput, useTheme } from 'react-native-paper';
+import { Text, TextInput, useTheme, IconButton } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import InputPrimary from '@/components/elements/InputPrimary';
@@ -63,13 +63,20 @@ export default function ResetPassword() {
       style={{
         flex: 1,
         backgroundColor: theme.colors.background,
-        justifyContent: 'center',
       }}
     >
-      <View style={{ width: 300, alignSelf: 'center' }}>
-        <View style={{ alignItems: 'center', marginBottom: 24 }}>
-          <Logo />
-        </View>
+      <IconButton
+        icon="chevron-left"
+        iconColor="white"
+        size={24}
+        onPress={() => router.push('/login-email')}
+        style={{ position: 'absolute', top: 8, left: 8, zIndex: 10 }}
+      />
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ width: 300, alignSelf: 'center' }}>
+          <View style={{ alignItems: 'center', marginBottom: 24 }}>
+            <Logo />
+          </View>
         {error && (
           <Text
             style={{
@@ -151,6 +158,7 @@ export default function ResetPassword() {
             </RNText>
           </View>
         </Pressable>
+        </View>
       </View>
     </SafeAreaView>
   );

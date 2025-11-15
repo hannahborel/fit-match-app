@@ -1,0 +1,13 @@
+diff --git a/build/serializer/fork/js.js b/build/serializer/fork/js.js
+index 77268e312c1965a0bfaa13a105b0d772e0f5d1c9..613520c27db1519c94b9f1a5f56859cd91820680 100644
+--- a/build/serializer/fork/js.js
++++ b/build/serializer/fork/js.js
+@@ -69,7 +69,7 @@ function getModuleParams(module, options) {
+                         searchParams.set('modulesOnly', 'true');
+                         searchParams.set('runModule', 'false');
+                     }
+-                    const bundlePath = path_1.default.relative(options.serverRoot, dependency.absolutePath);
++                    const bundlePath = path_1.default.relative(options.serverRoot, modulePath);
+                     paths[id] =
+                         '/' +
+                             path_1.default.join(path_1.default.dirname(bundlePath), 
