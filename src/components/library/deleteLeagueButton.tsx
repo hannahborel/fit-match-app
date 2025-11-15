@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Alert, TouchableOpacity, View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { Text, useTheme, ActivityIndicator } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
 import { deleteLeague } from '@/queries/deleteLeague';
+import { useAuthCache } from '@/hooks/useAuthCashe';
+import { router } from 'expo-router';
 
 type DeleteLeagueButtonProps = {
   leagueId: string;
 };
 
 const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
-  const [loading, setLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const { getToken } = useAuth();
+  const { clearLeagueData } = useAuthCache();
   const theme = useTheme();
 
   const handleDelete = async () => {
@@ -24,17 +27,24 @@ const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
           style: 'destructive',
           onPress: async () => {
             try {
-              setLoading(true);
+              setIsDeleting(true);
               const token = await getToken();
 
-              if (!token) return;
+              if (!token) {
+                setIsDeleting(false);
+                return;
+              }
 
               const result = await deleteLeague({ token, leagueId });
-              Alert.alert('Deleted', result.message || 'League deleted');
+
+              // Clear league cache after successful deletion
+              await clearLeagueData();
+
+              // Redirect to home after everything is complete
+              router.replace('/');
             } catch (err: any) {
+              setIsDeleting(false);
               Alert.alert('Error', err.message || 'Something went wrong');
-            } finally {
-              setLoading(false);
             }
           },
         },
@@ -45,16 +55,22 @@ const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
   return (
     <TouchableOpacity
       onPress={handleDelete}
+      disabled={isDeleting}
       style={{
         backgroundColor: theme.colors.surface,
         borderRadius: 8,
         paddingVertical: 12,
         paddingHorizontal: 16,
+        opacity: isDeleting ? 0.7 : 1,
       }}
     >
-      <Text style={{ fontWeight: 500, color: theme.colors.error }}>
-        Delete League
-      </Text>
+      {isDeleting ? (
+        <ActivityIndicator size="small" color={theme.colors.error} />
+      ) : (
+        <Text style={{ fontWeight: 500, color: theme.colors.error }}>
+          Delete League
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
