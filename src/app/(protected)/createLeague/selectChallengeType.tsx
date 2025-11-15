@@ -28,7 +28,7 @@ const selectChallengeType = () => {
           against your friends in weekly battles to see where you stack up.
         </Text>
       </TouchableOpacity>
-
+      {/* 
       <TouchableOpacity
         style={[
           styles.container,
@@ -60,7 +60,7 @@ const selectChallengeType = () => {
         <Text style={{ fontSize: 12, color: theme.colors.onSurface }}>
           Call someone out in this head to head battle.
         </Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

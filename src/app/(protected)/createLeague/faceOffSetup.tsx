@@ -5,7 +5,12 @@ import { CreateLeagueInput } from 'hustle-types';
 
 import { useUser } from '@clerk/clerk-expo';
 import React, { useState, useEffect } from 'react';
-import { View, Platform } from 'react-native';
+import {
+  View,
+  Platform,
+  KeyboardAvoidingView,
+  SafeAreaView,
+} from 'react-native';
 import { Text, TextInput, useTheme, Button } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import LoadingScreen from '@/components/elements/LoadingScreen';
@@ -50,9 +55,8 @@ const FaceOffSetup = () => {
       setDateText(currentDate.toLocaleDateString());
     }
 
-    if (Platform.OS === 'android') {
-      setShowDatePicker(false);
-    }
+    // Close the date picker on both platforms after selection
+    setShowDatePicker(false);
   };
 
   const showDatePickerModal = () => {
@@ -150,87 +154,107 @@ const FaceOffSetup = () => {
   }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center' }}>
-      <View
-        style={{
-          flex: 1,
-          width: 300,
-        }}
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={0}
       >
-        <View style={{ gap: 24, width: '100%', marginTop: 30 }}>
-          <View style={{ gap: 8 }}>
-            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-              FACEOFF NAME
-            </Text>
-            <InputPrimary
-              mode="outlined"
-              value={leagueName}
-              onChangeText={setLeagueName}
-            />
-          </View>
-          <View style={{ gap: 8 }}>
-            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-              LEAGUE SIZE
-            </Text>
-            <NumberAvatar
-              start={4}
-              end={98}
-              step={2}
-              setValue={setLeagueSize}
-            />
-          </View>
-          <View style={{ gap: 8 }}>
-            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-              REGULAR SEASON WEEKS
-            </Text>
-            <NumberAvatar
-              start={4}
-              end={16}
-              step={4}
-              setValue={setRegularWeeks}
-            />
-          </View>
-          <View style={{ gap: 8 }}>
-            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-              LEAGUE START DATE
-            </Text>
-            <TextInput
-              mode="outlined"
-              theme={{ roundness: 12 }}
-              outlineColor={theme.colors.surface}
-              value={dateText}
-              onPressIn={showDatePickerModal}
-              editable={false}
-              right={
-                <TextInput.Icon icon="calendar" onPress={showDatePickerModal} />
-              }
-              style={{
-                width: '100%',
-                borderRadius: 12,
-                backgroundColor: theme.colors.background,
-                height: 45,
-              }}
-            />
-            {showDatePicker && (
-              <DateTimePicker
-                value={selectedDate}
-                mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={handleDateChange}
-                minimumDate={new Date()}
-              />
-            )}
-          </View>
-          <ButtonPrimary
-            style={{ marginTop: 24 }}
-            disabled={disableCreateLeague}
-            onPress={handleCreateLeague}
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'space-between',
+            marginHorizontal: 20,
+            marginVertical: 20,
+          }}
+        >
+          <View
+            style={{
+              width: '100%',
+              gap: 40,
+            }}
           >
-            <Text>Create League</Text>
-          </ButtonPrimary>
+            <View style={{ gap: 8 }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                FACEOFF NAME
+              </Text>
+              <InputPrimary
+                mode="outlined"
+                value={leagueName}
+                onChangeText={setLeagueName}
+              />
+            </View>
+            <View style={{ gap: 8 }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                LEAGUE SIZE
+              </Text>
+              <NumberAvatar
+                start={4}
+                end={98}
+                step={2}
+                setValue={setLeagueSize}
+              />
+            </View>
+            <View style={{ gap: 8 }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                REGULAR SEASON WEEKS
+              </Text>
+              <NumberAvatar
+                start={4}
+                end={16}
+                step={4}
+                setValue={setRegularWeeks}
+              />
+            </View>
+            <View style={{ gap: 8, position: 'relative' }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                LEAGUE START DATE
+              </Text>
+              <TextInput
+                mode="outlined"
+                theme={{ roundness: 12 }}
+                outlineColor={theme.colors.surface}
+                value={dateText}
+                onPressIn={showDatePickerModal}
+                editable={false}
+                right={
+                  <TextInput.Icon
+                    icon="calendar"
+                    onPress={showDatePickerModal}
+                  />
+                }
+                style={{
+                  width: '100%',
+                  borderRadius: 12,
+                  backgroundColor: theme.colors.background,
+                  height: 45,
+                }}
+              />
+              {showDatePicker && (
+                <View style={{ position: 'absolute', top: 70, left: 0, right: 0, zIndex: 1000 }}>
+                  <DateTimePicker
+                    value={selectedDate}
+                    mode="date"
+                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                    onChange={handleDateChange}
+                    minimumDate={new Date()}
+                  />
+                </View>
+              )}
+            </View>
+          </View>
+          <View>
+            <ButtonPrimary
+              style={{ marginTop: 24 }}
+              disabled={disableCreateLeague}
+              onPress={handleCreateLeague}
+            >
+              <Text>Create League</Text>
+            </ButtonPrimary>
+          </View>
         </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 
