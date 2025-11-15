@@ -13,7 +13,6 @@ import {
 } from 'react-native';
 import { Text, TextInput, useTheme, Button } from 'react-native-paper';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import LoadingScreen from '@/components/elements/LoadingScreen';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
 import { useAuthCache } from '@/hooks/useAuthCashe';
@@ -22,7 +21,7 @@ import InputPrimary from '@/components/elements/InputPrimary';
 
 const FaceOffSetup = () => {
   const { user } = useUser();
-  const { mutate: createLeague, isPending, isError, error } = useCreateLeague();
+  const { mutate: createLeague, isError, error } = useCreateLeague();
   const theme = useTheme();
   const [leagueName, setLeagueName] = useState('');
   const [leagueSize, setLeagueSize] = useState<number>(0);
@@ -36,6 +35,7 @@ const FaceOffSetup = () => {
 
   // UI state
   const [showError, setShowError] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
 
   // Initialize date text on component mount
   useEffect(() => {
@@ -74,6 +74,8 @@ const FaceOffSetup = () => {
     console.log('Starting league creation process...');
     console.log('User:', user?.id);
 
+    setIsCreating(true);
+
     const newLeague: CreateLeagueInput = {
       name: leagueName,
       size: leagueSize,
@@ -85,14 +87,13 @@ const FaceOffSetup = () => {
     createLeague(newLeague, {
       onSuccess: async (data) => {
         await updateLeagueCache(true, data.id);
-        // Use a longer timeout to ensure all state updates are complete
-        setTimeout(() => {
-          router.replace('/(protected)/(tabs)');
-        }, 500);
+        // Keep loading state until after redirect completes
+        router.replace('/(protected)/(tabs)');
       },
       onError: (error) => {
         console.error('League creation failed:', error);
-        // Show error state
+        // Show error state and reset creating state
+        setIsCreating(false);
         setShowError(true);
       },
     });
@@ -101,10 +102,6 @@ const FaceOffSetup = () => {
   const handleRetry = () => {
     setShowError(false);
   };
-  // Loading state
-  if (isPending) {
-    return <LoadingScreen message="Your league is being created..." />;
-  }
 
   // Error state
   if (showError || isError) {
@@ -247,6 +244,8 @@ const FaceOffSetup = () => {
             <ButtonPrimary
               style={{ marginTop: 24 }}
               disabled={disableCreateLeague}
+              loading={isCreating}
+              replaceTextWithSpinner={true}
               onPress={handleCreateLeague}
             >
               <Text>Create League</Text>
