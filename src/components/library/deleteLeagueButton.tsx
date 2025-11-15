@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Alert, View } from 'react-native';
-import { Button, Text, useTheme } from 'react-native-paper';
+import { Alert, TouchableOpacity, View } from 'react-native';
+import { Text, useTheme } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
 import { deleteLeague } from '@/queries/deleteLeague';
 
@@ -43,18 +43,19 @@ const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
   };
 
   return (
-    <View style={{ marginTop: 16 }}>
-      <Button
-        mode="outlined"
-        onPress={handleDelete}
-        loading={loading}
-        disabled={loading}
-        textColor={theme.colors.error}
-        style={{ borderColor: theme.colors.error }}
-      >
-        <Text> Delete League</Text>
-      </Button>
-    </View>
+    <TouchableOpacity
+      onPress={handleDelete}
+      style={{
+        backgroundColor: theme.colors.surface,
+        borderRadius: 8,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+      }}
+    >
+      <Text style={{ fontWeight: 500, color: theme.colors.error }}>
+        Delete League
+      </Text>
+    </TouchableOpacity>
   );
 };
 
