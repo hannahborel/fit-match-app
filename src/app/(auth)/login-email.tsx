@@ -5,7 +5,7 @@ import { useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Text } from 'react-native-paper';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
@@ -61,44 +61,50 @@ export default function Login() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ flex: 1, paddingHorizontal: 8 }}>
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            justifyContent: 'space-between',
-            marginVertical: 20,
-          }}
-        >
-          <View>
-            <View style={{ marginVertical: 48 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                }}
-              >
-                Welcome!
-              </Text>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={0}
+      >
+        <View style={{ flex: 1, paddingHorizontal: 8 }}>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              justifyContent: 'space-between',
+              marginVertical: 20,
+            }}
+          >
+            <View>
+              <View style={{ marginVertical: 48 }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}
+                >
+                  Welcome!
+                </Text>
+              </View>
+
+              <InputPrimary
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                placeholder="Email"
+                leftIcon="email-outline"
+                rightIcon={checkIcon}
+              />
             </View>
 
-            <InputPrimary
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              placeholder="Email"
-              leftIcon="email-outline"
-              rightIcon={checkIcon}
-            />
+            <ButtonPrimary onPress={handleContinue} disabled={!isValidEmail}>
+              Continue
+            </ButtonPrimary>
           </View>
-
-          <ButtonPrimary onPress={handleContinue} disabled={!isValidEmail}>
-            Continue
-          </ButtonPrimary>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

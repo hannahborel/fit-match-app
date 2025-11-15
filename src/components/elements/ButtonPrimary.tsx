@@ -34,7 +34,9 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   const failedConditions = conditions.filter(
     (condition) => !condition.isValid && condition.errorMessage,
   );
-  const labelColor = isDisabled
+  const isDisabledWithoutLoading =
+    conditions.some((condition) => !condition.isValid) || disabled;
+  const labelColor = isDisabledWithoutLoading
     ? theme.colors.onSurfaceDisabled
     : theme.colors.onPrimary;
   const shouldShowSpinnerOnly = Boolean(loading && replaceTextWithSpinner);
@@ -47,7 +49,7 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
       loading={buttonLoading}
       style={[
         {
-          backgroundColor: isDisabled
+          backgroundColor: isDisabledWithoutLoading
             ? theme.colors.surfaceDisabled
             : theme.colors.primary,
           paddingHorizontal: 18,

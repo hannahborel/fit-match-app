@@ -1,14 +1,15 @@
-import { Text } from 'react-native';
-import React from 'react';
-import { useAuth } from '@clerk/clerk-expo';
-import { Button } from 'react-native-paper';
 import { useAuthCache } from '@/hooks/useAuthCashe';
+import { useAuth } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
+import React from 'react';
+import { Text, TouchableOpacity } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
 const LogoutButton = () => {
   const { signOut } = useAuth();
   const router = useRouter();
   const { clearCache } = useAuthCache();
+  const theme = useTheme();
   const handleLogout = async () => {
     try {
       // 1. Clear all cached data FIRST
@@ -34,9 +35,19 @@ const LogoutButton = () => {
     }
   };
   return (
-    <Button mode="outlined" style={{ borderRadius: 8 }} onPress={handleLogout}>
-      <Text>Log Out</Text>
-    </Button>
+    <TouchableOpacity
+      onPress={handleLogout}
+      style={{
+        backgroundColor: theme.colors.surface,
+        borderRadius: 8,
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+      }}
+    >
+      <Text style={{ fontWeight: 500, color: theme.colors.primary }}>
+        Sign Out
+      </Text>
+    </TouchableOpacity>
   );
 };
 
