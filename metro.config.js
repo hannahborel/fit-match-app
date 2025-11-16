@@ -11,6 +11,8 @@ config.resolver = {
   ...config.resolver,
   assetExts: config.resolver.assetExts.filter((ext) => ext !== 'svg'),
   sourceExts: [...config.resolver.sourceExts, 'svg'],
+  // Disable unstable_enablePackageExports to avoid chunking issues in SDK 53
+  unstable_enablePackageExports: false,
 };
 
 module.exports = config;
