@@ -32,12 +32,12 @@ const Account = () => {
 
   const settings = [
     {
-      label: 'Account Settings',
+      label: 'Settings',
       route: 'account/accountSettings',
       action: () => router.push('account/accountSettings'),
     },
     {
-      label: 'View League Details',
+      label: 'League Details',
       action: () => setIsLeagueDetailsVisible(true),
     },
   ];
@@ -75,31 +75,33 @@ const Account = () => {
           style={{
             backgroundColor: theme.colors.surface,
             borderRadius: 6,
+            overflow: 'hidden',
           }}
         >
           {settings.map((item, index) => (
             <TouchableOpacity
+              style={{
+                backgroundColor: theme.colors.surface,
+
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingVertical: 12,
+                paddingHorizontal: 12,
+                borderBottomColor:
+                  index !== settings.length - 1
+                    ? theme.colors.outline
+                    : 'transparent',
+                borderBottomWidth: 1,
+              }}
               key={index}
               onPress={item.action}
             >
-              <View
-                style={{
-                  backgroundColor: theme.colors.surface,
-                  borderRadius: 6,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: 14,
-                  borderBottomColor: theme.colors.outline,
-                  borderBottomWidth: 1,
-                }}
-              >
-                <View>
-                  <Text style={{ fontWeight: 500 }}>{item.label}</Text>
-                </View>
-                <View>
-                  <ChevronRight color={theme.colors.onSurface} />
-                </View>
+              <View>
+                <Text style={{ fontWeight: 500 }}>{item.label}</Text>
+              </View>
+              <View>
+                <ChevronRight size={20} color={theme.colors.onSurface} />
               </View>
             </TouchableOpacity>
           ))}
