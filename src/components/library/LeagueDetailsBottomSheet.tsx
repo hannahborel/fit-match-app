@@ -8,6 +8,8 @@ import { useAtomValue } from 'jotai';
 import React from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import ManageLeagueName from './ManageUserDetails';
+import ManageLeagueDuration from './ManageLeagueDuration';
 
 interface LeagueDetailsBottomSheetProps {
   visible: boolean;
@@ -38,17 +40,13 @@ const LeagueDetailsBottomSheet: React.FC<LeagueDetailsBottomSheetProps> = ({
                 overflow: 'hidden',
               }}
             >
-              <Row col1={'League Name'} col2={leagueDetails.name} />
+              <ManageLeagueName leagueName={leagueDetails.name} />
 
-              {/* <Row
-                col1={'Start Date'}
-                col2={formatDate(leagueDetails.startDate)}
-              /> */}
-
-              <Row
-                col1={'Duration'}
-                col2={leagueDetails.weeks.toString() + ' weeks'}
+              <ManageLeagueDuration
+                leagueId={leagueDetails.id}
+                weeks={leagueDetails.weeks}
               />
+
               <ManageLeagueSize
                 leagueId={leagueDetails.id}
                 leagueSize={leagueDetails.size}
