@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { Platform, View } from 'react-native';
 import { Button, Text, useTheme } from 'react-native-paper';
 import { Row } from '../elements/Table/TableElements';
+import SettingsRow from './SettingsRow';
 
 type UpdateLeagueStartDateDemo = {
   startDate: Date;
@@ -56,40 +57,18 @@ export default function UpdateLeagueStartDateDemo({
   };
 
   return (
-    <View style={{ alignItems: 'center' }}>
-      <View
+    <>
+      <SettingsRow
+        label="Start Date"
+        value={formatDate(newStartDate)}
+        onPress={() => setShowPicker(!showPicker)}
+        isActive={showPicker}
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          width: '100%',
-          padding: 12,
+          borderBottomWidth: 0,
+          borderBottomEndRadius: 8,
+          borderBottomStartRadius: 8,
         }}
-      >
-        <View style={{ width: '40%' }}>
-          <Text style={{ color: theme.colors.onSurface, fontSize: 14 }}>
-            Start Date
-          </Text>
-        </View>
-        <View
-          style={{
-            width: '60%',
-            alignItems: 'flex-end',
-          }}
-        >
-          <Text
-            onPress={() => setShowPicker(!showPicker)}
-            style={{
-              color: theme.colors.onSurface,
-              fontWeight: 500,
-              fontSize: 14,
-              flexWrap: 'nowrap',
-            }}
-          >
-            {formatDate(newStartDate)}
-          </Text>
-        </View>
-      </View>
+      />
       {showPicker && (
         <>
           <DateTimePicker
@@ -117,19 +96,20 @@ export default function UpdateLeagueStartDateDemo({
           )}
         </>
       )}
-
-      <View style={{ marginTop: 8 }}>
-        {status !== '' && (
-          <Text
-            style={{
-              marginTop: 12,
-              color: status.includes('Error') ? 'red' : 'green',
-            }}
-          >
-            {status}
-          </Text>
-        )}
-      </View>
-    </View>
+    </>
   );
+}
+{
+  /* <View style={{ marginTop: 8 }}>
+{status !== '' && (
+  <Text
+    style={{
+      marginTop: 12,
+      color: status.includes('Error') ? 'red' : 'green',
+    }}
+  >
+    {status}
+  </Text>
+)}
+</View> */
 }

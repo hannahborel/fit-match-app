@@ -35,6 +35,7 @@ const LeagueDetailsBottomSheet: React.FC<LeagueDetailsBottomSheetProps> = ({
               style={{
                 backgroundColor: theme.colors.surface,
                 borderRadius: 8,
+                overflow: 'hidden',
               }}
             >
               <Row col1={'League Name'} col2={leagueDetails.name} />
