@@ -1,4 +1,9 @@
-import { SafeAreaView, View } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  View,
+} from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { useTheme, Text } from 'react-native-paper';
 import BackHeader from '@/components/elements/Headers/BackHeader';
@@ -112,99 +117,105 @@ const AddUserDetails = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <View style={{ flex: 1, paddingHorizontal: 8 }}>
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            justifyContent: 'space-between',
-            marginVertical: 0,
-          }}
-        >
-          <View>
-            <BackHeader />
-            <View style={{ marginBottom: 60, paddingHorizontal: 40 }}>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                  textAlign: 'center',
-                }}
-              >
-                Just one more thing...
-              </Text>
-            </View>
-            <View style={{ gap: 8, paddingHorizontal: 8 }}>
-              <View
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
-              >
-                <CheckCircleIcon size={20} color={theme.colors.secondary} />
-                <Text style={{ fontSize: 14, fontWeight: 700 }}>
-                  Your account has been created. Let's add some final profile
-                  details and get you ready to join a league.
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={0}
+      >
+        <View style={{ flex: 1, paddingHorizontal: 8 }}>
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              justifyContent: 'space-between',
+              marginVertical: 0,
+            }}
+          >
+            <View>
+              <BackHeader />
+              <View style={{ marginBottom: 60, paddingHorizontal: 40 }}>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    textAlign: 'center',
+                  }}
+                >
+                  Just one more thing...
                 </Text>
               </View>
-              <View style={{ gap: 12, marginTop: 16 }}>
-                <InputPrimary
-                  placeholder="First Name"
-                  value={firstName}
-                  onChangeText={(text) => {
-                    setFirstName(text);
-                    if (errors.firstName) {
-                      validateName(text, 'firstName');
-                    }
-                  }}
-                  onBlur={() => validateName(firstName, 'firstName')}
-                />
-                {errors.firstName && (
-                  <Text
-                    style={{
-                      color: theme.colors.error,
-                      fontSize: 12,
-                      marginTop: -8,
-                    }}
-                  >
-                    {errors.firstName}
+              <View style={{ gap: 8, paddingHorizontal: 8 }}>
+                <View
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}
+                >
+                  <CheckCircleIcon size={20} color={theme.colors.secondary} />
+                  <Text style={{ fontSize: 14, fontWeight: 700 }}>
+                    Your account has been created. Let's add some final profile
+                    details and get you ready to join a league.
                   </Text>
-                )}
-                <InputPrimary
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChangeText={(text) => {
-                    setLastName(text);
-                    if (errors.lastName) {
-                      validateName(text, 'lastName');
-                    }
-                  }}
-                  onBlur={() => validateName(lastName, 'lastName')}
-                />
-                {errors.lastName && (
-                  <Text
-                    style={{
-                      color: theme.colors.error,
-                      fontSize: 12,
-                      marginTop: -8,
+                </View>
+                <View style={{ gap: 12, marginTop: 16 }}>
+                  <InputPrimary
+                    placeholder="First Name"
+                    value={firstName}
+                    onChangeText={(text) => {
+                      setFirstName(text);
+                      if (errors.firstName) {
+                        validateName(text, 'firstName');
+                      }
                     }}
-                  >
-                    {errors.lastName}
-                  </Text>
-                )}
+                    onBlur={() => validateName(firstName, 'firstName')}
+                  />
+                  {errors.firstName && (
+                    <Text
+                      style={{
+                        color: theme.colors.error,
+                        fontSize: 12,
+                        marginTop: -8,
+                      }}
+                    >
+                      {errors.firstName}
+                    </Text>
+                  )}
+                  <InputPrimary
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChangeText={(text) => {
+                      setLastName(text);
+                      if (errors.lastName) {
+                        validateName(text, 'lastName');
+                      }
+                    }}
+                    onBlur={() => validateName(lastName, 'lastName')}
+                  />
+                  {errors.lastName && (
+                    <Text
+                      style={{
+                        color: theme.colors.error,
+                        fontSize: 12,
+                        marginTop: -8,
+                      }}
+                    >
+                      {errors.lastName}
+                    </Text>
+                  )}
+                </View>
               </View>
             </View>
-          </View>
 
-          <View style={{ gap: 12 }}>
-            <ButtonPrimary
-              onPress={handleFinish}
-              loading={isLoading}
-              disabled={isLoading || !firstName.trim() || !lastName.trim()}
-              replaceTextWithSpinner={true}
-            >
-              Finish
-            </ButtonPrimary>
+            <View style={{ gap: 12 }}>
+              <ButtonPrimary
+                onPress={handleFinish}
+                loading={isLoading}
+                disabled={isLoading || !firstName.trim() || !lastName.trim()}
+                replaceTextWithSpinner={true}
+              >
+                Finish
+              </ButtonPrimary>
+            </View>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
