@@ -16,8 +16,8 @@ export const useUpdateLeague = (onSuccessMsg?: string) => {
       // Update the atom immediately with the updated league data
       setLeagueAtom(updatedLeague);
 
-      // Invalidate the league query cache to trigger refetch
-      queryClient.invalidateQueries({ queryKey: ['league', userId] });
+      // Update the query cache directly to prevent refetch and eliminate blinking
+      queryClient.setQueryData(['league', userId], updatedLeague);
 
       if (onSuccessMsg) {
         // Success message handling can be added here if needed
