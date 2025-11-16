@@ -1,6 +1,5 @@
 import { leagueAtom } from '@/atoms/leagueAtom';
 import BottomSheet from '@/components/elements/BottomSheet';
-import { Row } from '@/components/elements/Table/TableElements';
 import DeleteLeagueButton from '@/components/library/deleteLeagueButton';
 import ManageLeagueSize from '@/components/library/ManageLeagueSize';
 import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
@@ -57,31 +56,6 @@ const LeagueDetailsBottomSheet: React.FC<LeagueDetailsBottomSheetProps> = ({
               />
             </View>
             <DeleteLeagueButton leagueId={leagueDetails.id} />
-
-            <View>
-              {/* {leagueDetails.leaguesToUsers.map((user, index) => (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 12,
-                  }}
-                  key={user.id}
-                >
-                  <View>
-                    <Avatar.Image
-                      size={24}
-                      source={{
-                        uri: `https://ui-avatars.com/api/?name=John+Doe&background=random`,
-                      }}
-                    />
-                  </View>
-                  <View>
-                    <Text>User {index + 1}</Text>
-                  </View>
-                </View>
-              ))} */}
-            </View>
           </>
         )}
       </View>

@@ -10,7 +10,11 @@ const ManageLeagueName = ({ leagueName }: ManageLeagueNameProps) => {
         label="League Name"
         value={leagueName}
         onPress={() => {
-          console.log('First Name');
+          console.log('League Name');
+        }}
+        style={{
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
         }}
       />
     </>
