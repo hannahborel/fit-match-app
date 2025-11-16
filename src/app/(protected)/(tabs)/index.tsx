@@ -13,12 +13,12 @@ import {
 } from '@/helpers/matchesHelper';
 
 import { shouldShowSchedule } from '@/helpers/leagueStatus';
-import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtom, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useRouter } from 'expo-router';
 import { useGetLeague } from '@/hooks/useGetLeague';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = () => {
   // Use the atom which is now updated by the main loading page
@@ -46,46 +46,23 @@ const Home = () => {
   }, [leagueData]);
   const theme = useTheme();
 
-  // Show loading state while league data is being fetched
-  if (leagueData === undefined) {
-    return (
-      <>
-        <CustomHeader title={'Home'} />
-        <View
-          style={{
-            backgroundColor: theme.colors.background,
-            flex: 1,
-            padding: 16,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-          <Text style={{ color: theme.colors.onBackground }}>Welcome Back</Text>
-        </View>
-      </>
-    );
-  }
-
   return (
     <>
-      <CustomHeader title={'Home'} />
-
       {leagueData && (
-        <View
+        <SafeAreaView
           style={{
             backgroundColor: theme.colors.background,
             flex: 1,
-            padding: 16,
-            gap: 16,
           }}
         >
-          <BaseCard title={'YOUR LEAGUE STARTS IN'}>
-            <CountdownTimer targetTime={leagueData.startDate} />
-          </BaseCard>
+          <View style={{ padding: 8, gap: 16 }}>
+            <BaseCard title={'YOUR LEAGUE STARTS IN'}>
+              <CountdownTimer targetTime={leagueData.startDate} />
+            </BaseCard>
 
-          <InviteFriendsSection league={leagueData} />
-        </View>
+            <InviteFriendsSection league={leagueData} />
+          </View>
+        </SafeAreaView>
       )}
     </>
   );

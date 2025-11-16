@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
+import { useQueryClient } from '@tanstack/react-query';
 import SplashScreen from '@/components/elements/SplashScreen';
 import {
   getCachedAppState,
@@ -26,6 +27,7 @@ export default function Index() {
   const { isLoaded: clerkLoaded, isSignedIn, userId, getToken } = useAuth();
   const { user } = useUser();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [appState, setAppState] = useState<AppState>('loading');
   const hasNavigatedRef = useRef(false); // ✅ Use ref instead of state
   const splashStartTimeRef = useRef<number>(Date.now()); // Track when splash started
@@ -72,8 +74,12 @@ export default function Index() {
       // Step 2: Use cache for instant UI (if available)
       if (cachedState?.authState?.isSignedIn && cachedState?.leagueState) {
         console.log('✅ Using cached state for instant navigation');
-        // Show cached state immediately
+
+        // Prefetch league data in background while showing cached UI
         if (cachedState.leagueState.hasLeague) {
+          console.log('📦 Prefetching league data during splash screen');
+          verifyAndUpdateCache();
+
           console.log('📍 Cache says: Has league, going to dashboard');
           setAppState('app');
           navigateTo('/(protected)/(tabs)');
@@ -82,9 +88,6 @@ export default function Index() {
           setAppState('onboarding');
           navigateTo('/(protected)/createLeague');
         }
-
-        // Step 3: Verify in background and update if needed
-        verifyAndUpdateCache();
       } else {
         console.log('❌ No valid cache, fetching fresh data');
         // No cache - fetch fresh data
@@ -127,6 +130,12 @@ export default function Index() {
         leagueId: league?.id || null,
       });
 
+      // Prefetch league data into React Query cache
+      if (league?.id) {
+        console.log('📦 Prefetching league data into React Query cache');
+        queryClient.setQueryData(['league', userId], league);
+      }
+
       // Navigate based on league status
       if (league?.id) {
         console.log('✅ League found, navigating to dashboard');
@@ -165,6 +174,12 @@ export default function Index() {
         hasLeague: !!league?.id,
         leagueId: league?.id || null,
       });
+
+      // Prefetch league data into React Query cache
+      if (league?.id) {
+        console.log('📦 Updating React Query cache with verified data');
+        queryClient.setQueryData(['league', userId], league);
+      }
 
       // If state changed, update navigation
       if (league?.id && appState !== 'app') {
