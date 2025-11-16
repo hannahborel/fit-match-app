@@ -1,14 +1,10 @@
-import { updateLeagueStartTime } from '@/queries/updateLeagueStartTime';
 import { useAuth } from '@clerk/clerk-expo';
 import DateTimePicker, {
   DateTimePickerEvent,
 } from '@react-native-community/datetimepicker';
-import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react';
-import { Platform, View } from 'react-native';
-import { Button, Text, useTheme } from 'react-native-paper';
-import { Row } from '../elements/Table/TableElements';
 import SettingsRow from './SettingsRow';
+import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 
 type UpdateLeagueStartDateDemo = {
   startDate: Date;
@@ -21,32 +17,41 @@ export default function UpdateLeagueStartDateDemo({
 }: UpdateLeagueStartDateDemo) {
   const [newStartDate, setNewStartDate] = useState(new Date(startDate));
   const [showPicker, setShowPicker] = useState(false);
-  const [status, setStatus] = useState('');
-  const theme = useTheme();
+  const [initialValue, setInitialValue] = useState(new Date(startDate));
   const { getToken } = useAuth();
 
-  const isDisabled = startDate.toISOString() === newStartDate.toISOString();
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: updateLeagueStartTime,
-    onSuccess: () => setStatus('Start date updated'),
-    onError: (err) => setStatus(`Error: ${err?.message}`),
-  });
+  const mutation = useUpdateLeague('Start date updated! 🎉');
 
   const onChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
     if (selectedDate) {
       setNewStartDate(selectedDate);
     }
-    // setShowPicker(false);
   };
 
-  const handleSubmit = async () => {
-    setStatus('');
+  const handleUpdate = async () => {
     const token = await getToken();
-    if (token) {
-      mutate({ leagueId, newStartDate, token });
+    if (!token) return;
+
+    mutation.mutate({
+      token,
+      updates: {
+        id: leagueId,
+        startDate: newStartDate,
+      },
+    });
+  };
+
+  const handlePickerToggle = () => {
+    if (showPicker) {
+      // Picker is closing - check if value changed
+      if (newStartDate.toISOString() !== initialValue.toISOString()) {
+        handleUpdate();
+      }
     } else {
+      // Picker is opening - save initial value
+      setInitialValue(newStartDate);
     }
+    setShowPicker(!showPicker);
   };
 
   const formatDate = (date: Date) => {
@@ -61,7 +66,7 @@ export default function UpdateLeagueStartDateDemo({
       <SettingsRow
         label="Start Date"
         value={formatDate(newStartDate)}
-        onPress={() => setShowPicker(!showPicker)}
+        onPress={handlePickerToggle}
         isActive={showPicker}
         style={{
           borderBottomWidth: 0,
@@ -70,31 +75,13 @@ export default function UpdateLeagueStartDateDemo({
         }}
       />
       {showPicker && (
-        <>
-          <DateTimePicker
-            value={newStartDate}
-            mode="date"
-            display={'spinner'}
-            onChange={onChange}
-            style={{ width: '100%' }}
-          />
-
-          {!isDisabled && (
-            <Button
-              disabled={isDisabled}
-              loading={isPending}
-              mode="contained"
-              onPress={handleSubmit}
-              style={{
-                backgroundColor: isDisabled
-                  ? theme.colors.surfaceDisabled
-                  : theme.colors.primary,
-              }}
-            >
-              <Text>Update</Text>
-            </Button>
-          )}
-        </>
+        <DateTimePicker
+          value={newStartDate}
+          mode="date"
+          display={'spinner'}
+          onChange={onChange}
+          style={{ width: '100%' }}
+        />
       )}
     </>
   );
