@@ -12,10 +12,12 @@ import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 
 type AppState = 'loading' | 'auth' | 'profile' | 'onboarding' | 'app';
 
+const MINIMUM_SPLASH_DURATION = 3000; // 3 seconds minimum display time
+
 /**
  * Central navigation controller - Single source of truth for routing
  * This component handles the Instagram-style flow:
- * 1. Show splash screen
+ * 1. Show splash screen (minimum 3 seconds)
  * 2. Check cache for instant navigation
  * 3. Verify with server in background
  * 4. Navigate to appropriate screen
@@ -26,6 +28,7 @@ export default function Index() {
   const router = useRouter();
   const [appState, setAppState] = useState<AppState>('loading');
   const hasNavigatedRef = useRef(false); // ✅ Use ref instead of state
+  const splashStartTimeRef = useRef<number>(Date.now()); // Track when splash started
 
   useEffect(() => {
     initializeApp();
@@ -187,12 +190,25 @@ export default function Index() {
 
   /**
    * Navigate with guard to prevent multiple navigations
+   * Ensures splash screen shows for minimum duration
    */
-  function navigateTo(path: string) {
+  async function navigateTo(path: string) {
     if (!hasNavigatedRef.current) {
       console.log('🚀 NAVIGATING TO:', path);
       console.log('🔒 Has navigated before?', hasNavigatedRef.current);
       hasNavigatedRef.current = true;
+
+      // Calculate remaining time to show splash screen
+      const elapsedTime = Date.now() - splashStartTimeRef.current;
+      const remainingTime = Math.max(0, MINIMUM_SPLASH_DURATION - elapsedTime);
+
+      if (remainingTime > 0) {
+        console.log(
+          `⏱️ Waiting ${remainingTime}ms to meet minimum splash duration`,
+        );
+        await new Promise((resolve) => setTimeout(resolve, remainingTime));
+      }
+
       // Use replace to prevent back navigation to splash
       router.replace(path as any);
       console.log('✅ Navigation command sent');
