@@ -5,12 +5,13 @@ import { fetchLeagueByUserId } from '@/queries/fetchLeagueByUserId';
 import { cacheLeagueState } from '@/lib/authCache';
 import { leagueAtom } from '@/atoms/leagueAtom';
 import { useSetAtom } from 'jotai';
+import { useEffect } from 'react';
 
 export const useGetLeague = (options = {}) => {
   const { getToken, isLoaded, isSignedIn, userId } = useAuth();
   const setLeague = useSetAtom(leagueAtom);
 
-  return useQuery({
+  const query = useQuery({
     queryKey: ['league', userId],
     queryFn: async () => {
       const token = await getToken();
@@ -36,4 +37,13 @@ export const useGetLeague = (options = {}) => {
     refetchOnWindowFocus: false,
     ...options,
   });
+
+  // Sync React Query data to atom whenever it changes (including from cache)
+  useEffect(() => {
+    if (query.data) {
+      setLeague(query.data);
+    }
+  }, [query.data, setLeague]);
+
+  return query;
 };

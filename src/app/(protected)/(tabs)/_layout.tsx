@@ -5,9 +5,12 @@ import { Tabs } from 'expo-router';
 import { Calendar, CircleUser, Home, Plus } from 'lucide-react-native';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
+import { useGetLeague } from '@/hooks/useGetLeague';
 
 export default function HomeTabs() {
   const theme = useTheme();
+  // Fetch league data at the tab layout level so all child tabs can access it via the atom
+  useGetLeague();
   type TabIconProps = {
     color: string;
     size: number;

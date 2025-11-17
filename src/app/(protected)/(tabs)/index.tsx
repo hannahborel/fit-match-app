@@ -13,16 +13,15 @@ import {
 } from '@/helpers/matchesHelper';
 
 import { shouldShowSchedule } from '@/helpers/leagueStatus';
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { useGetLeague } from '@/hooks/useGetLeague';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = () => {
-  // Use the atom which is now updated by the main loading page
-  const { data: leagueData } = useGetLeague();
+  // Read from atom - data is fetched in the parent layout
+  const leagueData = useAtomValue(leagueAtom);
   const setCurrentMatchId = useSetAtom(currentMatchAtom);
   const [, setSchedule] = useAtom(allMatchupsWithPointsAtom);
 
