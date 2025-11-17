@@ -41,17 +41,17 @@ const ExpandedRows = ({
       key={index}
       style={{
         backgroundColor: isPlaceholder
-          ? theme.colors.surfaceDisabled
+          ? theme.colors.surface
           : theme.colors.surface,
         borderRadius: 6,
-        opacity: isPlaceholder ? 0.6 : 1,
+        opacity: isPlaceholder ? 1 : 1,
       }}
     >
       <View>
         <View style={styles.listItem}>
           <View style={styles.listItem_left}>
             <Avatar.Image
-              size={40}
+              size={30}
               source={getAvatarByIndex(index)}
               style={{ opacity: isPlaceholder ? 0.4 : 1 }}
             />
