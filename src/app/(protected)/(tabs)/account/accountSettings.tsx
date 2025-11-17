@@ -1,7 +1,7 @@
-import DeleteAccountButton from '@/components/DeleteAccountBtn';
+import DeleteAccountButton from '@/components/DeleteAccount/DeleteAccountBtn';
 import LoadingScreen from '@/components/elements/LoadingScreen';
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
 const accountSettings = () => {
@@ -9,11 +9,13 @@ const accountSettings = () => {
   const [actionInProgress, setActionInProgress] = useState<boolean>(false);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      {actionInProgress ? (
-        <LoadingScreen message="Deleting account..." />
-      ) : (
-        <DeleteAccountButton setActionInProgress={setActionInProgress} />
-      )}
+      <View style={{ padding: 8 }}>
+        {actionInProgress ? (
+          <LoadingScreen message="Deleting account..." />
+        ) : (
+          <DeleteAccountButton setActionInProgress={setActionInProgress} />
+        )}
+      </View>
     </SafeAreaView>
   );
 };

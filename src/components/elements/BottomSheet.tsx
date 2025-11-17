@@ -18,6 +18,7 @@ interface BottomSheetProps {
   title?: string;
   showDragHandle?: boolean;
   size?: BottomSheetSize;
+  contentContainerStyle?: object;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -27,6 +28,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   title,
   showDragHandle = false,
   size = 'md',
+  contentContainerStyle,
 }) => {
   const theme = useTheme();
   const screenHeight = Dimensions.get('window').height;
@@ -91,16 +93,17 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                 justifyContent: 'center',
                 marginTop: 8,
                 marginBottom: 12,
+                height: 30,
               }}
             >
               <X
                 style={styles.closeButton}
-                size={24}
+                size={28}
                 color="white"
                 onPress={onClose}
               />
               {title && (
-                <View>
+                <View style={{ justifyContent: 'center' }}>
                   <Text style={styles.headerText}>{title}</Text>
                 </View>
               )}
@@ -108,6 +111,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
 
             <ScrollView
               style={styles.scrollView}
+              contentContainerStyle={contentContainerStyle}
               showsVerticalScrollIndicator={false}
             >
               {children}
@@ -134,7 +138,7 @@ const getStyles = (theme: any, height: number) =>
     sheetContent: {
       paddingTop: 8,
       paddingHorizontal: 8,
-      paddingBottom: 24,
+      paddingBottom: 8,
       flex: 1,
     },
     header: {

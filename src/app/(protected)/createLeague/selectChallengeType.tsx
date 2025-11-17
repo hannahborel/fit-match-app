@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import FaceOffImg from '../../../assets/svg/faceOffImg.svg';
 import { router } from 'expo-router';
@@ -8,8 +8,15 @@ const selectChallengeType = () => {
   const theme = useTheme();
 
   return (
-    <View style={styles.parent}>
-      <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'space-between',
+          marginHorizontal: 20,
+          marginVertical: 20,
+        }}
+      >
         <View
           style={[
             styles.container,
@@ -26,7 +33,40 @@ const selectChallengeType = () => {
             against your friends in weekly battles to see where you stack up.
           </Text>
         </View>
-        {/*
+
+        <View>
+          <ButtonPrimary
+            onPress={() => router.push('/createLeague/faceOffSetup')}
+          >
+            <Text>Start</Text>
+          </ButtonPrimary>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  parent: {
+    flex: 1,
+    justifyContent: 'space-between',
+    padding: 20,
+  },
+  container: {
+    width: '100%',
+    height: '30%',
+    flexDirection: 'column',
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    gap: 20,
+  },
+});
+export default selectChallengeType;
+
+{
+  /*
         <TouchableOpacity
           style={[
             styles.container,
@@ -58,32 +98,5 @@ const selectChallengeType = () => {
           <Text style={{ fontSize: 12, color: theme.colors.onSurface }}>
             Call someone out in this head to head battle.
           </Text>
-        </TouchableOpacity> */}
-      </View>
-      <View>
-        <ButtonPrimary onPress={() => router.push('/createLeague/faceOffSetup')}>
-          <Text>Start</Text>
-        </ButtonPrimary>
-      </View>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  parent: {
-    flex: 1,
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  container: {
-    width: '100%',
-    height: '30%',
-    flexDirection: 'column',
-    borderRadius: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    gap: 20,
-  },
-});
-export default selectChallengeType;
+        </TouchableOpacity> */
+}

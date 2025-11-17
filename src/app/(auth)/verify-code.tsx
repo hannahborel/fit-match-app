@@ -51,7 +51,7 @@ export default function VerifyCode() {
         // Redirect based on user type
         if (isNewUser) {
           console.log('New user signup complete, redirecting to add-user-profile-details');
-          router.replace('/(auth)/add-user-profile-details');
+          router.replace('/add-user-profile-details');
         } else {
           console.log('Existing user signin complete, redirecting to home');
           router.replace('/');

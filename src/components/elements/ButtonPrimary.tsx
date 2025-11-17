@@ -28,6 +28,7 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
   showErrors = false,
   replaceTextWithSpinner = false,
   minLoadingDuration = 3000,
+  labelStyle,
   ...otherProps
 }) => {
   const theme = useTheme();
@@ -99,10 +100,13 @@ const ButtonPrimary: React.FC<ButtonPrimaryProps> = ({
         },
         style,
       ]}
-      labelStyle={{
-        color: labelColor,
-        fontSize: 16,
-      }}
+      labelStyle={[
+        {
+          color: labelColor,
+          fontSize: 16,
+        },
+        labelStyle,
+      ]}
     >
       {shouldShowSpinnerOnly ? (
         <ActivityIndicator color={labelColor} size={20} />

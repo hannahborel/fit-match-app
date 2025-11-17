@@ -54,7 +54,8 @@ export const themeColors = {
     onTertiary: 'rgb(104, 0, 8)',
     tertiaryContainer: 'rgb(147, 0, 16)',
     onTertiaryContainer: 'rgb(255, 218, 214)',
-    error: 'rgb(255, 180, 171)',
+    error: 'rgb(227, 69, 51)',
+
     onError: 'rgb(105, 0, 5)',
     errorContainer: 'rgb(147, 0, 10)',
     onErrorContainer: 'rgb(255, 180, 171)',
