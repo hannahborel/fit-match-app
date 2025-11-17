@@ -8,8 +8,7 @@ export default function AccountLayout() {
       <Stack.Screen
         name="index"
         options={{
-          headerShown: true,
-          title: 'Standings',
+          headerShown: false,
         }}
       />
     </ThemedStack>

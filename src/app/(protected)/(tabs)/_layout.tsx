@@ -52,19 +52,7 @@ export default function HomeTabs() {
     },
   ];
   return (
-    <Tabs
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: theme.colors.background,
-          height: 60,
-        },
-        headerTitleStyle: {
-          color: theme.colors.onBackground,
-        },
-        tabBarInactiveTintColor: 'rgba(102, 119, 150, 0.56)',
-        tabBarActiveTintColor: 'rgba(207, 213, 247, 1)',
-      }}
-    >
+    <Tabs>
       {homeTabs.map((tab, index) => (
         <Tabs.Screen
           key={index}
