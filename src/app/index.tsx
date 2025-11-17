@@ -75,11 +75,11 @@ export default function Index() {
       if (cachedState?.authState?.isSignedIn && cachedState?.leagueState) {
         console.log('✅ Using cached state for instant navigation');
 
+        // Always verify cache in background to catch cross-device changes
+        verifyAndUpdateCache();
+
         // Prefetch league data in background while showing cached UI
         if (cachedState.leagueState.hasLeague) {
-          console.log('📦 Prefetching league data during splash screen');
-          verifyAndUpdateCache();
-
           console.log('📍 Cache says: Has league, going to dashboard');
           setAppState('app');
           navigateTo('/(protected)/(tabs)');
@@ -187,13 +187,13 @@ export default function Index() {
           '🔄 Cache changed: Now has league, redirecting to dashboard',
         );
         setAppState('app');
-        navigateTo('/(protected)/(tabs)');
+        navigateTo('/(protected)/(tabs)', { force: true });
       } else if (!league?.id && appState !== 'onboarding') {
         console.log(
           '🔄 Cache changed: No longer has league, redirecting to create league',
         );
         setAppState('onboarding');
-        navigateTo('/(protected)/createLeague');
+        navigateTo('/(protected)/createLeague', { force: true });
       } else {
         console.log('✅ Cache verified - no changes needed');
       }
@@ -207,17 +207,19 @@ export default function Index() {
    * Navigate with guard to prevent multiple navigations
    * Ensures splash screen shows for minimum duration
    */
-  async function navigateTo(path: string) {
-    if (!hasNavigatedRef.current) {
+  async function navigateTo(path: string, options?: { force?: boolean }) {
+    if (!hasNavigatedRef.current || options?.force) {
       console.log('🚀 NAVIGATING TO:', path);
       console.log('🔒 Has navigated before?', hasNavigatedRef.current);
+      console.log('🔒 Force navigation?', options?.force);
       hasNavigatedRef.current = true;
 
-      // Calculate remaining time to show splash screen
+      // Calculate remaining time to show splash screen (only for initial navigation)
       const elapsedTime = Date.now() - splashStartTimeRef.current;
       const remainingTime = Math.max(0, MINIMUM_SPLASH_DURATION - elapsedTime);
 
-      if (remainingTime > 0) {
+      // Only wait for splash duration on the first navigation
+      if (remainingTime > 0 && !options?.force) {
         console.log(
           `⏱️ Waiting ${remainingTime}ms to meet minimum splash duration`,
         );
