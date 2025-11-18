@@ -20,5 +20,6 @@ export const updateLeague = async ({ token, updates }: UpdateLeagueProps) => {
     throw new Error(data.message || 'Update failed');
   }
 
-  return data;
+  // API returns an array, but we need the first element
+  return Array.isArray(data) ? data[0] : data;
 };

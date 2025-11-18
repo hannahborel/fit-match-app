@@ -15,13 +15,11 @@ const LeagueDuration = ({ leagueId, weeks }: LeagueDurationProps) => {
   const [newWeeks, setNewWeeks] = useState(weeks);
   const [showModal, setShowModal] = useState(false);
   const [initialValue, setInitialValue] = useState(weeks);
-  const theme = useTheme();
+
   const { getToken } = useAuth();
 
   const mutation = useUpdateLeague('League duration updated! 🎉');
-
-  console.log(initialValue, newWeeks);
-
+  console.log('[LeagueDuration] leagueId, weeks', weeks);
   const handleUpdate = async () => {
     const token = await getToken();
     if (!token) return;

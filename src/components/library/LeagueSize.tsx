@@ -20,8 +20,6 @@ const LeagueSize = ({ leagueId, leagueSize }: LeagueSizeProps) => {
 
   const mutation = useUpdateLeague('League size updated! 🎉');
 
-  console.log(initialValue, newSize);
-
   const handleUpdate = async () => {
     const token = await getToken();
     if (!token) return;
@@ -36,7 +34,6 @@ const LeagueSize = ({ leagueId, leagueSize }: LeagueSizeProps) => {
   };
 
   const handleConfirm = () => {
-    console.log(handleConfirm);
     if (showModal) {
       // Picker is closing - check if value changed
       if (newSize !== initialValue) {
@@ -71,10 +68,7 @@ const LeagueSize = ({ leagueId, leagueSize }: LeagueSizeProps) => {
           paddingHorizontal: 16,
         }}
       >
-        <LeagueSizePicker
-          setNewSize={setNewSize}
-          initialValue={initialValue}
-        />
+        <LeagueSizePicker setNewSize={setNewSize} initialValue={initialValue} />
       </BottomSheet>
     </>
   );

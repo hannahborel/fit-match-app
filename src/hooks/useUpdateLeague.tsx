@@ -31,7 +31,7 @@ export const useUpdateLeague = (onSuccessMsg?: string) => {
         // Success message handling can be added here if needed
       }
     },
-    onError: (err: Error) => {},
+    onError: () => {},
   });
 
   return mutation;
