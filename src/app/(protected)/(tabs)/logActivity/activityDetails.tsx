@@ -104,6 +104,7 @@ export default function LogWorkoutScreen() {
           <Text>Log Workout</Text>
         </Button>
       </View>
+      {/* Add reps */}
     </View>
   );
 }

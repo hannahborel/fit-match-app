@@ -4,6 +4,7 @@ type ManageLeagueNameProps = {
   leagueName: string;
 };
 const ManageLeagueName = ({ leagueName }: ManageLeagueNameProps) => {
+  console.log('leagueName', leagueName);
   return (
     <>
       <SettingsRow

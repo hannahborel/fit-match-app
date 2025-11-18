@@ -14,10 +14,18 @@ export const useUpdateLeague = (onSuccessMsg?: string) => {
     mutationFn: updateLeague,
     onSuccess: (updatedLeague: League) => {
       // Update the atom immediately with the updated league data
-      setLeagueAtom(updatedLeague);
+      // Merge with existing data to preserve fields not included in the update
+      setLeagueAtom((prev) => ({
+        ...prev,
+        ...updatedLeague,
+      } as League));
 
       // Update the query cache directly to prevent refetch and eliminate blinking
-      queryClient.setQueryData(['league', userId], updatedLeague);
+      // Also merge with existing cache data
+      queryClient.setQueryData(['league', userId], (oldData: League | undefined) => ({
+        ...oldData,
+        ...updatedLeague,
+      } as League));
 
       if (onSuccessMsg) {
         // Success message handling can be added here if needed

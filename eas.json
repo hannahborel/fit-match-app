@@ -12,6 +12,8 @@
     },
     "preview": {
       "distribution": "internal",
+      "node": "22.11.0",
+      "pnpm": "10.11.1",
       "ios": {
         "simulator": false,
         "resourceClass": "m-medium"
@@ -22,6 +24,15 @@
       "pnpm": "10.11.1",
       "ios": {
         "resourceClass": "m-medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "heborel@gmail.com",
+        "ascAppId": "6738965925",
+        "appleTeamId": "7J55F9L6UW"
       }
     }
   }

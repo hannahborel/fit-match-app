@@ -80,6 +80,7 @@ export default function UpdateLeagueStartDateDemo({
           mode="date"
           display={'spinner'}
           onChange={onChange}
+          minimumDate={new Date()}
           style={{ width: '100%' }}
         />
       )}

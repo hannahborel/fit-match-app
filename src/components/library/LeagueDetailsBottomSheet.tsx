@@ -21,6 +21,7 @@ const LeagueDetailsBottomSheet: React.FC<LeagueDetailsBottomSheetProps> = ({
 }) => {
   const theme = useTheme();
   const leagueDetails = useAtomValue(leagueAtom);
+  console.log(leagueDetails);
 
   return (
     <BottomSheet
