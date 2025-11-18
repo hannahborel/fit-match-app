@@ -57,7 +57,7 @@ const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
       onPress={handleDelete}
       disabled={isDeleting}
       style={{
-        backgroundColor: theme.colors.surface,
+        backgroundColor: 'transparent',
         borderRadius: 8,
         paddingVertical: 12,
         paddingHorizontal: 16,

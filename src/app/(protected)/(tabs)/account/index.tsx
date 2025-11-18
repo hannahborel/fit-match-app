@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 import Table2Col from '@/components/elements/Table/Table2Col';
@@ -14,11 +14,9 @@ import { ChevronRight, UserIcon } from 'lucide-react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import LogoutButton from '@/components/library/LogoutButton';
-import LeagueDetailsBottomSheet from '@/components/library/LeagueDetailsBottomSheet';
 
 const Account = () => {
   const router = useRouter();
-  const [isLeagueDetailsVisible, setIsLeagueDetailsVisible] = useState(false);
 
   const theme = useTheme();
 
@@ -38,7 +36,8 @@ const Account = () => {
     },
     {
       label: 'League Details',
-      action: () => setIsLeagueDetailsVisible(true),
+      route: 'account/leagueDetails',
+      action: () => router.push('account/leagueDetails'),
     },
   ];
   return (
@@ -109,11 +108,6 @@ const Account = () => {
         <Table2Col tableData={personalInfo} />
         <LogoutButton />
       </View>
-
-      <LeagueDetailsBottomSheet
-        visible={isLeagueDetailsVisible}
-        onClose={() => setIsLeagueDetailsVisible(false)}
-      />
     </BgView>
   );
 };

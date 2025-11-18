@@ -23,6 +23,14 @@ export default function AccountLayout() {
           headerLeft: () => <BackButton />,
         }}
       />
+      <Stack.Screen
+        name="leagueDetails"
+        options={{
+          headerShown: true,
+          title: 'League Details',
+          headerLeft: () => <BackButton />,
+        }}
+      />
     </ThemedStack>
   );
 }
