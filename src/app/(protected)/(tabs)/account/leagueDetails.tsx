@@ -1,11 +1,11 @@
 import { leagueAtom } from '@/atoms/leagueAtom';
 import DeleteLeagueButton from '@/components/library/DeleteLeagueButton';
 import LeagueDuration from '@/components/library/LeagueDuration';
-import ManageLeagueSize from '@/components/library/ManageLeagueSize';
+import LeagueSize from '@/components/library/LeagueSize';
 import ManageLeagueName from '@/components/library/ManageUserDetails';
 import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
 import { useAtomValue } from 'jotai';
-import React, { useState } from 'react';
+import React from 'react';
 import { SafeAreaView, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
@@ -32,7 +32,7 @@ const LeagueDetails = () => {
                 weeks={leagueDetails.weeks}
               />
 
-              <ManageLeagueSize
+              <LeagueSize
                 leagueId={leagueDetails.id}
                 leagueSize={leagueDetails.size}
               />
