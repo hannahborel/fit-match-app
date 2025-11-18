@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Modal, Portal, IconButton, useTheme, Text } from 'react-native-paper';
 import { X } from 'lucide-react-native';
+import * as LucideIcons from 'lucide-react-native';
 
 type BottomSheetSize = 'sm' | 'md' | 'lg';
 
@@ -19,6 +20,8 @@ interface BottomSheetProps {
   showDragHandle?: boolean;
   size?: BottomSheetSize;
   contentContainerStyle?: object;
+  iconRight?: string;
+  onIconRightPress?: () => void;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -29,6 +32,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   showDragHandle = false,
   size = 'md',
   contentContainerStyle,
+  iconRight,
+  onIconRightPress,
 }) => {
   const theme = useTheme();
   const screenHeight = Dimensions.get('window').height;
@@ -41,7 +46,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
       case 'md':
         return screenHeight / 2; // Half screen
       case 'sm':
-        return screenHeight / 3; // One third screen
+        return screenHeight / 3.5; // One third screen
       default:
         return screenHeight / 2;
     }
@@ -99,7 +104,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
               <X
                 style={styles.closeButton}
                 size={28}
-                color="white"
+                color={theme.colors.onSurface}
                 onPress={onClose}
               />
               {title && (
@@ -107,8 +112,20 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                   <Text style={styles.headerText}>{title}</Text>
                 </View>
               )}
+              <View style={styles.iconRight}>
+                {iconRight &&
+                  (() => {
+                    const IconComponent = (LucideIcons as any)[iconRight];
+                    return IconComponent ? (
+                      <IconComponent
+                        size={28}
+                        color={'white'}
+                        onPress={onIconRightPress}
+                      />
+                    ) : null;
+                  })()}
+              </View>
             </View>
-
             <ScrollView
               style={styles.scrollView}
               contentContainerStyle={contentContainerStyle}
@@ -160,6 +177,11 @@ const getStyles = (theme: any, height: number) =>
     closeButton: {
       position: 'absolute',
       left: 8,
+      top: 0,
+    },
+    iconRight: {
+      position: 'absolute',
+      right: 8,
       top: 0,
     },
     scrollView: {
