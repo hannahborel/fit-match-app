@@ -19,7 +19,7 @@ const LeagueDuration = ({ leagueId, weeks }: LeagueDurationProps) => {
   const { getToken } = useAuth();
 
   const mutation = useUpdateLeague('League duration updated! 🎉');
-  console.log('[LeagueDuration] leagueId, weeks', weeks);
+
   const handleUpdate = async () => {
     const token = await getToken();
     if (!token) return;
