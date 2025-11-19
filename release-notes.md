@@ -1,5 +1,86 @@
 # Release Notes
 
+## 2025-11-19
+
+### Bug Fixes
+
+#### Fixed Splash Screen Animation Timing
+**Priority:** Medium
+**Impact:** User Experience, Visual Polish
+
+**Problem:**
+The splash screen was configured to display for a minimum of 3 seconds, but the logo animation only lasted 1 second. This created an awkward 2-second pause where the logo sat static on the screen with no animation, making the app feel unresponsive.
+
+**Root Cause:**
+- Splash screen had `MINIMUM_SPLASH_DURATION = 3000ms` to ensure proper loading time
+- Logo animation sequence completed in ~1000ms (opacity: 800ms, scale: 1000ms, translateY: 1000ms)
+- 2-second gap between animation completion and navigation made the splash feel "stuck"
+
+**Solution:**
+Extended the logo animation to span the full 3-second duration:
+1. **Increased opacity animation** from 800ms to 1200ms for smoother fade-in
+2. **Added breathing animation** to logo scale using `withSequence`:
+   - Initial scale animation: 1000ms (0.8 → 1.0 with bounce effect)
+   - Subtle grow: 800ms (1.0 → 1.02)
+   - Subtle shrink: 800ms (1.02 → 1.0)
+   - Total animation time: ~2600ms, spanning nearly the entire splash duration
+
+**Files Modified:**
+- `src/components/elements/SplashScreen.tsx`
+
+**User Experience:**
+- Logo now has continuous, smooth motion throughout the entire splash screen
+- No more awkward pause - the animation feels alive and engaging
+- Professional, polished app launch experience
+
+---
+
+#### Fixed Navigation Glitch After Refresh
+**Priority:** High
+**Impact:** Navigation, State Management, User Experience
+
+**Problem:**
+After refreshing the app, clicking on the Accounts tab (or any tab other than Home) would cause a brief visual glitch where the Home tab would flash an empty/blank screen. If users waited a few seconds after refresh, the issue wouldn't occur, indicating a race condition.
+
+**Root Cause:**
+The app's "instant navigation" cache optimization path had a critical flaw:
+1. On refresh, `index.tsx` would check AsyncStorage cache to determine if user has a league
+2. If cache indicated "has league", it would **navigate immediately** to tabs **without fetching league data**
+3. It would start a background fetch (`verifyAndUpdateCache()`) to get the actual data
+4. During this gap, the `leagueAtom` was `null/undefined`
+5. The Home tab's component would render nothing when `leagueData` was null (originally wrapped in `{leagueData && (...)}`), causing a blank flash
+6. When users clicked on other tabs, this blank Home component would briefly appear during tab transitions
+
+**Solution:**
+1. **Synchronous data fetch before navigation**: Modified the cached state path to fetch league data BEFORE navigating to tabs, ensuring the atom is populated before any components mount
+2. **Atom initialization in index.tsx**: Added `setLeague(league)` calls in all navigation paths to ensure the atom is set before navigation occurs
+3. **Defensive rendering in Home tab**: Added explicit loading state that renders an empty `SafeAreaView` with proper background color while data loads, preventing layout shift
+
+**Files Modified:**
+- `src/app/index.tsx` - Fetch league data before navigation in cached path (lines 78-100)
+- `src/app/index.tsx` - Set atom immediately before navigation in fresh fetch path (line 137)
+- `src/app/index.tsx` - Set atom in background verification path (line 182)
+- `src/app/(protected)/(tabs)/index.tsx` - Added loading state with proper SafeAreaView (lines 46-56)
+
+**Technical Details:**
+Changed flow from:
+```
+Cached State → Navigate → Empty Atom → Background Fetch → Populate Atom (causing glitch)
+```
+
+To:
+```
+Cached State → Fetch League → Populate Atom → Navigate → Background Verification
+```
+
+**User Experience:**
+- No more blank screen flashing when navigating between tabs after refresh
+- Smooth, instant navigation to any tab immediately after app loads
+- Home tab always renders with proper background color, even during loading
+- Professional, glitch-free experience regardless of navigation timing
+
+---
+
 ## 2025-11-16
 
 ### Bug Fixes

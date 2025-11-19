@@ -19,13 +19,24 @@ import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+/**
+ * Home/Dashboard Tab
+ *
+ * Displays league countdown and invite friends section.
+ * League data is fetched at the parent layout level (tabs/_layout.tsx)
+ * and accessed via the leagueAtom.
+ *
+ * IMPORTANT: Defensive loading state prevents race conditions.
+ * Even though index.tsx populates the atom before navigation,
+ * we still handle the null case to prevent any potential flashing
+ * during React hydration or tab switching.
+ */
 const Home = () => {
   // Read from atom - data is fetched in the parent layout
   const leagueData = useAtomValue(leagueAtom);
   const setCurrentMatchId = useSetAtom(currentMatchAtom);
   const [, setSchedule] = useAtom(allMatchupsWithPointsAtom);
-
-  // Safety check: if user somehow gets to dashboard withouct a league, redirect them
+  const theme = useTheme();
 
   useEffect(() => {
     if (leagueData) {
@@ -43,27 +54,35 @@ const Home = () => {
       }
     }
   }, [leagueData]);
-  const theme = useTheme();
+
+  // Defensive: Show empty SafeAreaView while league data is loading
+  // This prevents blank screen flash during React hydration or race conditions
+  if (!leagueData) {
+    return (
+      <SafeAreaView
+        style={{
+          backgroundColor: theme.colors.background,
+          flex: 1,
+        }}
+      />
+    );
+  }
 
   return (
-    <>
-      {leagueData && (
-        <SafeAreaView
-          style={{
-            backgroundColor: theme.colors.background,
-            flex: 1,
-          }}
-        >
-          <View style={{ padding: 8, gap: 16 }}>
-            <BaseCard title={'YOUR LEAGUE STARTS IN'}>
-              <CountdownTimer targetTime={leagueData.startDate} />
-            </BaseCard>
+    <SafeAreaView
+      style={{
+        backgroundColor: theme.colors.background,
+        flex: 1,
+      }}
+    >
+      <View style={{ padding: 8, gap: 16 }}>
+        <BaseCard title={'YOUR LEAGUE STARTS IN'}>
+          <CountdownTimer targetTime={leagueData.startDate} />
+        </BaseCard>
 
-            <InviteFriendsSection league={leagueData} />
-          </View>
-        </SafeAreaView>
-      )}
-    </>
+        <InviteFriendsSection league={leagueData} />
+      </View>
+    </SafeAreaView>
   );
 };
 

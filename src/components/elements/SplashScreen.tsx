@@ -15,6 +15,21 @@ interface SplashScreenProps {
   // Future props can be added here
 }
 
+/**
+ * Splash screen with animated logo
+ *
+ * Animation duration is designed to match MINIMUM_SPLASH_DURATION (3 seconds)
+ * in src/app/index.tsx to ensure continuous motion throughout the entire
+ * splash screen display time.
+ *
+ * Animation sequence:
+ * - Opacity fade-in: 1200ms
+ * - Scale animation with breathing effect: ~2600ms total
+ *   - Initial bounce: 1000ms (0.8 → 1.0)
+ *   - Subtle grow: 800ms (1.0 → 1.02)
+ *   - Subtle shrink: 800ms (1.02 → 1.0)
+ * - Vertical translation: 1000ms
+ */
 const SplashScreen: React.FC<SplashScreenProps> = () => {
   const colorScheme = useColorScheme();
   const colors = themeColors[colorScheme || 'light'];
@@ -25,12 +40,22 @@ const SplashScreen: React.FC<SplashScreenProps> = () => {
   const logoTranslateY = useSharedValue(20);
 
   useEffect(() => {
-    // Logo entrance animation sequence
-    logoOpacity.value = withTiming(1, { duration: 800 });
-    logoScale.value = withTiming(1, {
-      duration: 1000,
-      easing: Easing.out(Easing.back(1.1)),
-    });
+    // Logo entrance animation sequence - extended to match 3s minimum splash duration
+    logoOpacity.value = withTiming(1, { duration: 1200 });
+    logoScale.value = withSequence(
+      withTiming(1, {
+        duration: 1000,
+        easing: Easing.out(Easing.back(1.1)),
+      }),
+      withTiming(1.02, {
+        duration: 800,
+        easing: Easing.inOut(Easing.ease),
+      }),
+      withTiming(1, {
+        duration: 800,
+        easing: Easing.inOut(Easing.ease),
+      })
+    );
     logoTranslateY.value = withTiming(0, {
       duration: 1000,
       easing: Easing.out(Easing.cubic),

@@ -39,6 +39,7 @@ export const useGetLeague = (options = {}) => {
   });
 
   // Sync React Query data to atom whenever it changes (including from cache)
+  // This ensures the atom is populated immediately when React Query has cached data
   useEffect(() => {
     if (query.data) {
       setLeague(query.data);
