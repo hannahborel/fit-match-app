@@ -4,14 +4,20 @@ import LeagueDuration from '@/components/library/LeagueDuration';
 import LeagueSize from '@/components/library/LeagueSize';
 import ManageLeagueName from '@/components/library/ManageUserDetails';
 import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
-import ConfirmationModal from '@/components/elements/ConfirmationModal';
+import Snackbar from '@/components/elements/Snackbar';
 import UnsavedChangesSheet from '@/components/elements/UnsavedChangesSheet';
 import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 import { useAuth } from '@clerk/clerk-expo';
 import { useAtomValue } from 'jotai';
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, TouchableOpacity } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import {
+  SafeAreaView,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  StyleSheet,
+} from 'react-native';
+import { Text, useTheme, Portal } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
 const LeagueDetails = () => {
@@ -25,8 +31,9 @@ const LeagueDetails = () => {
     weeks?: number;
     size?: number;
   }>({});
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [showUnsavedChangesSheet, setShowUnsavedChangesSheet] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const mutation = useUpdateLeague();
 
@@ -82,6 +89,8 @@ const LeagueDetails = () => {
 
   const handleSave = async () => {
     if (!leagueDetails) return;
+    // Show loading immediately
+    setIsLoading(true);
 
     const token = await getToken();
     if (!token) return;
@@ -99,8 +108,14 @@ const LeagueDetails = () => {
         onSuccess: () => {
           // Clear pending changes
           setPendingChanges({});
-          // Show confirmation modal
-          setShowConfirmationModal(true);
+          // Hide loading
+          setIsLoading(false);
+          // Show success snackbar
+          setShowSuccessSnackbar(true);
+        },
+        onError: () => {
+          // Hide loading on error
+          setIsLoading(false);
         },
       },
     );
@@ -123,6 +138,9 @@ const LeagueDetails = () => {
     // Close the unsaved changes sheet first
     setShowUnsavedChangesSheet(false);
 
+    // Show loading immediately
+    setIsLoading(true);
+
     // Save all pending changes
     mutation.mutate(
       {
@@ -136,8 +154,14 @@ const LeagueDetails = () => {
         onSuccess: () => {
           // Clear pending changes
           setPendingChanges({});
-          // Show confirmation modal
-          setShowConfirmationModal(true);
+          // Hide loading
+          setIsLoading(false);
+          // Show success snackbar
+          setShowSuccessSnackbar(true);
+        },
+        onError: () => {
+          // Hide loading on error
+          setIsLoading(false);
         },
       },
     );
@@ -180,10 +204,14 @@ const LeagueDetails = () => {
         )}
       </View>
 
-      <ConfirmationModal
-        visible={showConfirmationModal}
-        message="Your changes have been saved"
-        onDismiss={() => setShowConfirmationModal(false)}
+      <Snackbar
+        visible={showSuccessSnackbar}
+        type="success"
+        title="Changes saved"
+        text="Your league details have been updated"
+        onDismiss={() => setShowSuccessSnackbar(false)}
+        duration={3000}
+        position="bottom"
       />
 
       <UnsavedChangesSheet
@@ -192,8 +220,30 @@ const LeagueDetails = () => {
         onDiscard={handleDiscardAndGoBack}
         onClose={() => setShowUnsavedChangesSheet(false)}
       />
+
+      {isLoading && (
+        <Portal>
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" color={theme.colors.primary} />
+          </View>
+        </Portal>
+      )}
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
+  },
+});
 
 export default LeagueDetails;
