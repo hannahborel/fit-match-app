@@ -77,7 +77,9 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
         visible={visible}
         onDismiss={onClose}
         style={styles.modal}
-        contentContainerStyle={{ backgroundColor: 'transparent' }}
+        contentContainerStyle={{
+          backgroundColor: 'transparent',
+        }}
       >
         <Animated.View
           style={[
@@ -154,7 +156,7 @@ const getStyles = (theme: any, height: number) =>
     },
     sheetContent: {
       paddingTop: 8,
-      paddingHorizontal: 8,
+      paddingHorizontal: 20,
       paddingBottom: 8,
       flex: 1,
     },
@@ -176,12 +178,12 @@ const getStyles = (theme: any, height: number) =>
     },
     closeButton: {
       position: 'absolute',
-      left: 8,
+      left: 0,
       top: 0,
     },
     iconRight: {
       position: 'absolute',
-      right: 8,
+      right: 0,
       top: 0,
     },
     scrollView: {

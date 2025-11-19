@@ -1,5 +1,4 @@
 import { Button, ButtonProps, useTheme } from 'react-native-paper';
-import { View, Text } from 'react-native';
 
 interface ValidationCondition {
   isValid: boolean;
@@ -18,15 +17,13 @@ const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
   style,
   disabled,
   showErrors = false,
+  labelStyle,
   ...otherProps
 }) => {
   const theme = useTheme();
 
   const isDisabled =
     conditions.some((condition) => !condition.isValid) || disabled || loading;
-  const failedConditions = conditions.filter(
-    (condition) => !condition.isValid && condition.errorMessage,
-  );
 
   return (
     <Button
@@ -37,23 +34,24 @@ const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
         {
           backgroundColor: isDisabled
             ? theme.colors.surfaceDisabled
-            : 'transparent',
-          paddingLeft: 18,
-          paddingRight: 18,
-          borderRadius: 12,
-          borderWidth: 1,
-          borderColor: isDisabled
-            ? theme.colors.surfaceDisabled
-            : theme.colors.primary,
+            : theme.colors.background,
+          paddingHorizontal: 18,
+          paddingVertical: 4,
+          borderRadius: 100,
+          marginHorizontal: 24,
           flexShrink: 1,
         },
         style,
       ]}
-      labelStyle={{
-        color: isDisabled
-          ? theme.colors.onSurfaceDisabled
-          : theme.colors.primary,
-      }}
+      labelStyle={[
+        {
+          color: isDisabled
+            ? theme.colors.onSurfaceDisabled
+            : theme.colors.onBackground,
+          fontSize: 16,
+        },
+        labelStyle,
+      ]}
     >
       {otherProps.children}
     </Button>
