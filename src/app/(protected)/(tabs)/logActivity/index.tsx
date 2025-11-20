@@ -9,15 +9,17 @@ import {
   View,
 } from 'react-native';
 import { TextInput, useTheme } from 'react-native-paper';
-import { router } from 'expo-router';
-import { ActivityDefinitions } from 'hustle-types';
+import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { ButtonCard } from '@/components/elements/Card';
 import SectionHeader from '@/components/elements/Headers/SectionHeader';
 import { formatString } from '@/helpers/helpers';
+import ActivityDetailsBottomSheet from '@/components/logActivity/ActivityDetailsBottomSheet';
 
 const logActivity = () => {
   const theme = useTheme();
   const [search, setSearch] = useState('');
+  const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
+  const [sheetVisible, setSheetVisible] = useState(false);
 
   const filteredActivities = Object.entries(ActivityDefinitions).filter(
     ([_, activity]) =>
@@ -57,12 +59,10 @@ const logActivity = () => {
                 {filteredActivities.map(([activityType, activity]) => (
                   <ButtonCard
                     key={activityType}
-                    onPress={() =>
-                      router.push({
-                        params: { typeName: activityType },
-                        pathname: 'logActivity/activityDetails',
-                      })
-                    }
+                    onPress={() => {
+                      setSelectedActivity(activityType as ActivityType);
+                      setSheetVisible(true);
+                    }}
                     spacing={4}
                   >
                     <>
@@ -93,6 +93,12 @@ const logActivity = () => {
           </View>
         </ScrollView>
       </TouchableWithoutFeedback>
+
+      <ActivityDetailsBottomSheet
+        visible={sheetVisible}
+        onClose={() => setSheetVisible(false)}
+        activityType={selectedActivity}
+      />
     </KeyboardAvoidingView>
   );
 };

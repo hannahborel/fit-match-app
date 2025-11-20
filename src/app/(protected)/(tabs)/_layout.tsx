@@ -30,21 +30,23 @@ export default function HomeTabs() {
       icon: ({ color }) => <Home color={color} />,
       route: 'index',
     },
-    {
-      title: 'Standings',
-      icon: ({ color }) => <FlowchartIcon color={color} />,
-      route: 'standings',
-    },
+    // {
+    //   title: 'Calendar',
+    // icon: ({ color }) => <FlowchartIcon color={color} />,
+    //   route: 'calendar',
+    // },
+
     {
       title: 'Log a Workout',
       icon: ({ color }) => <Plus color={color} />,
       route: 'logActivity',
     },
-    // {
-    //   title: 'Calendar',
-    //   icon: ({ color }) => <Calendar color={color} />,
-    //   route: 'calendar',
-    // },
+    {
+      title: 'Standings',
+
+      icon: ({ color }) => <Calendar color={color} />,
+      route: 'standings',
+    },
     {
       title: 'Account',
       icon: ({ color }) => <CircleUser color={color} />,

@@ -13,6 +13,7 @@ import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
 import { useAtomValue } from 'jotai';
 import { hasLeagueStarted } from '@/helpers/leagueStatus';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
 export default function LogWorkoutScreen() {
   const [minutes, setMinutes] = useState(34);
@@ -89,20 +90,26 @@ export default function LogWorkoutScreen() {
             onValueChange={setSets}
             unit={'SETS'}
           />
+          <NumberScroll
+            min={0}
+            max={10}
+            initial={sets}
+            onValueChange={setReps}
+            unit={'REPS'}
+          />
         </View>
       )}
 
       {/* Example Add Photo + Button UI */}
-      <View style={styles.bottomActions}>
-        <Button
-          mode="contained"
+      <View>
+        <ButtonPrimary
           onPress={handleLogWorkout}
           loading={mutation.isPending}
           disabled={mutation.isPending || !hasLeagueStarted(league as League)}
           style={{ width: '60%' }}
         >
           <Text>Log Workout</Text>
-        </Button>
+        </ButtonPrimary>
       </View>
       {/* Add reps */}
     </View>
