@@ -6,6 +6,7 @@ import ManageLeagueName from '@/components/library/ManageUserDetails';
 import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
 import Snackbar from '@/components/elements/Snackbar';
 import UnsavedChangesSheet from '@/components/elements/UnsavedChangesSheet';
+import BottomSheet from '@/components/elements/BottomSheet';
 import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 import { useAuth } from '@clerk/clerk-expo';
 import { useAtomValue } from 'jotai';
@@ -18,7 +19,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Text, useTheme, Portal } from 'react-native-paper';
-import { useNavigation, CommonActions } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const LeagueDetails = () => {
   const theme = useTheme();
@@ -34,6 +35,7 @@ const LeagueDetails = () => {
   const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [showUnsavedChangesSheet, setShowUnsavedChangesSheet] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showEditSheet, setShowEditSheet] = useState(false);
 
   const mutation = useUpdateLeague();
   const shouldAllowNavigation = useRef(false);
@@ -64,27 +66,25 @@ const LeagueDetails = () => {
     return unsubscribe;
   }, [navigation, hasPendingChanges]);
 
-  // Update navigation header when pending changes state changes
+  // Update navigation header with Edit button
   useEffect(() => {
     navigation.setOptions({
-      headerRight: hasPendingChanges
-        ? () => (
-            <TouchableOpacity onPress={handleSave}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                  color: theme.colors.primary,
-                  paddingRight: 16,
-                }}
-              >
-                Save
-              </Text>
-            </TouchableOpacity>
-          )
-        : undefined,
+      headerRight: () => (
+        <TouchableOpacity onPress={() => setShowEditSheet(true)}>
+          <Text
+            style={{
+              fontSize: 14,
+              fontWeight: 'bold',
+              color: theme.colors.primary,
+              paddingRight: 16,
+            }}
+          >
+            Edit
+          </Text>
+        </TouchableOpacity>
+      ),
     });
-  }, [hasPendingChanges, navigation, theme.colors.secondary, pendingChanges]);
+  }, [navigation, theme.colors.primary]);
 
   const handleWeeksChange = (newWeeks: number) => {
     setPendingChanges((prev) => ({ ...prev, weeks: newWeeks }));
@@ -236,6 +236,17 @@ const LeagueDetails = () => {
           </View>
         </Portal>
       )}
+
+      <BottomSheet
+        visible={showEditSheet}
+        onClose={() => setShowEditSheet(false)}
+        title="Edit League Details"
+        size="lg"
+      >
+        <View style={{ flex: 1 }}>
+          <Text>Edit form will go here</Text>
+        </View>
+      </BottomSheet>
     </SafeAreaView>
   );
 };
