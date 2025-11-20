@@ -28,6 +28,10 @@ const MINIMUM_SPLASH_DURATION = 3000; // 3 seconds minimum display time
  *
  * IMPORTANT: League atom must be populated BEFORE navigation to prevent
  * race conditions and blank screens when navigating between tabs.
+ *
+ * Background verification only triggers re-navigation if the cached state
+ * differs from server state (e.g., league deleted on another device).
+ * This prevents double navigation on normal app startup.
  */
 export default function Index() {
   const { isLoaded: clerkLoaded, isSignedIn, userId, getToken } = useAuth();
@@ -191,6 +195,10 @@ export default function Index() {
 
   /**
    * Verify cached data in background and update if needed
+   *
+   * Only triggers re-navigation if the cached state differs from fresh server data.
+   * This prevents double navigation during normal startup while still handling
+   * cross-device sync scenarios (e.g., league created/deleted on another device).
    */
   async function verifyAndUpdateCache() {
     console.log('🔄 Verifying cache in background...');
@@ -199,6 +207,11 @@ export default function Index() {
       const league = await fetchLeagueByUserId(token);
       console.log('🔍 Background verification - League:', league);
 
+      // Get the cached state to compare with fresh data
+      const cachedState = await getCachedAppState();
+      const cachedHasLeague = cachedState?.leagueState?.hasLeague;
+      const freshHasLeague = !!league?.id;
+
       // Update cache with fresh data
       await cacheAuthState({
         isSignedIn: true,
@@ -206,7 +219,7 @@ export default function Index() {
       });
 
       await cacheLeagueState({
-        hasLeague: !!league?.id,
+        hasLeague: freshHasLeague,
         leagueId: league?.id || null,
       });
 
@@ -219,19 +232,22 @@ export default function Index() {
         setLeague(league); // Update atom with verified data
       }
 
-      // If state changed, update navigation
-      if (league?.id && appState !== 'app') {
-        console.log(
-          '🔄 Cache changed: Now has league, redirecting to dashboard',
-        );
-        setAppState('app');
-        navigateTo('/(protected)/(tabs)/home', { force: true });
-      } else if (!league?.id && appState !== 'onboarding') {
-        console.log(
-          '🔄 Cache changed: No longer has league, redirecting to create league',
-        );
-        setAppState('onboarding');
-        navigateTo('/(protected)/createLeague', { force: true });
+      // Only navigate if the league state actually changed (cross-device sync scenario)
+      // Don't navigate if we're just verifying what we already knew
+      if (cachedHasLeague !== freshHasLeague) {
+        if (freshHasLeague && appState !== 'app') {
+          console.log(
+            '🔄 Cache changed: Now has league, redirecting to dashboard',
+          );
+          setAppState('app');
+          navigateTo('/(protected)/(tabs)/home', { force: true });
+        } else if (!freshHasLeague && appState !== 'onboarding') {
+          console.log(
+            '🔄 Cache changed: No longer has league, redirecting to create league',
+          );
+          setAppState('onboarding');
+          navigateTo('/(protected)/createLeague', { force: true });
+        }
       } else {
         console.log('✅ Cache verified - no changes needed');
       }
