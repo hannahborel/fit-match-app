@@ -1,11 +1,11 @@
 import React from 'react';
 import { Tabs, TabScreen, TabsProvider } from 'react-native-paper-tabs';
-import SchedulePage from './schedulePage';
-import StandingsTab from './standingsPage';
+import SchedulePage from './components/Schedule/schedulePage';
+import StandingsTab from './components/Standings/standingsPage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from 'react-native-paper';
 
-const Standings = () => {
+const Calendar = () => {
   const theme = useTheme();
   return (
     <SafeAreaView
@@ -38,4 +38,4 @@ const Standings = () => {
   );
 };
 
-export default Standings;
+export default Calendar;

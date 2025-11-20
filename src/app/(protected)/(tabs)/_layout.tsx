@@ -42,10 +42,9 @@ export default function HomeTabs() {
       route: 'logActivity',
     },
     {
-      title: 'Standings',
-
+      title: 'Calendar',
       icon: ({ color }) => <Calendar color={color} />,
-      route: 'standings',
+      route: 'calendar',
     },
     {
       title: 'Account',

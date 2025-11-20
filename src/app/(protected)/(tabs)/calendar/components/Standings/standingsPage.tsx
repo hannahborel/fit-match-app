@@ -1,11 +1,10 @@
-import ExpandedRows from '@/components/library/standingsComponents/expandedRows';
+import ExpandedRows from './expandedRows';
 import { leagueAtom } from '@/atoms/leagueAtom';
 import { getLeagueStandings } from '@/helpers/getLeagueStandings';
 import { useAtomValue } from 'jotai';
 import React, { useState } from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import { SyncUserButton } from '@/components/SyncUserButton';
 
 const StandingsTab = () => {
   const leagueData = useAtomValue(leagueAtom);

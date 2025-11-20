@@ -1,13 +1,11 @@
 // src/app/(protected)/(tabs)/standings/schedulePage.tsx
-import {
-  currentMatchAtom,
-  allMatchupsWithPointsAtom,
-} from '@/atoms/matchesAtom';
 import { leagueAtom } from '@/atoms/leagueAtom';
-
-import ScheduleNotification from '@/components/elements/ScheduleNotificaton'; // New component
 import {
-  shouldShowSchedule,
+  allMatchupsWithPointsAtom,
+  currentMatchAtom,
+} from '@/atoms/matchesAtom';
+
+import {
   getMembersNeeded,
   hasLeagueStarted,
   isLeagueFull,
@@ -17,10 +15,10 @@ import { generateSchedulePreview } from '@/helpers/sheduleHelpers/generateSchedu
 import { useAtomValue } from 'jotai';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import ScheduleFlatList from '@/components/schedule/ScheduleFlatList';
+import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton, Text, useTheme } from 'react-native-paper';
-import ScheduleFlatList from '@/components/schedule/ScheduleFlatList';
 
 const SchedulePage = () => {
   const matchupScheduleAtom = useAtomValue(allMatchupsWithPointsAtom);
