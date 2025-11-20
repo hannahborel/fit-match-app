@@ -150,6 +150,7 @@ export default function VerifyCode() {
                   <InfoIcon style={{ margin: 8 }} size={30} color={'white'} />
                   <Text
                     style={{
+                      flex: 1,
                       fontSize: 14,
                       fontWeight: 600,
                       lineHeight: 22,
