@@ -1,28 +1,27 @@
 import { leagueAtom } from '@/atoms/leagueAtom';
-import DeleteLeagueButton from '@/components/library/DeleteLeagueButton';
-import LeagueDuration from '@/components/library/LeagueDuration';
-import LeagueSize from '@/components/library/LeagueSize';
-import ManageLeagueName from '@/components/library/ManageUserDetails';
-import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
-import UnsavedChangesSheet from '@/components/elements/UnsavedChangesSheet';
 import BottomSheet from '@/components/elements/BottomSheet';
-import NumberAvatar from '@/components/library/NumberAvatar';
-import InputPrimary from '@/components/elements/InputPrimary';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import InputPrimary from '@/components/elements/InputPrimary';
+import DeleteLeagueButton from '@/app/(protected)/(tabs)/account/leagueDetails/components/DeleteLeagueButton';
+import LeagueDuration from './components/LeagueDuration';
+import LeagueSize from '@/app/(protected)/(tabs)/account/leagueDetails/components/LeagueSize';
+import ManageLeagueName from '@/app/(protected)/(tabs)/account/leagueDetails/components/LeagueName';
+import NumberAvatar from '@/components/library/NumberAvatar';
+import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
 import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 import { useAuth } from '@clerk/clerk-expo';
-import { useAtomValue } from 'jotai';
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  SafeAreaView,
-  View,
-  TouchableOpacity,
-  Platform,
-  KeyboardAvoidingView,
-} from 'react-native';
-import { Text, useTheme, TextInput } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
+import { useAtomValue } from 'jotai';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { Text, TextInput, useTheme } from 'react-native-paper';
 
 const LeagueDetails = () => {
   const theme = useTheme();

@@ -8,7 +8,12 @@ type LeagueDurationProps = {
   disabled?: boolean;
 };
 
-const LeagueDuration = ({ leagueId, weeks, onValueChange, disabled = false }: LeagueDurationProps) => {
+const LeagueDuration = ({
+  leagueId,
+  weeks,
+  onValueChange,
+  disabled = false,
+}: LeagueDurationProps) => {
   return (
     <SettingsRow
       label="League Duration"

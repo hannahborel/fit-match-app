@@ -36,7 +36,7 @@ const Account = () => {
     },
     {
       label: 'League Details',
-      route: 'account/leagueDetails',
+      route: 'account/LeagueDetails/leagueDetails',
       action: () => router.push('account/leagueDetails'),
     },
   ];

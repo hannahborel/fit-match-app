@@ -24,7 +24,7 @@ export default function AccountLayout() {
         }}
       />
       <Stack.Screen
-        name="leagueDetails"
+        name="leagueDetails/index"
         options={{
           headerShown: true,
           title: 'League Details',

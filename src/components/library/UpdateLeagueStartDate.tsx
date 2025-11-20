@@ -1,5 +1,5 @@
 import React from 'react';
-import SettingsRow from './SettingsRow';
+import SettingsRow from '../../app/(protected)/(tabs)/account/leagueDetails/components/SettingsRow';
 
 type UpdateLeagueStartDateDemo = {
   startDate: Date;

@@ -4,7 +4,10 @@ type ManageLeagueNameProps = {
   leagueName: string;
   disabled?: boolean;
 };
-const ManageLeagueName = ({ leagueName, disabled = false }: ManageLeagueNameProps) => {
+const ManageLeagueName = ({
+  leagueName,
+  disabled = false,
+}: ManageLeagueNameProps) => {
   return (
     <>
       <SettingsRow

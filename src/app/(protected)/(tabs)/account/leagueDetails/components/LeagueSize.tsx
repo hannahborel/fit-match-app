@@ -8,13 +8,14 @@ type LeagueSizeProps = {
   disabled?: boolean;
 };
 
-const LeagueSize = ({ leagueId, leagueSize, onValueChange, disabled = false }: LeagueSizeProps) => {
+const LeagueSize = ({
+  leagueId,
+  leagueSize,
+  onValueChange,
+  disabled = false,
+}: LeagueSizeProps) => {
   return (
-    <SettingsRow
-      label="League Size"
-      value={leagueSize}
-      disabled={disabled}
-    />
+    <SettingsRow label="League Size" value={leagueSize} disabled={disabled} />
   );
 };
 
