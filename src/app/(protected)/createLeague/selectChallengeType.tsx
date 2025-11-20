@@ -3,7 +3,7 @@ import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import FaceOffImg from '../../../assets/svg/faceOffImg.svg';
 import { router } from 'expo-router';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
 const selectChallengeType = () => {
   const theme = useTheme();
 

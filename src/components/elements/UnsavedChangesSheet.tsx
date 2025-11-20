@@ -2,9 +2,9 @@ import { AlertCircle } from 'lucide-react-native';
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from 'react-native-paper';
-import BottomSheet from './BottomSheet';
-import ButtonPrimary from './ButtonPrimary';
-import ButtonSecondary from './ButtonSecondary';
+import BottomSheet from './BottomSheet/BottomSheet';
+import ButtonPrimary from './Buttons/ButtonPrimary';
+import ButtonSecondary from './Buttons/ButtonSecondary';
 
 interface UnsavedChangesSheetProps {
   visible: boolean;

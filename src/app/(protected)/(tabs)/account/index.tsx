@@ -1,8 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, TouchableOpacity, View } from 'react-native';
 
 import Table2Col from '@/components/elements/Table/Table2Col';
-import BgView from '@/components/elements/BgView';
 
 // Local UI type for two-column table data
 type Table = Array<{
@@ -41,7 +40,13 @@ const Account = () => {
     },
   ];
   return (
-    <BgView>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: theme.colors.background,
+        marginHorizontal: 8,
+      }}
+    >
       <View style={{ gap: 8 }}>
         <View
           style={{
@@ -108,7 +113,7 @@ const Account = () => {
         <Table2Col tableData={personalInfo} />
         <SignOutButton />
       </View>
-    </BgView>
+    </SafeAreaView>
   );
 };
 

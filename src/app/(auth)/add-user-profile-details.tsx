@@ -8,8 +8,8 @@ import React, { useState, useEffect } from 'react';
 import { useTheme, Text } from 'react-native-paper';
 import BackHeader from '@/components/elements/Headers/BackHeader';
 import { CheckCircleIcon } from 'lucide-react-native';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import InputPrimary from '@/components/elements/InputPrimary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
+import InputPrimary from '@/components/elements/Input/InputPrimary';
 import { useUser } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
 import {

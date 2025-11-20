@@ -1,4 +1,4 @@
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
 import BackHeader from '@/components/elements/Headers/BackHeader';
 import { useHandleLogin } from '@/hooks/useHandleLogin';
 import { router, useLocalSearchParams } from 'expo-router';

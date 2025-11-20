@@ -1,5 +1,5 @@
 // src/app/(auth)/login-email.tsx
-import InputPrimary from '@/components/elements/InputPrimary';
+import InputPrimary from '@/components/elements/Input/InputPrimary';
 import { isEmailValid } from '@/helpers/validationHandlers';
 import { useSignIn } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';
@@ -8,7 +8,7 @@ import { Text } from 'react-native-paper';
 import { KeyboardAvoidingView, Platform, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
 
 export default function Login() {
   const { signIn } = useSignIn();

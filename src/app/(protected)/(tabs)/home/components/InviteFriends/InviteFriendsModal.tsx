@@ -1,11 +1,11 @@
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import ButtonSecondary from '@/components/elements/ButtonSecondary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
+import ButtonSecondary from '@/components/elements/Buttons/ButtonSecondary';
 import { generateJoinLeagueUrl } from '@/lib/getWebAppUrl';
 import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import BottomSheet from '@/components/elements/BottomSheet';
+import BottomSheet from '@/components/elements/BottomSheet/BottomSheet';
 import Snackbar from '@/components/elements/Snackbar';
 
 interface InviteFriendsModalProps {

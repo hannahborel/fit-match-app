@@ -1,7 +1,7 @@
 import { leagueAtom } from '@/atoms/leagueAtom';
-import BottomSheet from '@/components/elements/BottomSheet';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import InputPrimary from '@/components/elements/InputPrimary';
+import BottomSheet from '@/components/elements/BottomSheet/BottomSheet';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
+import InputPrimary from '@/components/elements/Input/InputPrimary';
 import DeleteLeagueButton from '@/app/(protected)/(tabs)/account/leagueDetails/components/DeleteLeagueButton';
 import LeagueDuration from './components/LeagueDuration';
 import LeagueSize from '@/app/(protected)/(tabs)/account/leagueDetails/components/LeagueSize';

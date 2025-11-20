@@ -1,4 +1,4 @@
-import BackButton from '@/components/elements/Headers/BackButton';
+import BackButton from '@/components/elements/Buttons/BackButton';
 import ThemedStack from '@/components/elements/Stack/ThemedStack';
 import { Stack } from 'expo-router';
 

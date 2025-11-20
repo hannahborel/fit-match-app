@@ -2,8 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { useTheme, Text } from 'react-native-paper';
 import { Info } from 'lucide-react-native';
-import BottomSheet from '@/components/elements/BottomSheet';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import BottomSheet from '@/components/elements/BottomSheet/BottomSheet';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
 
 interface DeleteAccountBottomSheetProps {
   visible: boolean;

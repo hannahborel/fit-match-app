@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router';
-import BackButton from '@/components/elements/Headers/BackButton';
+import BackButton from '@/components/elements/Buttons/BackButton';
 import ThemedStack from '@/components/elements/Stack/ThemedStack';
 import ThemedSafeAreaView from '@/components/elements/Stack/ThemedSafeAreaView';
 export const unstable_settings = {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { useAuth } from '@clerk/clerk-expo';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
 import { League } from 'hustle-types';
 import InviteFriendsModal from './InviteFriendsModal';
 

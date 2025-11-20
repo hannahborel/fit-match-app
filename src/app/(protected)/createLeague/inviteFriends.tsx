@@ -1,5 +1,5 @@
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
-import ButtonSecondary from '@/components/elements/ButtonSecondary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
+import ButtonSecondary from '@/components/elements/Buttons/ButtonSecondary';
 import * as Clipboard from 'expo-clipboard';
 import { useLocalSearchParams } from 'expo-router'; // or your navigation param system
 import { ChevronRight, CopyIcon, ShareIcon } from 'lucide-react-native';

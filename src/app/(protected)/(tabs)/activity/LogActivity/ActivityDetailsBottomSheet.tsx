@@ -11,7 +11,7 @@ import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
 import { useAtomValue } from 'jotai';
 import { hasLeagueStarted } from '@/helpers/leagueStatus';
-import BottomSheet from '@/components/elements/BottomSheet';
+import BottomSheet from '@/components/elements/BottomSheet/BottomSheet';
 
 interface ActivityDetailsBottomSheetProps {
   visible: boolean;

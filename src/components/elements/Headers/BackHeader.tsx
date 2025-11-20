@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 import React, { Component } from 'react';
-import BackButton from './BackButton';
+import BackButton from '../Buttons/BackButton';
 
 export class BackHeader extends Component {
   render() {

@@ -10,12 +10,12 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { Text, TextInput, useTheme } from 'react-native-paper';
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { router } from 'expo-router';
 import { useAuthCache } from '@/hooks/useAuthCashe';
 
-import InputPrimary from '@/components/elements/InputPrimary';
+import InputPrimary from '@/components/elements/Input/InputPrimary';
 import NumberAvatar from '@/components/library/NumberAvatar';
 
 const FaceOffSetup = () => {

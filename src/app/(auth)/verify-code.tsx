@@ -1,6 +1,6 @@
-import ButtonPrimary from '@/components/elements/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/Buttons/ButtonPrimary';
 import BackHeader from '@/components/elements/Headers/BackHeader';
-import InputPrimary from '@/components/elements/InputPrimary';
+import InputPrimary from '@/components/elements/Input/InputPrimary';
 import { useHandleLogin } from '@/hooks/useHandleLogin';
 import { useSignIn } from '@clerk/clerk-expo';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -27,7 +27,16 @@ export default function VerifyCode() {
   const [resendError, setResendError] = useState<string | null>(null);
   const { sendEmailCode, verifyEmailCode } = useHandleLogin();
 
-  console.log('VerifyCode component - isLoaded:', isLoaded, 'setActive:', !!setActive, 'email:', email, 'isNewUser:', isNewUser);
+  console.log(
+    'VerifyCode component - isLoaded:',
+    isLoaded,
+    'setActive:',
+    !!setActive,
+    'email:',
+    email,
+    'isNewUser:',
+    isNewUser,
+  );
 
   const onVerifyCode = async () => {
     console.log('Starting verification with code:', code);
@@ -50,7 +59,9 @@ export default function VerifyCode() {
 
         // Redirect based on user type
         if (isNewUser) {
-          console.log('New user signup complete, redirecting to add-user-profile-details');
+          console.log(
+            'New user signup complete, redirecting to add-user-profile-details',
+          );
           router.replace('/add-user-profile-details');
         } else {
           console.log('Existing user signin complete, redirecting to home');
