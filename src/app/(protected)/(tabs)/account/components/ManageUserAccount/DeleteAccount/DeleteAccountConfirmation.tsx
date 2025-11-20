@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
-import ButtonPrimary from '../elements/ButtonPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 
 function DeleteAccountConfirmation() {
   const theme = useTheme();

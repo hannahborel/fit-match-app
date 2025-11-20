@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import { useTheme, Text } from 'react-native-paper';
 import { deleteAccount } from '@/queries/deleteAccount';
-import DeleteAccountBottomSheet from '@/components/DeleteAccount/DeleteAccountBottomSheet';
-import DeleteAccountConfirmation from '@/components/DeleteAccount/DeleteAccountConfirmation';
+import DeleteAccountBottomSheet from './DeleteAccountBottomSheet';
+import DeleteAccountConfirmation from './DeleteAccountConfirmation';
 
 type DeleteAccountButtonProps = {
   setActionInProgress: (isInProgress: boolean) => void;
