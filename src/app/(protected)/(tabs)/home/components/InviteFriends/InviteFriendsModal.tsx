@@ -5,8 +5,8 @@ import * as Clipboard from 'expo-clipboard';
 import * as Linking from 'expo-linking';
 import React, { useState } from 'react';
 import { Text, View } from 'react-native';
-import BottomSheet from '../elements/BottomSheet';
-import Snackbar from '../elements/Snackbar';
+import BottomSheet from '@/components/elements/BottomSheet';
+import Snackbar from '@/components/elements/Snackbar';
 
 interface InviteFriendsModalProps {
   visible: boolean;
