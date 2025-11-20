@@ -4,7 +4,6 @@ import LeagueDuration from '@/components/library/LeagueDuration';
 import LeagueSize from '@/components/library/LeagueSize';
 import ManageLeagueName from '@/components/library/ManageUserDetails';
 import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
-import Snackbar from '@/components/elements/Snackbar';
 import UnsavedChangesSheet from '@/components/elements/UnsavedChangesSheet';
 import BottomSheet from '@/components/elements/BottomSheet';
 import NumberAvatar from '@/components/library/NumberAvatar';
@@ -36,7 +35,6 @@ const LeagueDetails = () => {
     weeks?: number;
     size?: number;
   }>({});
-  const [showSuccessSnackbar, setShowSuccessSnackbar] = useState(false);
   const [showUnsavedChangesSheet, setShowUnsavedChangesSheet] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showEditSheet, setShowEditSheet] = useState(false);
@@ -181,7 +179,6 @@ const LeagueDetails = () => {
         onSuccess: () => {
           setIsLoading(false);
           setShowEditSheet(false);
-          setShowSuccessSnackbar(true);
         },
         onError: () => {
           setIsLoading(false);
@@ -213,8 +210,6 @@ const LeagueDetails = () => {
           setPendingChanges({});
           // Hide loading
           setIsLoading(false);
-          // Show success snackbar
-          setShowSuccessSnackbar(true);
         },
         onError: () => {
           // Hide loading on error
@@ -260,8 +255,6 @@ const LeagueDetails = () => {
           setPendingChanges({});
           // Hide loading
           setIsLoading(false);
-          // Show success snackbar
-          setShowSuccessSnackbar(true);
         },
         onError: () => {
           // Hide loading on error
@@ -310,16 +303,6 @@ const LeagueDetails = () => {
           </>
         )}
       </View>
-
-      <Snackbar
-        visible={showSuccessSnackbar}
-        type="success"
-        title="Changes saved"
-        text="Your league details have been updated"
-        onDismiss={() => setShowSuccessSnackbar(false)}
-        duration={3000}
-        position="bottom"
-      />
 
       <UnsavedChangesSheet
         visible={showUnsavedChangesSheet}
