@@ -165,6 +165,7 @@ const AddUserDetails = () => {
                       }
                     }}
                     onBlur={() => validateName(firstName, 'firstName')}
+                    returnKeyType="done"
                   />
                   {errors.firstName && (
                     <Text
@@ -187,6 +188,7 @@ const AddUserDetails = () => {
                       }
                     }}
                     onBlur={() => validateName(lastName, 'lastName')}
+                    returnKeyType="done"
                   />
                   {errors.lastName && (
                     <Text
