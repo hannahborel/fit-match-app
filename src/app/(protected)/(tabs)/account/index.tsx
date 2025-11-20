@@ -13,7 +13,7 @@ import { useUser } from '@clerk/clerk-expo';
 import { ChevronRight, UserIcon } from 'lucide-react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import LogoutButton from '@/components/library/LogoutButton';
+import SignOutButton from './components/SignOutButton';
 
 const Account = () => {
   const router = useRouter();
@@ -106,7 +106,7 @@ const Account = () => {
           ))}
         </View>
         <Table2Col tableData={personalInfo} />
-        <LogoutButton />
+        <SignOutButton />
       </View>
     </BgView>
   );

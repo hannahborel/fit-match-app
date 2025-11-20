@@ -39,7 +39,7 @@ export default function HomeTabs() {
     {
       title: 'Log a Workout',
       icon: ({ color }) => <Plus color={color} />,
-      route: 'logActivity',
+      route: 'activity',
     },
     {
       title: 'Calendar',

@@ -16,7 +16,7 @@ export default function AccountLayout() {
         }}
       />
       <Stack.Screen
-        name="activityDetails"
+        name="logActivity"
         options={{
           headerShown: true,
           title: 'Log Acctivity',

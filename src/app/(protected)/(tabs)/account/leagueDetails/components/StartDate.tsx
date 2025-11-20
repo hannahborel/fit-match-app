@@ -1,17 +1,17 @@
 import React from 'react';
-import SettingsRow from '../../app/(protected)/(tabs)/account/leagueDetails/components/SettingsRow';
+import SettingsRow from './SettingsRow';
 
-type UpdateLeagueStartDateDemo = {
+type StartDateProps = {
   startDate: Date;
   leagueId: string;
   disabled?: boolean;
 };
 
-export default function UpdateLeagueStartDateDemo({
+export default function StartDate({
   startDate,
   leagueId,
   disabled = false,
-}: UpdateLeagueStartDateDemo) {
+}: StartDateProps) {
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString('en-US', {
       month: 'short',

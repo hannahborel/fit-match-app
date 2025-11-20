@@ -1,5 +1,3 @@
-import NumberAvatar from '@/components/library/NumberAvatar';
-
 import { useCreateLeague } from '@/hooks/useCrateLeague';
 import { CreateLeagueInput } from 'hustle-types';
 
@@ -18,6 +16,7 @@ import { router } from 'expo-router';
 import { useAuthCache } from '@/hooks/useAuthCashe';
 
 import InputPrimary from '@/components/elements/InputPrimary';
+import NumberAvatar from '@/components/library/NumberAvatar';
 
 const FaceOffSetup = () => {
   const { user } = useUser();
@@ -93,7 +92,10 @@ const FaceOffSetup = () => {
       onError: (error) => {
         // Show error message and reset creating state
         setIsCreating(false);
-        setErrorMessage(error?.message || 'An error occurred while creating your league. Please try again.');
+        setErrorMessage(
+          error?.message ||
+            'An error occurred while creating your league. Please try again.',
+        );
       },
     });
   };
@@ -176,7 +178,15 @@ const FaceOffSetup = () => {
                 }}
               />
               {showDatePicker && (
-                <View style={{ position: 'absolute', top: 70, left: 0, right: 0, zIndex: 1000 }}>
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 70,
+                    left: 0,
+                    right: 0,
+                    zIndex: 1000,
+                  }}
+                >
                   <DateTimePicker
                     value={selectedDate}
                     mode="date"

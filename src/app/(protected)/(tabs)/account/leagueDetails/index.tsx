@@ -6,8 +6,8 @@ import DeleteLeagueButton from '@/app/(protected)/(tabs)/account/leagueDetails/c
 import LeagueDuration from './components/LeagueDuration';
 import LeagueSize from '@/app/(protected)/(tabs)/account/leagueDetails/components/LeagueSize';
 import ManageLeagueName from '@/app/(protected)/(tabs)/account/leagueDetails/components/LeagueName';
-import NumberAvatar from '@/components/library/NumberAvatar';
-import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDate';
+
+import UpdateLeagueStartDateDemo from '@/app/(protected)/(tabs)/account/leagueDetails/components/StartDate';
 import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 import { useAuth } from '@clerk/clerk-expo';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -22,6 +22,7 @@ import {
   View,
 } from 'react-native';
 import { Text, TextInput, useTheme } from 'react-native-paper';
+import NumberAvatar from '@/components/library/NumberAvatar';
 
 const LeagueDetails = () => {
   const theme = useTheme();
@@ -158,15 +159,6 @@ const LeagueDetails = () => {
         },
       },
     );
-  };
-
-  const handleDiscardAndGoBack = () => {
-    // Clear pending changes
-    setPendingChanges({});
-    setShowUnsavedChangesSheet(false);
-    // Allow navigation and go back
-    shouldAllowNavigation.current = true;
-    navigation.goBack();
   };
 
   return (

@@ -13,12 +13,14 @@ import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import { ButtonCard } from '@/components/elements/Card';
 import SectionHeader from '@/components/elements/Headers/SectionHeader';
 import { formatString } from '@/helpers/helpers';
-import ActivityDetailsBottomSheet from '@/components/logActivity/ActivityDetailsBottomSheet';
+import ActivityDetailsBottomSheet from './LogActivity/ActivityDetailsBottomSheet';
 
 const logActivity = () => {
   const theme = useTheme();
   const [search, setSearch] = useState('');
-  const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(null);
+  const [selectedActivity, setSelectedActivity] = useState<ActivityType | null>(
+    null,
+  );
   const [sheetVisible, setSheetVisible] = useState(false);
 
   const filteredActivities = Object.entries(ActivityDefinitions).filter(

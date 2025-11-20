@@ -5,7 +5,7 @@ import { addActivity, LogActivityInput } from '@/mutations/addActivity';
 import { useAuth } from '@clerk/clerk-expo';
 import { useMutation } from '@tanstack/react-query';
 import { ActivityDefinitions, ActivityType, League } from 'hustle-types';
-import NumberScroll from '../library/NumberScroll';
+import NumberScroll from './components/NumberScroll';
 import { leagueAtom } from '@/atoms/leagueAtom';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';

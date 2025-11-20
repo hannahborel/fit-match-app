@@ -15,7 +15,7 @@ import { generateSchedulePreview } from '@/helpers/sheduleHelpers/generateSchedu
 import { useAtomValue } from 'jotai';
 import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 
-import ScheduleFlatList from '@/components/schedule/ScheduleFlatList';
+import ScheduleFlatList from '@/app/(protected)/(tabs)/calendar/components/Schedule/ScheduleFlatList';
 import React, { useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { IconButton, Text, useTheme } from 'react-native-paper';

@@ -5,7 +5,7 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
-const LogoutButton = () => {
+const SignOutButton = () => {
   const { signOut } = useAuth();
   const router = useRouter();
   const { clearCache } = useAuthCache();
@@ -51,4 +51,4 @@ const LogoutButton = () => {
   );
 };
 
-export default LogoutButton;
+export default SignOutButton;
