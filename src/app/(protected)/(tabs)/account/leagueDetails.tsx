@@ -18,12 +18,10 @@ import {
   SafeAreaView,
   View,
   TouchableOpacity,
-  ActivityIndicator,
-  StyleSheet,
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
-import { Text, useTheme, Portal, TextInput } from 'react-native-paper';
+import { Text, useTheme, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -161,10 +159,12 @@ const LeagueDetails = () => {
     if (!leagueDetails) return;
 
     setIsLoading(true);
-    setShowEditSheet(false);
 
     const token = await getToken();
-    if (!token) return;
+    if (!token) {
+      setIsLoading(false);
+      return;
+    }
 
     mutation.mutate(
       {
@@ -180,6 +180,7 @@ const LeagueDetails = () => {
       {
         onSuccess: () => {
           setIsLoading(false);
+          setShowEditSheet(false);
           setShowSuccessSnackbar(true);
         },
         onError: () => {
@@ -327,14 +328,6 @@ const LeagueDetails = () => {
         onClose={() => setShowUnsavedChangesSheet(false)}
       />
 
-      {isLoading && (
-        <Portal>
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color={theme.colors.primary} />
-          </View>
-        </Portal>
-      )}
-
       <BottomSheet
         visible={showEditSheet}
         onClose={() => setShowEditSheet(false)}
@@ -433,6 +426,8 @@ const LeagueDetails = () => {
             <ButtonPrimary
               onPress={handleSaveEdit}
               disabled={!hasEditChanges()}
+              loading={isLoading}
+              replaceTextWithSpinner={true}
             >
               <Text>Save Changes</Text>
             </ButtonPrimary>
@@ -442,19 +437,5 @@ const LeagueDetails = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  loadingOverlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 9999,
-  },
-});
 
 export default LeagueDetails;
