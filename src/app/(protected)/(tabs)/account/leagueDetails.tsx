@@ -7,6 +7,9 @@ import UpdateLeagueStartDateDemo from '@/components/library/UpdateLeagueStartDat
 import Snackbar from '@/components/elements/Snackbar';
 import UnsavedChangesSheet from '@/components/elements/UnsavedChangesSheet';
 import BottomSheet from '@/components/elements/BottomSheet';
+import NumberAvatar from '@/components/library/NumberAvatar';
+import InputPrimary from '@/components/elements/InputPrimary';
+import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 import { useAuth } from '@clerk/clerk-expo';
 import { useAtomValue } from 'jotai';
@@ -17,9 +20,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
-import { Text, useTheme, Portal } from 'react-native-paper';
+import { Text, useTheme, Portal, TextInput } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const LeagueDetails = () => {
   const theme = useTheme();
@@ -36,6 +42,14 @@ const LeagueDetails = () => {
   const [showUnsavedChangesSheet, setShowUnsavedChangesSheet] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showEditSheet, setShowEditSheet] = useState(false);
+
+  // Edit form state
+  const [editLeagueName, setEditLeagueName] = useState('');
+  const [editLeagueSize, setEditLeagueSize] = useState<number>(0);
+  const [editRegularWeeks, setEditRegularWeeks] = useState<number>(0);
+  const [editSelectedDate, setEditSelectedDate] = useState(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [dateText, setDateText] = useState('');
 
   const mutation = useUpdateLeague();
   const shouldAllowNavigation = useRef(false);
@@ -70,7 +84,7 @@ const LeagueDetails = () => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <TouchableOpacity onPress={() => setShowEditSheet(true)}>
+        <TouchableOpacity onPress={handleOpenEditSheet}>
           <Text
             style={{
               fontSize: 14,
@@ -86,12 +100,93 @@ const LeagueDetails = () => {
     });
   }, [navigation, theme.colors.primary]);
 
+  // Initialize edit form when opening the sheet
+  const handleOpenEditSheet = () => {
+    if (leagueDetails) {
+      setEditLeagueName(leagueDetails.name);
+      setEditLeagueSize(leagueDetails.size);
+      setEditRegularWeeks(leagueDetails.weeks);
+      const startDate = new Date(leagueDetails.startDate);
+      setEditSelectedDate(startDate);
+      setDateText(startDate.toLocaleDateString());
+    }
+    setShowEditSheet(true);
+  };
+
   const handleWeeksChange = (newWeeks: number) => {
     setPendingChanges((prev) => ({ ...prev, weeks: newWeeks }));
   };
 
   const handleSizeChange = (newSize: number) => {
     setPendingChanges((prev) => ({ ...prev, size: newSize }));
+  };
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    // On Android, the picker automatically closes after selection
+    // On iOS, we need to handle it manually
+    if (Platform.OS === 'android') {
+      setShowDatePicker(false);
+    }
+
+    if (selectedDate) {
+      const currentDate = selectedDate;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      if (currentDate >= today) {
+        setEditSelectedDate(currentDate);
+        setDateText(currentDate.toLocaleDateString());
+      }
+    }
+  };
+
+  const toggleDatePicker = () => {
+    setShowDatePicker(!showDatePicker);
+  };
+
+  // Check if any changes have been made
+  const hasEditChanges = () => {
+    if (!leagueDetails) return false;
+
+    return (
+      editLeagueName !== leagueDetails.name ||
+      editLeagueSize !== leagueDetails.size ||
+      editRegularWeeks !== leagueDetails.weeks ||
+      editSelectedDate.toDateString() !==
+        new Date(leagueDetails.startDate).toDateString()
+    );
+  };
+
+  const handleSaveEdit = async () => {
+    if (!leagueDetails) return;
+
+    setIsLoading(true);
+    setShowEditSheet(false);
+
+    const token = await getToken();
+    if (!token) return;
+
+    mutation.mutate(
+      {
+        token,
+        updates: {
+          id: leagueDetails.id,
+          name: editLeagueName,
+          size: editLeagueSize,
+          weeks: editRegularWeeks,
+          startDate: editSelectedDate,
+        },
+      },
+      {
+        onSuccess: () => {
+          setIsLoading(false);
+          setShowSuccessSnackbar(true);
+        },
+        onError: () => {
+          setIsLoading(false);
+        },
+      },
+    );
   };
 
   const handleSave = async () => {
@@ -245,10 +340,104 @@ const LeagueDetails = () => {
         onClose={() => setShowEditSheet(false)}
         title="Edit League Details"
         size="lg"
+        contentContainerStyle={{
+          flex: 1,
+        }}
       >
-        <View style={{ flex: 1 }}>
-          <Text>Edit form will go here</Text>
-        </View>
+        <KeyboardAvoidingView
+          style={{ flex: 1, justifyContent: 'space-between' }}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={0}
+        >
+          <View style={{ flex: 1, gap: 36 }}>
+            <View style={{ gap: 8, marginTop: 8 }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                FACEOFF NAME
+              </Text>
+              <InputPrimary
+                mode="outlined"
+                value={editLeagueName}
+                onChangeText={setEditLeagueName}
+              />
+            </View>
+
+            <View style={{ gap: 8 }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                LEAGUE SIZE
+              </Text>
+              <NumberAvatar
+                start={4}
+                end={98}
+                step={2}
+                initialValue={editLeagueSize}
+                setValue={setEditLeagueSize}
+              />
+            </View>
+
+            <View style={{ gap: 8 }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                REGULAR SEASON WEEKS
+              </Text>
+              <NumberAvatar
+                start={4}
+                end={16}
+                step={4}
+                initialValue={editRegularWeeks}
+                setValue={setEditRegularWeeks}
+              />
+            </View>
+
+            <View style={{ gap: 8, position: 'relative' }}>
+              <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+                LEAGUE START DATE
+              </Text>
+              <TextInput
+                mode="outlined"
+                theme={{ roundness: 12 }}
+                outlineColor={theme.colors.surface}
+                value={dateText}
+                onPressIn={toggleDatePicker}
+                editable={false}
+                right={
+                  <TextInput.Icon icon="calendar" onPress={toggleDatePicker} />
+                }
+                style={{
+                  width: '100%',
+                  borderRadius: 12,
+                  backgroundColor: theme.colors.background,
+                  height: 45,
+                }}
+              />
+              {showDatePicker && (
+                <View
+                  style={{
+                    position: 'absolute',
+                    top: 70,
+                    left: 0,
+                    right: 0,
+                    zIndex: 1000,
+                  }}
+                >
+                  <DateTimePicker
+                    value={editSelectedDate}
+                    mode="date"
+                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                    onChange={handleDateChange}
+                    minimumDate={new Date()}
+                  />
+                </View>
+              )}
+            </View>
+          </View>
+          <View style={{ marginBottom: 8 }}>
+            <ButtonPrimary
+              onPress={handleSaveEdit}
+              disabled={!hasEditChanges()}
+            >
+              <Text>Save Changes</Text>
+            </ButtonPrimary>
+          </View>
+        </KeyboardAvoidingView>
       </BottomSheet>
     </SafeAreaView>
   );

@@ -8,6 +8,7 @@ interface NumberAvatarProps {
   end: number;
   step: number;
   setValue: (value: number) => void;
+  initialValue?: number;
 }
 
 const NumberAvatar: React.FC<NumberAvatarProps> = ({
@@ -15,6 +16,7 @@ const NumberAvatar: React.FC<NumberAvatarProps> = ({
   end,
   step = 2,
   setValue,
+  initialValue = 0,
 }) => {
   const theme = useTheme();
   const numbers = Array.from(
@@ -22,7 +24,13 @@ const NumberAvatar: React.FC<NumberAvatarProps> = ({
     (_, i) => start + i * step,
   );
 
-  const [selectedNumber, setSelectedNumber] = useState(0);
+  const [selectedNumber, setSelectedNumber] = useState(initialValue);
+
+  // Update selected number when initialValue changes
+  React.useEffect(() => {
+    setSelectedNumber(initialValue);
+  }, [initialValue]);
+
   const handleSelect = (number: number) => {
     setSelectedNumber(number);
     setValue(number);
