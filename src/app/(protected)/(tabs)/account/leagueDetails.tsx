@@ -9,7 +9,7 @@ import UnsavedChangesSheet from '@/components/elements/UnsavedChangesSheet';
 import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 import { useAuth } from '@clerk/clerk-expo';
 import { useAtomValue } from 'jotai';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
   View,
@@ -18,7 +18,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Text, useTheme, Portal } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, CommonActions } from '@react-navigation/native';
 
 const LeagueDetails = () => {
   const theme = useTheme();
@@ -36,12 +36,19 @@ const LeagueDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const mutation = useUpdateLeague();
+  const shouldAllowNavigation = useRef(false);
 
   const hasPendingChanges = Object.keys(pendingChanges).length > 0;
 
   // Intercept back navigation to show unsaved changes warning
   useEffect(() => {
     const unsubscribe = navigation.addListener('beforeRemove', (e) => {
+      // If we've explicitly allowed navigation, let it through
+      if (shouldAllowNavigation.current) {
+        shouldAllowNavigation.current = false;
+        return;
+      }
+
       if (!hasPendingChanges) {
         // No pending changes, allow navigation
         return;
@@ -122,10 +129,11 @@ const LeagueDetails = () => {
   };
 
   const handleDiscardAndGoBack = () => {
-    // Clear pending changes and allow navigation
+    // Clear pending changes
     setPendingChanges({});
     setShowUnsavedChangesSheet(false);
-    // Navigate back after clearing changes
+    // Allow navigation and go back
+    shouldAllowNavigation.current = true;
     navigation.goBack();
   };
 
