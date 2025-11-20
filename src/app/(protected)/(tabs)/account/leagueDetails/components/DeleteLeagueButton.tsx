@@ -53,25 +53,27 @@ const DeleteLeagueButton = ({ leagueId }: DeleteLeagueButtonProps) => {
   };
 
   return (
-    <TouchableOpacity
-      onPress={handleDelete}
-      disabled={isDeleting}
-      style={{
-        backgroundColor: 'transparent',
-        borderRadius: 8,
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-        opacity: isDeleting ? 0.7 : 1,
-      }}
-    >
-      {isDeleting ? (
-        <ActivityIndicator size="small" color={theme.colors.error} />
-      ) : (
-        <Text style={{ fontWeight: 500, color: theme.colors.error }}>
-          Delete League
-        </Text>
-      )}
-    </TouchableOpacity>
+    <View>
+      <TouchableOpacity
+        onPress={handleDelete}
+        disabled={isDeleting}
+        style={{
+          backgroundColor: 'transparent',
+          borderRadius: 8,
+          paddingVertical: 12,
+          paddingHorizontal: 16,
+          opacity: isDeleting ? 0.7 : 1,
+        }}
+      >
+        {isDeleting ? (
+          <ActivityIndicator size="small" color={theme.colors.error} />
+        ) : (
+          <Text style={{ fontWeight: 500, color: theme.colors.error }}>
+            Delete League
+          </Text>
+        )}
+      </TouchableOpacity>
+    </View>
   );
 };
 

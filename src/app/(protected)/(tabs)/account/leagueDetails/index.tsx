@@ -9,6 +9,7 @@ import ManageLeagueName from '@/app/(protected)/(tabs)/account/leagueDetails/com
 
 import UpdateLeagueStartDateDemo from '@/app/(protected)/(tabs)/account/leagueDetails/components/StartDate';
 import { useUpdateLeague } from '@/hooks/useUpdateLeague';
+import { useIsLeagueManager } from '@/hooks/useIsLeagueManager';
 import { useAuth } from '@clerk/clerk-expo';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
@@ -23,19 +24,21 @@ import {
 } from 'react-native';
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import NumberAvatar from '@/components/library/NumberAvatar';
+import InviteFriendsButton from './components/InviteFriendsButton';
 
 const LeagueDetails = () => {
   const theme = useTheme();
   const leagueDetails = useAtomValue(leagueAtom);
   const navigation = useNavigation();
   const { getToken } = useAuth();
+  const isLeagueManager = useIsLeagueManager();
 
   // Track pending changes
   const [pendingChanges, setPendingChanges] = useState<{
     weeks?: number;
     size?: number;
   }>({});
-  const [showUnsavedChangesSheet, setShowUnsavedChangesSheet] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [showEditSheet, setShowEditSheet] = useState(false);
 
@@ -50,25 +53,27 @@ const LeagueDetails = () => {
   const mutation = useUpdateLeague();
   const shouldAllowNavigation = useRef(false);
 
-  // Update navigation header with Edit button
+  // Update navigation header with Edit button (only for league manager)
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <TouchableOpacity onPress={handleOpenEditSheet}>
-          <Text
-            style={{
-              fontSize: 14,
-              fontWeight: 'bold',
-              color: theme.colors.primary,
-              paddingRight: 16,
-            }}
-          >
-            Edit
-          </Text>
-        </TouchableOpacity>
-      ),
+      headerRight: isLeagueManager
+        ? () => (
+            <TouchableOpacity onPress={handleOpenEditSheet}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                  color: theme.colors.primary,
+                  paddingRight: 16,
+                }}
+              >
+                Edit
+              </Text>
+            </TouchableOpacity>
+          )
+        : undefined,
     });
-  }, [navigation, theme.colors.primary]);
+  }, [navigation, theme.colors.primary, isLeagueManager]);
 
   // Initialize edit form when opening the sheet
   const handleOpenEditSheet = () => {
@@ -194,8 +199,13 @@ const LeagueDetails = () => {
                 disabled
               />
             </View>
-            <View style={{ gap: 12 }}>
-              <DeleteLeagueButton leagueId={leagueDetails.id} />
+            <View style={{ gap: 8 }}>
+              {isLeagueManager && (
+                <InviteFriendsButton leagueId={leagueDetails.id} />
+              )}
+              {isLeagueManager && (
+                <DeleteLeagueButton leagueId={leagueDetails.id} />
+              )}
             </View>
           </>
         )}
