@@ -7,9 +7,10 @@ type LeagueSizeProps = {
   leagueId: string;
   leagueSize: number;
   onValueChange?: (newSize: number) => void;
+  disabled?: boolean;
 };
 
-const LeagueSize = ({ leagueId, leagueSize, onValueChange }: LeagueSizeProps) => {
+const LeagueSize = ({ leagueId, leagueSize, onValueChange, disabled = false }: LeagueSizeProps) => {
   const [newSize, setNewSize] = useState(leagueSize);
   const [showModal, setShowModal] = useState(false);
   const [initialValue, setInitialValue] = useState(leagueSize);
@@ -34,24 +35,27 @@ const LeagueSize = ({ leagueId, leagueSize, onValueChange }: LeagueSizeProps) =>
       <SettingsRow
         label="League Size"
         value={initialValue}
-        onPress={() => setShowModal(true)}
+        onPress={disabled ? undefined : () => setShowModal(true)}
+        disabled={disabled}
       />
 
-      <BottomSheet
-        visible={showModal}
-        onClose={() => setShowModal(false)}
-        title="Edit League Size"
-        size="sm"
-        iconRight="Check"
-        onIconRightPress={handleConfirm}
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: 'space-between',
-          paddingHorizontal: 16,
-        }}
-      >
-        <LeagueSizePicker setNewSize={setNewSize} initialValue={initialValue} />
-      </BottomSheet>
+      {!disabled && (
+        <BottomSheet
+          visible={showModal}
+          onClose={() => setShowModal(false)}
+          title="Edit League Size"
+          size="sm"
+          iconRight="Check"
+          onIconRightPress={handleConfirm}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between',
+            paddingHorizontal: 16,
+          }}
+        >
+          <LeagueSizePicker setNewSize={setNewSize} initialValue={initialValue} />
+        </BottomSheet>
+      )}
     </>
   );
 };

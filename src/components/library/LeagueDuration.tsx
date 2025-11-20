@@ -7,9 +7,10 @@ type LeagueDurationProps = {
   leagueId: string;
   weeks: number;
   onValueChange?: (newWeeks: number) => void;
+  disabled?: boolean;
 };
 
-const LeagueDuration = ({ leagueId, weeks, onValueChange }: LeagueDurationProps) => {
+const LeagueDuration = ({ leagueId, weeks, onValueChange, disabled = false }: LeagueDurationProps) => {
   const [newWeeks, setNewWeeks] = useState(weeks);
   const [showModal, setShowModal] = useState(false);
   const [initialValue, setInitialValue] = useState(weeks);
@@ -34,27 +35,30 @@ const LeagueDuration = ({ leagueId, weeks, onValueChange }: LeagueDurationProps)
       <SettingsRow
         label="League Duration"
         value={`${initialValue} weeks`}
-        onPress={() => setShowModal(true)}
+        onPress={disabled ? undefined : () => setShowModal(true)}
+        disabled={disabled}
       />
 
-      <BottomSheet
-        visible={showModal}
-        onClose={() => setShowModal(false)}
-        title="Edit League Duration"
-        size="sm"
-        iconRight="Check"
-        onIconRightPress={handleConfirm}
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: 'space-between',
-          paddingHorizontal: 16,
-        }}
-      >
-        <LeagueDurationPicker
-          setNewWeeks={setNewWeeks}
-          initialValue={initialValue}
-        />
-      </BottomSheet>
+      {!disabled && (
+        <BottomSheet
+          visible={showModal}
+          onClose={() => setShowModal(false)}
+          title="Edit League Duration"
+          size="sm"
+          iconRight="Check"
+          onIconRightPress={handleConfirm}
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'space-between',
+            paddingHorizontal: 16,
+          }}
+        >
+          <LeagueDurationPicker
+            setNewWeeks={setNewWeeks}
+            initialValue={initialValue}
+          />
+        </BottomSheet>
+      )}
     </>
   );
 };

@@ -2,8 +2,9 @@ import SettingsRow from './SettingsRow';
 
 type ManageLeagueNameProps = {
   leagueName: string;
+  disabled?: boolean;
 };
-const ManageLeagueName = ({ leagueName }: ManageLeagueNameProps) => {
+const ManageLeagueName = ({ leagueName, disabled = false }: ManageLeagueNameProps) => {
   return (
     <>
       <SettingsRow
@@ -12,6 +13,7 @@ const ManageLeagueName = ({ leagueName }: ManageLeagueNameProps) => {
         onPress={() => {
           console.log('League Name');
         }}
+        disabled={disabled}
         style={{
           borderTopLeftRadius: 8,
           borderTopRightRadius: 8,

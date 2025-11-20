@@ -9,11 +9,13 @@ import { useUpdateLeague } from '@/hooks/useUpdateLeague';
 type UpdateLeagueStartDateDemo = {
   startDate: Date;
   leagueId: string;
+  disabled?: boolean;
 };
 
 export default function UpdateLeagueStartDateDemo({
   startDate,
   leagueId,
+  disabled = false,
 }: UpdateLeagueStartDateDemo) {
   const [newStartDate, setNewStartDate] = useState(new Date(startDate));
   const [showPicker, setShowPicker] = useState(false);
@@ -42,6 +44,8 @@ export default function UpdateLeagueStartDateDemo({
   };
 
   const handlePickerToggle = () => {
+    if (disabled) return;
+
     if (showPicker) {
       // Picker is closing - check if value changed
       if (newStartDate.toISOString() !== initialValue.toISOString()) {
@@ -66,15 +70,16 @@ export default function UpdateLeagueStartDateDemo({
       <SettingsRow
         label="Start Date"
         value={formatDate(newStartDate)}
-        onPress={handlePickerToggle}
+        onPress={disabled ? undefined : handlePickerToggle}
         isActive={showPicker}
+        disabled={disabled}
         style={{
           borderBottomWidth: 0,
           borderBottomEndRadius: 8,
           borderBottomStartRadius: 8,
         }}
       />
-      {showPicker && (
+      {showPicker && !disabled && (
         <DateTimePicker
           value={newStartDate}
           mode="date"

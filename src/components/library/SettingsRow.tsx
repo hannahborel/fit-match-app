@@ -5,9 +5,10 @@ import { useTheme, Text } from 'react-native-paper';
 type SettingsRowProps = {
   label: string;
   value: string | number;
-  onPress: () => void;
+  onPress?: () => void;
   isActive?: boolean;
   style?: ViewStyle;
+  disabled?: boolean;
 };
 
 const SettingsRow = ({
@@ -16,12 +17,16 @@ const SettingsRow = ({
   onPress,
   isActive = false,
   style,
+  disabled = false,
 }: SettingsRowProps) => {
   const theme = useTheme();
 
+  const Container = disabled ? View : TouchableOpacity;
+  const containerProps = disabled ? {} : { onPress };
+
   return (
-    <TouchableOpacity
-      onPress={onPress}
+    <Container
+      {...containerProps}
       style={[
         styles.container,
         {
@@ -49,7 +54,7 @@ const SettingsRow = ({
           {value}
         </Text>
       </View>
-    </TouchableOpacity>
+    </Container>
   );
 };
 

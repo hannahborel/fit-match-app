@@ -187,22 +187,25 @@ const LeagueDetails = () => {
                 overflow: 'hidden',
               }}
             >
-              <ManageLeagueName leagueName={leagueDetails.name} />
+              <ManageLeagueName leagueName={leagueDetails.name} disabled />
 
               <LeagueDuration
                 leagueId={leagueDetails.id}
                 weeks={pendingChanges.weeks ?? leagueDetails.weeks}
                 onValueChange={handleWeeksChange}
+                disabled
               />
 
               <LeagueSize
                 leagueId={leagueDetails.id}
                 leagueSize={pendingChanges.size ?? leagueDetails.size}
                 onValueChange={handleSizeChange}
+                disabled
               />
               <UpdateLeagueStartDateDemo
                 startDate={new Date(leagueDetails.startDate)}
                 leagueId={leagueDetails.id}
+                disabled
               />
             </View>
             <View style={{ gap: 12 }}>
