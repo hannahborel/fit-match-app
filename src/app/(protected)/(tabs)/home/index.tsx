@@ -1,7 +1,7 @@
 import { BaseCard } from '@/components/elements/Card';
-import { CountdownTimer, InviteFriendsSection } from '@/components/Dashboard';
-import CustomHeader from '@/components/library/CustomHeader';
 
+import CountdownTimer from './components/CountDown.tsx/CountdownTimer';
+import InviteFriendsSection from './components/InviteFriends/InviteFriendsSection';
 import { leagueAtom } from '@/atoms/leagueAtom';
 import {
   allMatchupsWithPointsAtom,
