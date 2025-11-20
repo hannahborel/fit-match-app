@@ -31,12 +31,12 @@ const Account = () => {
   const settings = [
     {
       label: 'Settings',
-      route: 'account/accountSettings',
-      action: () => router.push('account/accountSettings'),
+      route: 'account/settings',
+      action: () => router.push('account/settings'),
     },
     {
       label: 'League Details',
-      route: 'account/LeagueDetails/leagueDetails',
+      route: 'account/leagueDetails',
       action: () => router.push('account/leagueDetails'),
     },
   ];

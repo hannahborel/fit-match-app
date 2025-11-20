@@ -1,4 +1,4 @@
-import DeleteAccountButton from './components/ManageUserAccount/DeleteAccount/DeleteAccountBtn';
+import DeleteAccountButton from './components/DeleteAccount/DeleteAccountBtn';
 import LoadingScreen from '@/components/elements/LoadingScreen';
 import React, { useState } from 'react';
 import { SafeAreaView, View } from 'react-native';

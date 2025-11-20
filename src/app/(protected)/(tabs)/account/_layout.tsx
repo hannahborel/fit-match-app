@@ -16,7 +16,7 @@ export default function AccountLayout() {
         }}
       />
       <Stack.Screen
-        name="accountSettings"
+        name="settings/index"
         options={{
           headerShown: true,
           title: 'Account Settings',
