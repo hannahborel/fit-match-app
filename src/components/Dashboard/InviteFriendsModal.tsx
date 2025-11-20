@@ -1,14 +1,12 @@
-import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
-import * as Clipboard from 'expo-clipboard';
-import * as Linking from 'expo-linking';
-import Toast from 'react-native-toast-message';
-import Modal from '@/components/elements/Modal';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import ButtonSecondary from '@/components/elements/ButtonSecondary';
 import { generateJoinLeagueUrl } from '@/lib/getWebAppUrl';
+import * as Clipboard from 'expo-clipboard';
+import * as Linking from 'expo-linking';
+import React, { useState } from 'react';
+import { Text, View } from 'react-native';
 import BottomSheet from '../elements/BottomSheet';
+import Snackbar from '../elements/Snackbar';
 
 interface InviteFriendsModalProps {
   visible: boolean;
@@ -23,35 +21,29 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
   leagueId,
   ownerFirstName,
 }) => {
-  const theme = useTheme();
-
-  const styles = getStyles(theme);
-
+  const [linkCopied, setLinkCopied] = useState(false);
   const generateInviteLink = () => {
     // Generate invitation link with league ID using environment-aware URL
     return generateJoinLeagueUrl(leagueId);
   };
 
   const handleCopyLink = async () => {
+    setLinkCopied(true);
+    setTimeout(() => {
+      setLinkCopied(false);
+    }, 3000);
     try {
       const inviteLink = generateInviteLink();
-      await Clipboard.setStringAsync(inviteLink);
-
-      Toast.show({
-        type: 'success',
-        text1: 'Link Copied!',
-        text2: 'Invitation link copied to clipboard',
-        position: 'bottom',
-        visibilityTime: 3000,
-      });
+      console.log('inviteLink', inviteLink);
+      console.log(await Clipboard.setStringAsync(inviteLink));
+      // await Clipboard.setStringAsync(inviteLink);
     } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Copy Failed',
-        text2: 'Unable to copy link to clipboard',
-        position: 'bottom',
-        visibilityTime: 3000,
-      });
+      <Snackbar
+        visible={true}
+        type="error"
+        title="Copy Failed"
+        text="Unable to copy link to clipboard"
+      />;
     }
   };
 
@@ -69,89 +61,21 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
       } else {
         // Fallback: copy message to clipboard
         await Clipboard.setStringAsync(message);
-        Toast.show({
-          type: 'info',
-          text1: 'Message Copied',
-          text2: 'SMS message copied to clipboard',
-          position: 'bottom',
-          visibilityTime: 3000,
-        });
       }
     } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Text Invite Failed',
-        text2: 'Unable to open SMS app',
-        position: 'bottom',
-        visibilityTime: 3000,
-      });
+      <Snackbar
+        visible={true}
+        type="error"
+        title="Text Invite Failed"
+        text="Unable to open SMS app"
+      />;
     }
-  };
-
-  const handleEmailInvite = async () => {
-    try {
-      const inviteLink = generateInviteLink();
-      const subject = `${ownerFirstName} wants you to join their Fitness league on Hustle!`;
-      const body = `Hi there!
-
-${ownerFirstName} wants you to join their Fitness league on Hustle! It's a fun way to stay active and compete with friends.
-
-Click this link to join: ${inviteLink}
-
-See you on the leaderboard!
-`;
-
-      // Try to open email app with pre-filled content
-      const emailUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      const canOpen = await Linking.canOpenURL(emailUrl);
-
-      if (canOpen) {
-        await Linking.openURL(emailUrl);
-      } else {
-        // Fallback: copy email content to clipboard
-        const emailContent = `Subject: ${subject}\n\n${body}`;
-        await Clipboard.setStringAsync(emailContent);
-        Toast.show({
-          type: 'info',
-          text1: 'Email Content Copied',
-          text2: 'Email content copied to clipboard',
-          position: 'bottom',
-          visibilityTime: 3000,
-        });
-      }
-    } catch (error) {
-      Toast.show({
-        type: 'error',
-        text1: 'Email Invite Failed',
-        text2: 'Unable to open email app',
-        position: 'bottom',
-        visibilityTime: 3000,
-      });
-    }
-  };
-
-  const handleMoreOptions = () => {
-    // Show alert with more sharing options
-    Alert.alert(
-      'More Sharing Options',
-      'Copy the invitation link to share through any app:',
-      [
-        {
-          text: 'Copy Link',
-          onPress: () => handleCopyLink(),
-        },
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-      ],
-    );
   };
 
   return (
     <BottomSheet
       visible={visible}
-      size="md"
+      size="sm"
       onClose={onClose}
       title="Invite Friends"
       contentContainerStyle={{
@@ -165,37 +89,25 @@ See you on the leaderboard!
           <ButtonPrimary
             style={{ marginHorizontal: 0 }}
             onPress={handleCopyLink}
-            icon="content-copy"
+            icon={linkCopied ? 'check-circle' : 'content-copy'}
           >
-            Copy Invite Link
+            <Text style={{ width: 200, textAlign: 'left' }}>
+              {linkCopied ? 'Link Copied!' : 'Copy Invite Link'}
+            </Text>
           </ButtonPrimary>
         </View>
         {/* Text Invite */}
         <View>
-          <ButtonSecondary
-            style={{ borderWidth: 1, borderColor: theme.colors.onSurface }}
-            onPress={handleTextInvite}
-            icon="message-text"
-          >
-            Text Invite
+          <ButtonSecondary onPress={handleTextInvite} icon="message-text">
+            Text Invite Link
           </ButtonSecondary>
         </View>
 
         {/* Email Invite */}
-        <View>
-          <ButtonSecondary
-            style={{ borderWidth: 1, borderColor: theme.colors.onSurface }}
-            onPress={handleEmailInvite}
-            icon="email"
-          >
-            Email Invite
-          </ButtonSecondary>
-        </View>
+        <View></View>
       </View>
     </BottomSheet>
   );
 };
-
-const getStyles = (theme: any) => StyleSheet.create({});
 
 export default InviteFriendsModal;
