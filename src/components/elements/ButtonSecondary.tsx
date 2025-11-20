@@ -38,7 +38,7 @@ const ButtonSecondary: React.FC<ButtonSecondaryProps> = ({
           paddingHorizontal: 18,
           paddingVertical: 4,
           borderRadius: 100,
-          marginHorizontal: 24,
+
           flexShrink: 1,
         },
         style,

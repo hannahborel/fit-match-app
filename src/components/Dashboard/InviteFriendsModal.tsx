@@ -8,6 +8,7 @@ import Modal from '@/components/elements/Modal';
 import ButtonPrimary from '@/components/elements/ButtonPrimary';
 import ButtonSecondary from '@/components/elements/ButtonSecondary';
 import { generateJoinLeagueUrl } from '@/lib/getWebAppUrl';
+import BottomSheet from '../elements/BottomSheet';
 
 interface InviteFriendsModalProps {
   visible: boolean;
@@ -148,87 +149,53 @@ See you on the leaderboard!
   };
 
   return (
-    <Modal
+    <BottomSheet
       visible={visible}
+      size="md"
       onClose={onClose}
       title="Invite Friends"
-      description="Fill your league to get started. Invite friends to play against."
+      contentContainerStyle={{
+        flex: 1,
+      }}
     >
       {/* Action Buttons */}
-      <View style={styles.buttonContainer}>
-        <ButtonPrimary
-          style={{ marginHorizontal: 0 }}
-          onPress={handleCopyLink}
-          icon="content-copy"
-        >
-          Copy Invite Link
-        </ButtonPrimary>
+      <View style={{ flex: 1, justifyContent: 'center', gap: 12 }}>
+        {/* Copy Invite Link */}
+        <View>
+          <ButtonPrimary
+            style={{ marginHorizontal: 0 }}
+            onPress={handleCopyLink}
+            icon="content-copy"
+          >
+            Copy Invite Link
+          </ButtonPrimary>
+        </View>
+        {/* Text Invite */}
+        <View>
+          <ButtonSecondary
+            style={{ borderWidth: 1, borderColor: theme.colors.onSurface }}
+            onPress={handleTextInvite}
+            icon="message-text"
+          >
+            Text Invite
+          </ButtonSecondary>
+        </View>
 
-        <ButtonSecondary
-          style={styles.actionButton}
-          onPress={handleTextInvite}
-          icon="message-text"
-        >
-          Text Invite
-        </ButtonSecondary>
-
-        <ButtonSecondary
-          style={styles.actionButton}
-          onPress={handleEmailInvite}
-          icon="email"
-        >
-          Email Invite
-        </ButtonSecondary>
+        {/* Email Invite */}
+        <View>
+          <ButtonSecondary
+            style={{ borderWidth: 1, borderColor: theme.colors.onSurface }}
+            onPress={handleEmailInvite}
+            icon="email"
+          >
+            Email Invite
+          </ButtonSecondary>
+        </View>
       </View>
-
-      {/* More Options Link */}
-      <TouchableOpacity onPress={handleMoreOptions} style={styles.moreOptions}>
-        <Text style={styles.moreOptionsText}>More Sharing Options</Text>
-      </TouchableOpacity>
-    </Modal>
+    </BottomSheet>
   );
 };
 
-const getStyles = (theme: any) =>
-  StyleSheet.create({
-    flagContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 16,
-      gap: 8,
-    },
-    flagIcon: {
-      backgroundColor: theme.colors.primary,
-      borderRadius: 20,
-      width: 40,
-      height: 40,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    flagText: {
-      color: 'white',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-    buttonContainer: {
-      width: '100%',
-      gap: 12,
-      marginBottom: 16,
-    },
-    copyButton: {
-      width: '100%',
-    },
-    actionButton: {
-      width: '100%',
-    },
-    moreOptions: {
-      paddingVertical: 8,
-    },
-    moreOptionsText: {
-      color: theme.colors.primary,
-      fontSize: 16,
-      fontWeight: '500',
-    },
-  });
+const getStyles = (theme: any) => StyleSheet.create({});
 
 export default InviteFriendsModal;
