@@ -92,7 +92,9 @@ export default function Index() {
         // CRITICAL: Fetch league data BEFORE navigation to ensure atom is populated
         // This prevents race conditions and blank screens when navigating between tabs
         if (cachedState.leagueState.hasLeague) {
-          console.log('📍 Cache says: Has league, fetching data before navigation');
+          console.log(
+            '📍 Cache says: Has league, fetching data before navigation',
+          );
           try {
             const token = await getToken();
             const league = await fetchLeagueByUserId(token);
@@ -104,7 +106,7 @@ export default function Index() {
             }
 
             setAppState('app');
-            navigateTo('/(protected)/(tabs)');
+            navigateTo('/(protected)/(tabs)/home');
 
             // Verify cache in background after navigation
             verifyAndUpdateCache();
@@ -162,7 +164,9 @@ export default function Index() {
 
       // Prefetch league data into React Query cache AND atom before navigation
       if (league?.id) {
-        console.log('📦 Prefetching league data into React Query cache and atom');
+        console.log(
+          '📦 Prefetching league data into React Query cache and atom',
+        );
         queryClient.setQueryData(['league', userId], league);
         setLeague(league); // Set atom immediately before navigation
       }
@@ -171,7 +175,7 @@ export default function Index() {
       if (league?.id) {
         console.log('✅ League found, navigating to dashboard');
         setAppState('app');
-        navigateTo('/(protected)/(tabs)');
+        navigateTo('/(protected)/(tabs)/home');
       } else {
         console.log('❌ No league found, navigating to create league');
         setAppState('onboarding');
@@ -208,7 +212,9 @@ export default function Index() {
 
       // Update React Query cache and atom with verified data
       if (league?.id) {
-        console.log('📦 Updating React Query cache and atom with verified data');
+        console.log(
+          '📦 Updating React Query cache and atom with verified data',
+        );
         queryClient.setQueryData(['league', userId], league);
         setLeague(league); // Update atom with verified data
       }
@@ -219,7 +225,7 @@ export default function Index() {
           '🔄 Cache changed: Now has league, redirecting to dashboard',
         );
         setAppState('app');
-        navigateTo('/(protected)/(tabs)', { force: true });
+        navigateTo('/(protected)/(tabs)/home', { force: true });
       } else if (!league?.id && appState !== 'onboarding') {
         console.log(
           '🔄 Cache changed: No longer has league, redirecting to create league',

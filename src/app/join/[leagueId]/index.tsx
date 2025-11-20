@@ -107,7 +107,7 @@ export default function JoinLeaguePage() {
         {
           text: 'Go to Dashboard',
           onPress: () => {
-            router.push('/(protected)/(tabs)');
+            router.push('/(protected)/(tabs)/home');
           },
         },
       ]);

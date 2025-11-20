@@ -1,32 +1,28 @@
 // app/(auth)/_layout.tsx
 import { Stack } from 'expo-router';
-import { Redirect, usePathname } from 'expo-router';
+import { Redirect } from 'expo-router';
 import { useAuth, useUser } from '@clerk/clerk-expo';
 
 export default function AuthLayout() {
   const { isSignedIn, isLoaded } = useAuth();
   const { user } = useUser();
-  const pathname = usePathname();
 
-  // Allow access to add-user-profile-details even if signed in
-  if (pathname === '/add-user-profile-details') {
-    return (
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="add-user-profile-details" />
-      </Stack>
-    );
+  // Wait for auth to load
+  if (!isLoaded) {
+    return null; // Or a loading screen
   }
 
-  // Redirect signed-in users with complete profiles back to index
-  if (isLoaded && isSignedIn) {
-    // If user has completed profile, redirect to index
-    if (user?.firstName && user?.lastName) {
-      return <Redirect href="/" />;
-    }
-    // If profile incomplete, redirect to profile details
+  // Redirect signed-in users with complete profiles
+  if (isSignedIn && user?.firstName && user?.lastName) {
+    return <Redirect href="/(protected)/(tabs)/home" />;
+  }
+
+  // Redirect signed-in users with incomplete profiles
+  if (isSignedIn && (!user?.firstName || !user?.lastName)) {
     return <Redirect href="/add-user-profile-details" />;
   }
 
+  // Always render the full Stack - let Expo Router handle which screen to show
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="login-email" />

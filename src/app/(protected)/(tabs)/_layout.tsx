@@ -28,7 +28,7 @@ export default function HomeTabs() {
     {
       title: 'Home',
       icon: ({ color }) => <Home color={color} />,
-      route: 'index',
+      route: 'home',
     },
     // {
     //   title: 'Calendar',
