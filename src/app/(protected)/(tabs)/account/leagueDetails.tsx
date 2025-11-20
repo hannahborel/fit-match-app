@@ -50,32 +50,6 @@ const LeagueDetails = () => {
   const mutation = useUpdateLeague();
   const shouldAllowNavigation = useRef(false);
 
-  const hasPendingChanges = Object.keys(pendingChanges).length > 0;
-
-  // Intercept back navigation to show unsaved changes warning
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('beforeRemove', (e) => {
-      // If we've explicitly allowed navigation, let it through
-      if (shouldAllowNavigation.current) {
-        shouldAllowNavigation.current = false;
-        return;
-      }
-
-      if (!hasPendingChanges) {
-        // No pending changes, allow navigation
-        return;
-      }
-
-      // Prevent default navigation
-      e.preventDefault();
-
-      // Show unsaved changes sheet
-      setShowUnsavedChangesSheet(true);
-    });
-
-    return unsubscribe;
-  }, [navigation, hasPendingChanges]);
-
   // Update navigation header with Edit button
   useEffect(() => {
     navigation.setOptions({
@@ -187,38 +161,6 @@ const LeagueDetails = () => {
     );
   };
 
-  const handleSave = async () => {
-    if (!leagueDetails) return;
-    // Show loading immediately
-    setIsLoading(true);
-
-    const token = await getToken();
-    if (!token) return;
-
-    // Save all pending changes
-    mutation.mutate(
-      {
-        token,
-        updates: {
-          id: leagueDetails.id,
-          ...pendingChanges,
-        },
-      },
-      {
-        onSuccess: () => {
-          // Clear pending changes
-          setPendingChanges({});
-          // Hide loading
-          setIsLoading(false);
-        },
-        onError: () => {
-          // Hide loading on error
-          setIsLoading(false);
-        },
-      },
-    );
-  };
-
   const handleDiscardAndGoBack = () => {
     // Clear pending changes
     setPendingChanges({});
@@ -226,42 +168,6 @@ const LeagueDetails = () => {
     // Allow navigation and go back
     shouldAllowNavigation.current = true;
     navigation.goBack();
-  };
-
-  const handleSaveAndGoBack = async () => {
-    if (!leagueDetails) return;
-
-    const token = await getToken();
-    if (!token) return;
-
-    // Close the unsaved changes sheet first
-    setShowUnsavedChangesSheet(false);
-
-    // Show loading immediately
-    setIsLoading(true);
-
-    // Save all pending changes
-    mutation.mutate(
-      {
-        token,
-        updates: {
-          id: leagueDetails.id,
-          ...pendingChanges,
-        },
-      },
-      {
-        onSuccess: () => {
-          // Clear pending changes
-          setPendingChanges({});
-          // Hide loading
-          setIsLoading(false);
-        },
-        onError: () => {
-          // Hide loading on error
-          setIsLoading(false);
-        },
-      },
-    );
   };
 
   return (
@@ -303,13 +209,6 @@ const LeagueDetails = () => {
           </>
         )}
       </View>
-
-      <UnsavedChangesSheet
-        visible={showUnsavedChangesSheet}
-        onSave={handleSaveAndGoBack}
-        onDiscard={handleDiscardAndGoBack}
-        onClose={() => setShowUnsavedChangesSheet(false)}
-      />
 
       <BottomSheet
         visible={showEditSheet}
