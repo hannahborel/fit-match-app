@@ -25,7 +25,7 @@ import {
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import NumberAvatar from '@/components/library/NumberAvatar';
 import InviteFriendsButton from './components/InviteFriendsButton';
-import ManageLeagueButton from './components/ManageLeagueButton';
+import ManageLeagueButton from './components/ManageLeague/ManageLeagueButton';
 
 const LeagueDetails = () => {
   const theme = useTheme();
@@ -75,7 +75,12 @@ const LeagueDetails = () => {
           )
         : undefined,
     });
-  }, [navigation, theme.colors.primary, isLeagueManager, leagueDetails?.status]);
+  }, [
+    navigation,
+    theme.colors.primary,
+    isLeagueManager,
+    leagueDetails?.status,
+  ]);
 
   // Initialize edit form when opening the sheet
   const handleOpenEditSheet = () => {
