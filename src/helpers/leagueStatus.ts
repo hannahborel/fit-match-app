@@ -9,15 +9,6 @@ export const isLeagueFull = (league: League): boolean => {
 };
 
 /**
- * Determines if a league has started based on the start date
- */
-export const hasLeagueStarted = (league: League): boolean => {
-  const now = new Date();
-  const startDate = new Date(league.startDate);
-  return now >= startDate;
-};
-
-/**
  * Gets the number of members still needed to join the league
  */
 export const getMembersNeeded = (league: League): number => {

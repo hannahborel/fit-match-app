@@ -1,5 +1,5 @@
 // src/app/(protected)/(tabs)/standings/schedulePage.tsx
-import { leagueAtom } from '@/atoms/leagueAtom';
+import { leagueAtom, hasLeagueStartedAtom } from '@/atoms/leagueAtom';
 import {
   allMatchupsWithPointsAtom,
   currentMatchAtom,
@@ -7,7 +7,6 @@ import {
 
 import {
   getMembersNeeded,
-  hasLeagueStarted,
   isLeagueFull,
 } from '@/helpers/leagueStatus';
 import { generateSchedulePreview } from '@/helpers/sheduleHelpers/generateSchedulePreview';
@@ -29,7 +28,7 @@ const SchedulePage = () => {
   const theme = useTheme();
 
   const membersNeeded = leagueData ? getMembersNeeded(leagueData) : 0;
-  const leagueHasStarted = leagueData ? hasLeagueStarted(leagueData) : false;
+  const leagueHasStarted = useAtomValue(hasLeagueStartedAtom);
   const leagueFull = leagueData ? isLeagueFull(leagueData) : false;
 
   // Generate preview schedule or use real schedule

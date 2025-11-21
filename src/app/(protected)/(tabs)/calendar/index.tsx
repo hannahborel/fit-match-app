@@ -4,16 +4,14 @@ import SchedulePage from './components/Schedule/schedulePage';
 import StandingsTab from './components/Standings/standingsPage';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from 'react-native-paper';
-import { hasLeagueStarted } from '@/helpers/leagueStatus';
 import PreLeagueCallendar from './components/PreLeague/PreLeagueCallendar';
 import { useAtomValue } from 'jotai';
-import { leagueAtom } from '@/atoms/leagueAtom';
+import { hasLeagueStartedAtom } from '@/atoms/leagueAtom';
 
 const Calendar = () => {
   const theme = useTheme();
   // Determine if league has started
-  const leagueData = useAtomValue(leagueAtom);
-  const leagueHasStarted = leagueData ? hasLeagueStarted(leagueData) : false;
+  const leagueHasStarted = useAtomValue(hasLeagueStartedAtom);
   const [showOnboarding, setShowOnboarding] = useState(true);
   // Show onboarding if league hasn't started and user hasn't completed it
 

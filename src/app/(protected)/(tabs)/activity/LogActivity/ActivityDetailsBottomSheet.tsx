@@ -4,13 +4,12 @@ import { Text, Button } from 'react-native-paper';
 import { addActivity, LogActivityInput } from '@/mutations/addActivity';
 import { useAuth } from '@clerk/clerk-expo';
 import { useMutation } from '@tanstack/react-query';
-import { ActivityDefinitions, ActivityType, League } from 'hustle-types';
+import { ActivityDefinitions, ActivityType } from 'hustle-types';
 import NumberScroll from './components/NumberScroll';
-import { leagueAtom } from '@/atoms/leagueAtom';
+import { leagueAtom, hasLeagueStartedAtom } from '@/atoms/leagueAtom';
 import { currentMatchAtom } from '@/atoms/matchesAtom';
 import { queryClient } from '@/lib/queryClient';
 import { useAtomValue } from 'jotai';
-import { hasLeagueStarted } from '@/helpers/leagueStatus';
 import BottomSheet from '@/components/elements/BottomSheet/BottomSheet';
 
 interface ActivityDetailsBottomSheetProps {
@@ -30,6 +29,7 @@ const ActivityDetailsBottomSheet: React.FC<ActivityDetailsBottomSheetProps> = ({
 
   const { userId, getToken } = useAuth();
   const league = useAtomValue(leagueAtom);
+  const leagueHasStarted = useAtomValue(hasLeagueStartedAtom);
   const currentMatch = useAtomValue(currentMatchAtom);
 
   const activityData = activityType ? ActivityDefinitions[activityType] : null;
@@ -122,7 +122,7 @@ const ActivityDetailsBottomSheet: React.FC<ActivityDetailsBottomSheetProps> = ({
             mode="contained"
             onPress={handleLogWorkout}
             loading={mutation.isPending}
-            disabled={mutation.isPending || !hasLeagueStarted(league as League)}
+            disabled={mutation.isPending || !leagueHasStarted}
             style={{ width: '60%' }}
           >
             <Text>Log Workout</Text>

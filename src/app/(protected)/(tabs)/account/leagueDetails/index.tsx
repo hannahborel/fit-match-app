@@ -54,10 +54,11 @@ const LeagueDetails = () => {
   const mutation = useUpdateLeague();
   const shouldAllowNavigation = useRef(false);
 
-  // Update navigation header with Edit button (only for league manager)
+  // Update navigation header with Edit button (only for league manager and league is upcoming)
   useEffect(() => {
+    const canEdit = isLeagueManager && leagueDetails?.status === 'upcoming';
     navigation.setOptions({
-      headerRight: isLeagueManager
+      headerRight: canEdit
         ? () => (
             <TouchableOpacity onPress={handleOpenEditSheet}>
               <Text
@@ -74,7 +75,7 @@ const LeagueDetails = () => {
           )
         : undefined,
     });
-  }, [navigation, theme.colors.primary, isLeagueManager]);
+  }, [navigation, theme.colors.primary, isLeagueManager, leagueDetails?.status]);
 
   // Initialize edit form when opening the sheet
   const handleOpenEditSheet = () => {

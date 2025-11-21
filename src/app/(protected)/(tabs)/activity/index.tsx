@@ -1,24 +1,23 @@
+import { hasLeagueStartedAtom } from '@/atoms/leagueAtom';
+import { ButtonCard } from '@/components/elements/Card';
+import SectionHeader from '@/components/elements/Headers/SectionHeader';
+import InputPrimary from '@/components/elements/Input/InputPrimary';
+import { formatString } from '@/helpers/helpers';
+import { ActivityDefinitions, ActivityType } from 'hustle-types';
+import { useAtomValue } from 'jotai';
 import React, { useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   ScrollView,
   Text,
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import { TextInput, useTheme } from 'react-native-paper';
-import { ActivityDefinitions, ActivityType } from 'hustle-types';
-import { ButtonCard } from '@/components/elements/Card';
-import SectionHeader from '@/components/elements/Headers/SectionHeader';
-import { formatString } from '@/helpers/helpers';
+import { useTheme } from 'react-native-paper';
 import ActivityDetailsBottomSheet from './LogActivity/ActivityDetailsBottomSheet';
-import InputPrimary from '@/components/elements/Input/InputPrimary';
 import PreLeagueActivity from './PreLeauge/PreLeagueActivity';
-import { leagueAtom } from '@/atoms/leagueAtom';
-import { useAtomValue } from 'jotai';
 
 const logActivity = () => {
   const theme = useTheme();
@@ -34,10 +33,7 @@ const logActivity = () => {
       activity.description.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const league = useAtomValue(leagueAtom);
-  const leagueHasStarted = league?.startDate
-    ? new Date(league.startDate) <= new Date()
-    : false;
+  const leagueHasStarted = useAtomValue(hasLeagueStartedAtom);
 
   if (!leagueHasStarted) {
     return <PreLeagueActivity />;
