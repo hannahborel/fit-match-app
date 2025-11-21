@@ -395,6 +395,7 @@ const StandingsOnboarding: React.FC<StandingsOnboardingProps> = ({
                   index === currentIndex
                     ? theme.colors.primary
                     : theme.colors.surfaceVariant,
+                width: 8,
                 // width: index === currentIndex ? 24 : 8,
               },
             ]}
