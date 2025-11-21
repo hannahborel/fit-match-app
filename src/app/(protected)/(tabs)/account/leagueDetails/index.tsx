@@ -25,6 +25,7 @@ import {
 import { Text, TextInput, useTheme } from 'react-native-paper';
 import NumberAvatar from '@/components/library/NumberAvatar';
 import InviteFriendsButton from './components/InviteFriendsButton';
+import ManageLeagueButton from './components/ManageLeagueButton';
 
 const LeagueDetails = () => {
   const theme = useTheme();
@@ -201,7 +202,7 @@ const LeagueDetails = () => {
             </View>
             <View style={{ gap: 8 }}>
               {isLeagueManager && (
-                <InviteFriendsButton leagueId={leagueDetails.id} />
+                <ManageLeagueButton leagueId={leagueDetails.id} />
               )}
               {isLeagueManager && (
                 <DeleteLeagueButton leagueId={leagueDetails.id} />

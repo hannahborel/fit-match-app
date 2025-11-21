@@ -30,11 +30,11 @@ export default function HomeTabs() {
       icon: ({ color }) => <Home color={color} />,
       route: 'home',
     },
-    // {
-    //   title: 'Calendar',
-    // icon: ({ color }) => <FlowchartIcon color={color} />,
-    //   route: 'calendar',
-    // },
+    {
+      title: 'Matchup',
+      icon: ({ color }) => <FlowchartIcon color={color} />,
+      route: 'matchup',
+    },
 
     {
       title: 'Log a Workout',

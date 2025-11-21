@@ -14,6 +14,7 @@ import { ButtonCard } from '@/components/elements/Card';
 import SectionHeader from '@/components/elements/Headers/SectionHeader';
 import { formatString } from '@/helpers/helpers';
 import ActivityDetailsBottomSheet from './LogActivity/ActivityDetailsBottomSheet';
+import InputPrimary from '@/components/elements/Input/InputPrimary';
 
 const logActivity = () => {
   const theme = useTheme();
@@ -41,18 +42,12 @@ const logActivity = () => {
           keyboardShouldPersistTaps="handled"
         >
           <View style={{ gap: 18, padding: 8 }}>
-            <TextInput
+            <InputPrimary
               placeholder="Search activities"
               value={search}
               onChangeText={setSearch}
               mode="flat"
               underlineColor="transparent"
-              style={{
-                backgroundColor: theme.colors.surface,
-                height: 40,
-                borderRadius: 6,
-                paddingHorizontal: 8,
-              }}
             />
 
             <View>
