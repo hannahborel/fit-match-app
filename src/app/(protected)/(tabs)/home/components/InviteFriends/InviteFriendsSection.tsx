@@ -41,6 +41,12 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
     return null;
   }
 
+  // Get the owner's first name from leaguesToUsers
+  const ownerData = league.leaguesToUsers?.find(
+    (member) => member.userId === league.ownerId
+  );
+  const ownerFirstName = ownerData?.firstName || 'League Manager';
+
   return (
     <View style={styles.container}>
       {/* League Start Date */}
@@ -69,7 +75,7 @@ const InviteFriendsSection: React.FC<InviteFriendsSectionProps> = ({
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         leagueId={league.id}
-        ownerFirstName="League Manager"
+        ownerFirstName={ownerFirstName}
       />
     </View>
   );

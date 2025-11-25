@@ -28,7 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     supportsTablet: true,
     bundleIdentifier: 'com.hannahborel.hustlemobile',
-    buildNumber: '4',
+    buildNumber: '5',
     associatedDomains: ['applinks:fitmatch.app'],
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,

@@ -2,10 +2,20 @@ import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import InviteFriendsModal from '../../../home/components/InviteFriends/InviteFriendsModal';
+import { useAtomValue } from 'jotai';
+import { leagueAtom } from '@/atoms/leagueAtom';
 
 const InviteFriendsButton = ({ leagueId }: { leagueId: string }) => {
   const [open, setModalOpen] = useState(false);
   const theme = useTheme();
+  const league = useAtomValue(leagueAtom);
+
+  // Get the owner's first name from leaguesToUsers
+  const ownerData = league?.leaguesToUsers?.find(
+    (member) => member.userId === league.ownerId
+  );
+  const ownerFirstName = ownerData?.firstName || 'League Manager';
+
   return (
     <View>
       <TouchableOpacity
@@ -25,7 +35,7 @@ const InviteFriendsButton = ({ leagueId }: { leagueId: string }) => {
         visible={open}
         onClose={() => setModalOpen(false)}
         leagueId={leagueId}
-        ownerFirstName="League Manager"
+        ownerFirstName={ownerFirstName}
       />
     </View>
   );

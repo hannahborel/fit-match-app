@@ -35,7 +35,8 @@ const InviteFriendsModal: React.FC<InviteFriendsModalProps> = ({
     try {
       const inviteLink = generateInviteLink();
       console.log('inviteLink', inviteLink);
-      console.log(await Clipboard.setStringAsync(inviteLink));
+
+      await Clipboard.setStringAsync(inviteLink);
       // await Clipboard.setStringAsync(inviteLink);
     } catch (error) {
       <Snackbar

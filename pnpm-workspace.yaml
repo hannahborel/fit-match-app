@@ -1,2 +1,6 @@
+packages:
+  - '.'
+  - '../hustle-types'
+
 patchedDependencies:
   '@expo/metro-config@0.20.17': patches/@expo__metro-config@0.20.17.patch
